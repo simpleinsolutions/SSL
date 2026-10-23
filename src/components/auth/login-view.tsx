@@ -302,22 +302,37 @@ export const LoginView: React.FC<LoginViewProps> = ({
               </div>
             </form>
 
-            {/* Development Quick Fill */}
-            {isDev && (
-              <div className="mt-4 pt-3 border-t border-[#F1F5F9] flex items-center justify-between text-[11px] text-[#94A3B8]">
-                <span>Dev Sandbox:</span>
+            {/* Demo Testing Credentials Quick Fill */}
+            <div className="mt-4 pt-3 border-t border-[#F1F5F9] space-y-2">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-[#64748B] font-semibold">Demo Testing:</span>
+                <span className="font-mono text-[10px] text-[#94A3B8]">PW: SimpleIn@2026</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => {
                     setIdentifier(demoCredentials.identifier);
                     setPassword("SimpleIn@2026");
                   }}
-                  className="text-[#0D9488] hover:underline font-mono text-[11px] cursor-pointer font-medium"
+                  className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#F0FDFA] hover:bg-[#CCFBF1] text-[#0D9488] text-xs font-semibold border border-[#CCFBF1] transition-colors cursor-pointer text-center truncate"
                 >
-                  Quick Fill Demo
+                  Fill {portalRole === "TEACHER" ? "Teacher" : portalRole === "STUDENT" ? "Student" : "Parent"} Demo
                 </button>
+                {portalRole === "TEACHER" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIdentifier("admin@springfield.edu");
+                      setPassword("SimpleIn@2026");
+                    }}
+                    className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#0F172A] text-xs font-semibold border border-[#E2E8F0] transition-colors cursor-pointer text-center truncate"
+                  >
+                    Fill Admin Demo
+                  </button>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
           {/* Need Help Link */}
