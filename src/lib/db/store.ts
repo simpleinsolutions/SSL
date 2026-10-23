@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import bcrypt from "bcryptjs";
 import { AppError } from "../errors";
 import { UserRole, UserStatus } from "../validation/schemas";
@@ -56,11 +57,29 @@ interface DatabaseSchema {
   auditEvents: StoredAuditEvent[];
 }
 
-const DATA_DIR = path.join(process.cwd(), ".data");
-const DB_FILE = path.join(DATA_DIR, "simplein_schools.json");
+let memoryDbCache: DatabaseSchema | null = null;
 
-// Whether to use live Prisma PostgreSQL connection (Supabase)
-const usePrisma = Boolean(process.env.DATABASE_URL);
+function getDataDir(): string {
+  const isServerless = Boolean(
+    process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.TMPDIR
+  );
+  if (isServerless) {
+    return path.join(os.tmpdir(), "simplein-data");
+  }
+  return path.join(process.cwd(), ".data");
+}
+
+function getDbFile(): string {
+  return path.join(getDataDir(), "simplein_schools.json");
+}
+
+// Dynamically check whether live Prisma PostgreSQL connection (Supabase) is configured
+function isPrismaEnabled(): boolean {
+  return Boolean(process.env.DATABASE_URL);
+}
 
 // In-memory mutex for file-store fallback
 let isLocked = false;
@@ -186,31 +205,54 @@ function getInitialSeedData(): DatabaseSchema {
 }
 
 function loadDatabase(): DatabaseSchema {
+  if (memoryDbCache) {
+    return memoryDbCache;
+  }
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+    const dataDir = getDataDir();
+    const dbFile = getDbFile();
+    if (!fs.existsSync(dataDir)) {
+      try {
+        fs.mkdirSync(dataDir, { recursive: true });
+      } catch {
+        // Read-only filesystem
+      }
     }
-    if (!fs.existsSync(DB_FILE)) {
+    if (!fs.existsSync(dbFile)) {
       const initial = getInitialSeedData();
-      fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), "utf-8");
+      try {
+        fs.writeFileSync(dbFile, JSON.stringify(initial, null, 2), "utf-8");
+      } catch {
+        // Ephemeral/read-only filesystem
+      }
+      memoryDbCache = initial;
       return initial;
     }
-    const raw = fs.readFileSync(DB_FILE, "utf-8");
-    return JSON.parse(raw);
+    const raw = fs.readFileSync(dbFile, "utf-8");
+    memoryDbCache = JSON.parse(raw);
+    return memoryDbCache!;
   } catch {
-    return getInitialSeedData();
+    const initial = getInitialSeedData();
+    memoryDbCache = initial;
+    return initial;
   }
 }
 
 function saveDatabase(data: DatabaseSchema): void {
+  memoryDbCache = data;
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+    const dataDir = getDataDir();
+    const dbFile = getDbFile();
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
     }
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    fs.writeFileSync(dbFile, JSON.stringify(data, null, 2), "utf-8");
   } catch (error) {
-    console.error("Failed to write database file:", error);
-    throw new AppError("INTERNAL_ERROR", "Failed to persist database state");
+    console.warn(
+      "Notice: Persistent file storage unavailable (read-only filesystem or ephemeral environment), state retained in memory:",
+      error
+    );
+    // Never crash user requests on read-only serverless filesystems
   }
 }
 
@@ -256,7 +298,7 @@ export const SchoolDB = {
    * Get all users in school tenant
    */
   async getUsers(schoolId = "school-springfield-01"): Promise<StoredUser[]> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const users = await prisma.user.findMany({
           where: { schoolId },
@@ -276,7 +318,7 @@ export const SchoolDB = {
    */
   async findUserByIdentifier(identifier: string): Promise<StoredUser | null> {
     const normalized = identifier.trim().toLowerCase();
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const user = await prisma.user.findFirst({
           where: {
@@ -307,7 +349,7 @@ export const SchoolDB = {
    * Find user by ID
    */
   async findUserById(id: string): Promise<StoredUser | null> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const user = await prisma.user.findUnique({ where: { id } });
         if (user) return mapPrismaUser(user);
@@ -323,7 +365,7 @@ export const SchoolDB = {
    * Count active administrators in a school scope
    */
   async countActiveAdmins(schoolId = "school-springfield-01"): Promise<number> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         return await prisma.user.count({
           where: {
@@ -361,7 +403,7 @@ export const SchoolDB = {
   }): Promise<StoredUser> {
     const maxLimit = env.ADMIN_MAX_ACCOUNTS;
 
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         return await prisma.$transaction(
           async (tx) => {
@@ -548,7 +590,7 @@ export const SchoolDB = {
   ): Promise<StoredUser> {
     const maxLimit = env.ADMIN_MAX_ACCOUNTS;
 
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         return await prisma.$transaction(
           async (tx) => {
@@ -722,7 +764,7 @@ export const SchoolDB = {
    * Delete user with last admin protection
    */
   async deleteUser(id: string): Promise<void> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         await prisma.$transaction(
           async (tx) => {
@@ -832,7 +874,7 @@ export const SchoolDB = {
     metadata?: Record<string, unknown>;
     ipAddress?: string;
   }): Promise<StoredAuditEvent> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const created = await prisma.auditEvent.create({
           data: {
@@ -859,7 +901,37 @@ export const SchoolDB = {
           createdAt: created.createdAt.toISOString(),
         };
       } catch (err) {
-        console.warn("Prisma logAuditEvent error, falling back to local store:", err);
+        // If foreign key constraint failed on actorId, retry without actorId
+        try {
+          const fallbackCreated = await prisma.auditEvent.create({
+            data: {
+              actorEmail: event.actorEmail || "anonymous",
+              actorId: undefined,
+              action: event.action,
+              targetType: event.targetType,
+              targetId: event.targetId,
+              outcome: event.outcome,
+              metadata: {
+                ...((event.metadata as Record<string, unknown>) || {}),
+                originalActorId: event.actorId,
+              },
+              ipAddress: event.ipAddress || "127.0.0.1",
+            },
+          });
+          return {
+            id: fallbackCreated.id,
+            actorEmail: fallbackCreated.actorEmail || undefined,
+            action: fallbackCreated.action,
+            targetType: fallbackCreated.targetType || undefined,
+            targetId: fallbackCreated.targetId || undefined,
+            outcome: fallbackCreated.outcome as "success" | "denied" | "error",
+            metadata: (fallbackCreated.metadata as Record<string, unknown>) || undefined,
+            ipAddress: fallbackCreated.ipAddress || undefined,
+            createdAt: fallbackCreated.createdAt.toISOString(),
+          };
+        } catch (innerErr) {
+          console.warn("Prisma logAuditEvent error, falling back to local store:", innerErr);
+        }
       }
     }
 
@@ -889,7 +961,7 @@ export const SchoolDB = {
    * Get audit events
    */
   async getAuditEvents(limit = 100): Promise<StoredAuditEvent[]> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const events = await prisma.auditEvent.findMany({
           take: limit,
@@ -920,7 +992,7 @@ export const SchoolDB = {
    * Reset database back to initial seed data (used for testing and system recovery)
    */
   async resetDatabase(): Promise<void> {
-    if (usePrisma) {
+    if (isPrismaEnabled()) {
       try {
         const seedUsers = getInitialSeedData().users;
         const seedEmails = seedUsers.map((u) => u.email.toLowerCase());
