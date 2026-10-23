@@ -10,6 +10,7 @@ import {
   validateSafeRedirect,
   type PortalType,
 } from "@/lib/auth/portal";
+import { resolveIdentifierToEmail } from "@/lib/services/identity";
 
 /**
  * Server actions for login/logout. Supabase Auth owns credentials and
@@ -65,7 +66,6 @@ export async function loginAction(formData: FormData): Promise<never> {
   }
 
   // 3. Resolve identifier (email, admission number, phone, staff code)
-  const { resolveIdentifierToEmail } = await import("@/lib/services/identity");
   const resolved = await resolveIdentifierToEmail(role, rawIdentifier);
 
   if (resolved === null || !resolved.email) {
