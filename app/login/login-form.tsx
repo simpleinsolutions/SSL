@@ -400,24 +400,8 @@ export function LoginForm({
 
             {/* Real Authentication Form */}
             <form
-              action={async (formData: FormData) => {
-                setIsPending(true);
-                try {
-                  await loginAction(formData);
-                } catch (e: unknown) {
-                  if (
-                    typeof e === "object" &&
-                    e !== null &&
-                    "digest" in e &&
-                    typeof (e as { digest: unknown }).digest === "string" &&
-                    (e as { digest: string }).digest.startsWith("NEXT_REDIRECT")
-                  ) {
-                    throw e;
-                  }
-                  setIsPending(false);
-                  throw e;
-                }
-              }}
+              action={loginAction}
+              onSubmit={() => setIsPending(true)}
               className="space-y-4"
             >
               {/* Hidden Inputs for Portal and Next redirect */}
