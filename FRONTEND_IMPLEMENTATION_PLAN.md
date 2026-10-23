@@ -9,10 +9,10 @@
 
 ## 1. Executive Summary & Objective
 
-Transform the SimpleIn Schools ERP into a professional enterprise-grade application with:
+Transform the SIMPLEIN School ERP into a professional enterprise-grade application with:
 1. **A strict monochrome visual system** (Black `#171717` / `#111111`, White `#FFFFFF`, Grey/Charcoal `#262626`, `#333333`, `#383838`, `#525252`, `#737373`, `#E5E5E5`, `#FAFAFA`).
 2. **A commanding dark-grey/charcoal application shell** (Sidebar `#262626` and Header `#171717`) that cleanly frames the light high-readability main canvas (`#FAFAFA`).
-3. **A coherent, realistic Indian-style demonstration dataset** for **Sunrise Public School, Hyderabad, Telangana** (CBSE Affiliation #1930284, Academic Year 2026–27, INR `₹` currency, Indian names, consistent grades, subjects, timetables, and reconciled fees).
+3. **A coherent, realistic Indian-style demonstration dataset** for **SIMPLEIN School, Hyderabad, Telangana** (CBSE Affiliation #1930284, Academic Year 2026–27, INR `₹` currency, Indian names, consistent grades, subjects, timetables, and reconciled fees).
 4. **Precision layout and placement** across all 6 portals (`Super Admin`, `School Admin`, `Principal`, `Teacher`, `Student`, `Parent`).
 5. **Robust security and isolation verification** (zero fee access for students, server-enforced guardian-child relationships, protected routes).
 
@@ -23,7 +23,7 @@ Transform the SimpleIn Schools ERP into a professional enterprise-grade applicat
 | Domain | Current State | Target State | Severity |
 | :--- | :--- | :--- | :--- |
 | **Visual System** | White sidebar and header blending into white content canvas; occasional chromatic badges (`emerald`, `amber`, `red`). | High-contrast enterprise monochrome: Charcoal sidebar (`#262626`), deep charcoal header (`#171717`), light content canvas (`#FAFAFA`), pure monochrome badges & indicators. | **HIGH** |
-| **Demo Data** | Fictional school "Springfield Academy of Excellence" in Bengaluru with western names ("Dr. Vance", "Marcus Holloway", "Sarah Jenkins"). | Coherent Indian demonstration dataset for "Sunrise Public School, Hyderabad" (CBSE, Dr. Radhika Sundaram, Aarav Sharma, Kavya Reddy, Rajesh Sharma, INR `₹` fees). | **HIGH** |
+| **Demo Data** | Fictional school profile. | Coherent Indian demonstration dataset for "SIMPLEIN School, Hyderabad" (CBSE, Dr. Radhika Sundaram, Aarav Sharma, Kavya Reddy, Rajesh Sharma, INR `₹` fees). | **HIGH** |
 | **Sidebar & Header** | Header `<` back button previously caused apparent logout on dashboards; dropdowns used `onBlur` timeouts. | Header back button hidden on dashboards; safe navigation on sub-pages; outside-click `ref` handlers; dark charcoal shell styling. | **RESOLVED / REFINING** |
 | **Student Dashboard** | Static indicator cards; prototype disclosure box with amber styling. | Fully interactive monochrome cards linking to Attendance, Homework, Exams, Timetable; monochrome prototype disclosure. | **MEDIUM** |
 | **Portals (6 Roles)** | 160 routes across all 6 roles. Inconsistent card paddings and breadcrumb offsets. | Standardized layout tokens: 256px sidebar, 64px header, 24px grid gaps, 24px card padding, 4px spacing scale. | **MEDIUM** |
@@ -46,7 +46,7 @@ Transform the SimpleIn Schools ERP into a professional enterprise-grade applicat
 - [x] Verify mobile drawer and responsive behavior.
 
 ### Phase 3: Indian School Demonstration Dataset Regeneration
-- [x] Overhaul `src/services/school-store/index.ts` to "Sunrise Public School, Hyderabad, Telangana".
+- [x] Overhaul `src/services/school-store/index.ts` to "SIMPLEIN School, Hyderabad, Telangana".
 - [x] Populate Indian student identities (Aarav Sharma, Kavya Reddy, Ananya Rao, Arjun Kumar, etc.).
 - [x] Populate Indian faculty identities (Dr. Radhika Sundaram - Principal, Rajesh Sharma - Math, Sunita Rao - Science, Dr. K.V. Raman - Physics, Lakshmi Narayanan - Chemistry, etc.).
 - [x] Structure CBSE classes (Nursery to Class 10, sections A/B/C) and Indian subjects (Mathematics, Science, English, Hindi, Telugu, Social Science, Computer Science).

@@ -3,7 +3,7 @@ import { LoginView } from "@/components/auth/login-view";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Student Sign In — SimpleIn Schools",
+  title: "Student Sign In — SIMPLEIN School",
   description:
     "Dedicated student sign-in portal for timetable schedules, homework assignments, examination datesheets, and progress cards.",
 };
@@ -15,7 +15,7 @@ export default function StudentLoginPage() {
       title="Student Sign In"
       roleBadge="Student Academic Portal"
       roleDescription="Access your daily timetable, homework assignments, examination schedules, and term results."
-      identifierLabel="Student Email or Admission Number"
+      identifierLabel="User ID"
       identifierPlaceholder="student@springfield.edu or ADM-2026-0842"
       helperText="Enter your registered student email or official admission number."
       demoCredentials={{

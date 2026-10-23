@@ -88,13 +88,13 @@ export default function UnauthorizedPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[#64748B]">Account Role:</span>
-                <span className="font-mono text-[#0D9488] bg-[#F0FDFA] border border-[#CCFBF1] px-2 py-0.5 rounded text-[10px] font-semibold">
+                <span className="font-mono text-[#2563EB] bg-[#EFF6FF] border border-[#BFDBFE] px-2 py-0.5 rounded text-[10px] font-semibold">
                   {session.role}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#64748B]">School Domain:</span>
-                <span className="text-[#0F172A]">Sunrise Public School, Hyderabad</span>
+                <span className="text-[#0F172A]">SIMPLEIN School, Hyderabad</span>
               </div>
             </div>
           ) : (
@@ -106,7 +106,7 @@ export default function UnauthorizedPage() {
           <div className="space-y-2">
             <Link
               href={getDashboardHref()}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#0D9488] text-white text-xs font-semibold hover:bg-[#0F766E] transition-colors shadow-xs"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-[#1D4ED8] transition-colors shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               Return to My Authorized Dashboard
@@ -127,17 +127,17 @@ export default function UnauthorizedPage() {
           <div className="pt-3 border-t border-[#E2E8F0] text-center text-xs text-[#64748B]">
             Need access privileges? Contact your School Administrator or{" "}
             <a
-              href="mailto:admin@sunrisepublic.edu.in"
-              className="text-[#0D9488] font-semibold underline underline-offset-2 hover:text-[#0F766E]"
+              href="mailto:admin@simplein.school"
+              className="text-[#2563EB] font-semibold underline underline-offset-2 hover:text-[#1D4ED8]"
             >
-              admin@sunrisepublic.edu.in
+              admin@simplein.school
             </a>
           </div>
         </div>
 
         <div className="mt-6 text-center text-xs text-[#64748B] flex items-center justify-center gap-1.5">
-          <Building2 className="w-3.5 h-3.5 text-[#0D9488]" />
-          <span>SimpleIn School — Protected Institutional Infrastructure</span>
+          <Building2 className="w-3.5 h-3.5 text-[#2563EB]" />
+          <span>SIMPLEIN School — Protected Institutional Infrastructure</span>
         </div>
       </div>
     </div>

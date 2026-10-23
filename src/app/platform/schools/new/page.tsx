@@ -133,7 +133,7 @@ export default function PlatformNewSchoolPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. St. Xavier International Academy"
+                  placeholder="e.g. SIMPLEIN School"
                   value={formData.name}
                   onChange={(e) => handleNameChange(e.target.value)}
                   className="w-full px-3 py-2 text-xs border border-[#E5E5E5] rounded-lg focus:outline-hidden focus:ring-1 focus:ring-[#111111]"
@@ -232,7 +232,7 @@ export default function PlatformNewSchoolPage() {
                 <input
                   type="email"
                   required
-                  placeholder="e.g. rajesh.sharma@stxavier.edu"
+                  placeholder="e.g. rajesh.sharma@simplein.school"
                   value={formData.primaryAdminEmail}
                   onChange={(e) => setFormData({ ...formData, primaryAdminEmail: e.target.value })}
                   className="w-full px-3 py-2 text-xs border border-[#E5E5E5] rounded-lg focus:outline-hidden focus:ring-1 focus:ring-[#111111]"

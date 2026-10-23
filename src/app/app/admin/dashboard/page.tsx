@@ -102,23 +102,23 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* School Overview Announcement Banner */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-[#CCFBF1] bg-[#F0FDFA] text-[#0F172A] shadow-2xs gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] text-[#0F172A] shadow-2xs gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0D9488] text-white shrink-0 shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2563EB] text-white shrink-0 shadow-xs">
               <Building2 className="h-4 w-4" />
             </div>
             <div className="min-w-0 text-xs">
               <p className="font-bold text-[#0F172A] truncate">
-                Sunrise Public School, Hyderabad &bull; CBSE Affiliation #1930284
+                SIMPLEIN School, Hyderabad &bull; CBSE Affiliation #1930284
               </p>
               <p className="text-[#64748B] text-[11px] truncate mt-0.5">
-                Term 1 In Session &bull; Today&apos;s Staff On Duty: <strong className="text-[#0D9488]">82/86 (95.3%)</strong> &bull; Biometric attendance synchronized at 08:30 AM
+                Term 1 In Session &bull; Today&apos;s Staff On Duty: <strong className="text-[#2563EB]">82/86 (95.3%)</strong> &bull; Biometric attendance synchronized at 08:30 AM
               </p>
             </div>
           </div>
           <Link
             href="/app/admin/audit-logs"
-            className="inline-flex items-center gap-1 text-xs font-bold text-[#0D9488] hover:text-[#0F766E] hover:underline shrink-0"
+            className="inline-flex items-center gap-1 text-xs font-bold text-[#2563EB] hover:text-[#1D4ED8] hover:underline shrink-0"
           >
             <span>View Sync Logs</span>
             <ArrowUpRight className="h-3.5 w-3.5" />
@@ -130,13 +130,13 @@ export default function AdminDashboardPage() {
           {/* 1. Total Students */}
           <Link
             href="/app/admin/students"
-            className="p-5 rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#0D9488] bg-white hover:border-[#CBD5E1] transition-all group shadow-xs"
+            className="p-5 rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#2563EB] bg-white hover:border-[#CBD5E1] transition-all group shadow-xs"
           >
             <div className="flex items-center justify-between">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488]">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB]">
                 <Users className="h-4 w-4" />
               </div>
-              <ArrowUpRight className="h-4 w-4 text-[#94A3B8] group-hover:text-[#0D9488] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              <ArrowUpRight className="h-4 w-4 text-[#94A3B8] group-hover:text-[#2563EB] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
             </div>
             <p className="text-xs font-medium text-[#64748B] mt-3">Total Students</p>
             <p className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight mt-1 font-mono">
@@ -176,7 +176,7 @@ export default function AdminDashboardPage() {
           {/* 3. Today's Attendance */}
           <Link
             href="/app/admin/attendance"
-            className="p-5 rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#0D9488] bg-white hover:border-[#CBD5E1] transition-all group shadow-xs"
+            className="p-5 rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#2563EB] bg-white hover:border-[#CBD5E1] transition-all group shadow-xs"
           >
             <div className="flex items-center justify-between">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] text-[#10B981]">
@@ -276,9 +276,9 @@ export default function AdminDashboardPage() {
               >
                 {/* Subtle gradient fill below curve */}
                 <defs>
-                  <linearGradient id="tealCurveGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0D9488" stopOpacity="0.18" />
-                    <stop offset="100%" stopColor="#0D9488" stopOpacity="0.0" />
+                  <linearGradient id="blueCurveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#2563EB" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#2563EB" stopOpacity="0.0" />
                   </linearGradient>
                 </defs>
 
@@ -287,13 +287,13 @@ export default function AdminDashboardPage() {
 
                 <path
                   d="M 20 75 C 80 72, 110 70, 130 70 C 180 70, 200 78, 240 78 C 300 78, 320 64, 350 64 C 400 64, 430 75, 460 75 C 510 75, 540 120, 570 135 C 620 160, 640 250, 680 270 L 680 280 L 20 280 Z"
-                  fill="url(#tealCurveGradient)"
+                  fill="url(#blueCurveGradient)"
                 />
                 {/* Smooth spline curve line */}
                 <path
                   d="M 20 75 C 80 72, 110 70, 130 70 C 180 70, 200 78, 240 78 C 300 78, 320 64, 350 64 C 400 64, 430 75, 460 75 C 510 75, 540 120, 570 135 C 620 160, 640 250, 680 270"
                   fill="none"
-                  stroke="#0D9488"
+                  stroke="#2563EB"
                   strokeWidth="3"
                   strokeLinecap="round"
                 />
@@ -311,8 +311,8 @@ export default function AdminDashboardPage() {
                       r={activeTooltipDay === pt.day ? "6" : "4"}
                       className={`transition-all ${
                         activeTooltipDay === pt.day
-                          ? "fill-[#0D9488] stroke-white stroke-[2.5]"
-                          : "fill-white stroke-[#0D9488] stroke-2 group-hover:fill-[#0D9488]"
+                          ? "fill-[#2563EB] stroke-white stroke-[2.5]"
+                          : "fill-white stroke-[#2563EB] stroke-2 group-hover:fill-[#2563EB]"
                       }`}
                     />
                   </g>
@@ -331,7 +331,7 @@ export default function AdminDashboardPage() {
                   <div className="bg-[#0F172A] text-white border border-[#334155] rounded-lg px-2.5 py-1.5 shadow-xl text-left">
                     <p className="text-[10px] font-bold text-[#94A3B8] uppercase">{activePoint.day}</p>
                     <p className="text-xs font-semibold whitespace-nowrap">
-                      Attendance: <strong className="text-[#2DD4BF] font-mono">{activePoint.rate}%</strong>
+                      Attendance: <strong className="text-[#60A5FA] font-mono">{activePoint.rate}%</strong>
                     </p>
                   </div>
                 </div>
@@ -345,7 +345,7 @@ export default function AdminDashboardPage() {
                     type="button"
                     onClick={() => setActiveTooltipDay(pt.day)}
                     className={`cursor-pointer transition-colors ${
-                      activeTooltipDay === pt.day ? "text-[#0D9488] font-bold" : "hover:text-[#0F172A]"
+                      activeTooltipDay === pt.day ? "text-[#2563EB] font-bold" : "hover:text-[#0F172A]"
                     }`}
                   >
                     {pt.day}
@@ -358,7 +358,7 @@ export default function AdminDashboardPage() {
             <div className="flex items-center justify-between pt-4 border-t border-[#F1F5F9] mt-4 text-xs">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-[#0D9488]" />
+                  <span className="h-2 w-2 rounded-full bg-[#2563EB]" />
                   <span className="text-[#64748B] font-medium text-[11px]">Boys: 92.1%</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -404,12 +404,12 @@ export default function AdminDashboardPage() {
                     strokeWidth="16"
                     fill="transparent"
                   />
-                  {/* Present slice (~91.4%): Teal */}
+                  {/* Present slice (~91.4%): Royal Blue */}
                   <circle
                     cx="80"
                     cy="80"
                     r="58"
-                    stroke="#0D9488"
+                    stroke="#2563EB"
                     strokeWidth="16"
                     strokeDasharray="364.4"
                     strokeDashoffset="31.3"
@@ -458,7 +458,7 @@ export default function AdminDashboardPage() {
             <div className="space-y-2.5 pt-4 border-t border-[#F1F5F9] text-xs">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#0D9488]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
                   <span className="text-[#0F172A] font-semibold">Present</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -503,7 +503,7 @@ export default function AdminDashboardPage() {
               </div>
               <Link
                 href="/app/admin/notices"
-                className="text-xs font-bold text-[#0D9488] hover:underline flex items-center gap-0.5"
+                className="text-xs font-bold text-[#2563EB] hover:underline flex items-center gap-0.5"
               >
                 <span>View All</span>
                 <ChevronRight className="h-3 w-3" />
@@ -514,7 +514,7 @@ export default function AdminDashboardPage() {
               {/* Event 1 */}
               <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors">
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="flex flex-col items-center justify-center h-12 w-12 rounded-xl bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] shrink-0 text-center">
+                  <div className="flex flex-col items-center justify-center h-12 w-12 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] shrink-0 text-center">
                     <span className="text-[9px] font-bold uppercase tracking-wider">OCT</span>
                     <span className="text-base font-black leading-none font-mono">24</span>
                   </div>
@@ -532,7 +532,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <Link
                   href="/app/admin/examinations"
-                  className="text-xs font-semibold text-[#0D9488] hover:underline shrink-0"
+                  className="text-xs font-semibold text-[#2563EB] hover:underline shrink-0"
                 >
                   View
                 </Link>
@@ -559,7 +559,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <Link
                   href="/app/admin/notices"
-                  className="text-xs font-semibold text-[#0D9488] hover:underline shrink-0"
+                  className="text-xs font-semibold text-[#2563EB] hover:underline shrink-0"
                 >
                   View
                 </Link>
@@ -576,7 +576,7 @@ export default function AdminDashboardPage() {
               </div>
               <Link
                 href="/app/admin/reports"
-                className="text-xs font-bold text-[#0D9488] hover:underline flex items-center gap-0.5"
+                className="text-xs font-bold text-[#2563EB] hover:underline flex items-center gap-0.5"
               >
                 <span>View All Ledger</span>
                 <ChevronRight className="h-3 w-3" />
@@ -614,7 +614,7 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#F1F5F9] text-[#0F172A]">
-                  <tr className="hover:bg-[#F0FDFA] transition-colors">
+                  <tr className="hover:bg-[#EFF6FF] transition-colors">
                     <td className="px-3.5 py-2.5 font-semibold">Aarav Sharma &bull; X-A</td>
                     <td className="px-3.5 py-2.5 font-mono text-[#64748B]">INV-2026-0891</td>
                     <td className="px-3.5 py-2.5 font-bold font-mono">₹12,500</td>
@@ -625,7 +625,7 @@ export default function AdminDashboardPage() {
                       </span>
                     </td>
                   </tr>
-                  <tr className="hover:bg-[#F0FDFA] transition-colors">
+                  <tr className="hover:bg-[#EFF6FF] transition-colors">
                     <td className="px-3.5 py-2.5 font-semibold">Diya Patel &bull; IX-B</td>
                     <td className="px-3.5 py-2.5 font-mono text-[#64748B]">INV-2026-0892</td>
                     <td className="px-3.5 py-2.5 font-bold font-mono">₹8,000</td>
@@ -636,7 +636,7 @@ export default function AdminDashboardPage() {
                       </span>
                     </td>
                   </tr>
-                  <tr className="hover:bg-[#F0FDFA] transition-colors">
+                  <tr className="hover:bg-[#EFF6FF] transition-colors">
                     <td className="px-3.5 py-2.5 font-semibold">Rohan Reddy &bull; VIII-A</td>
                     <td className="px-3.5 py-2.5 font-mono text-[#64748B]">INV-2026-0893</td>
                     <td className="px-3.5 py-2.5 font-bold font-mono">₹14,000</td>
@@ -656,7 +656,7 @@ export default function AdminDashboardPage() {
         {/* Institutional Governance Banner: Two-Admin Security Transparency */}
         <div className="p-4 rounded-xl border border-[#E2E8F0] bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-start gap-3">
-            <div className="h-8 w-8 rounded-lg bg-[#F0FDFA] border border-[#CCFBF1] flex items-center justify-center text-[#0D9488] shrink-0 mt-0.5">
+            <div className="h-8 w-8 rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] shrink-0 mt-0.5">
               <ShieldCheck className="h-4 w-4" />
             </div>
             <div>
@@ -664,7 +664,7 @@ export default function AdminDashboardPage() {
                 <span className="text-xs font-bold text-[#0F172A]">
                   Strict Two-Administrator Policy Active
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB]">
                   {adminCapacity.currentActive} / {adminCapacity.maxAllowed} Admins
                 </span>
               </div>
@@ -696,7 +696,7 @@ export default function AdminDashboardPage() {
                 </button>
               </div>
               <p className="text-xs text-[#666666] mb-5">
-                Generate a consolidated executive summary for Sunrise Public School including attendance rates, student rosters, and faculty distributions.
+                Generate a consolidated executive summary for SIMPLEIN School including attendance rates, student rosters, and faculty distributions.
               </p>
               <div className="space-y-2 mb-6">
                 <label className="flex items-center gap-2 p-2.5 rounded-xl border border-[#E5E5E5] bg-[#F9F9F9] cursor-pointer text-xs">
@@ -724,7 +724,7 @@ export default function AdminDashboardPage() {
                     const encodedUri = encodeURI(csvContent);
                     const link = document.createElement("a");
                     link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "sunrise_school_executive_report_2026_27.csv");
+                    link.setAttribute("download", "simplein_school_executive_report_2026_27.csv");
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);

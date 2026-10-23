@@ -210,33 +210,21 @@ export const Header: React.FC<HeaderProps> = ({
           <Menu className="h-5 w-5" />
         </button>
 
-        {/* Back navigation button: ONLY rendered on sub-pages, safe back to dashboard */}
+        {/* Sub-page back navigation and section title */}
         {!isDashboard && (
-          <button
-            type="button"
-            onClick={handleBack}
-            className="flex items-center justify-center h-8 w-8 rounded-lg border border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-colors cursor-pointer"
-            title="Go back"
-            aria-label="Go back"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="flex items-center justify-center h-8 w-8 rounded-lg border border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-colors cursor-pointer"
+              title="Go back"
+              aria-label="Go back"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <span className="font-semibold text-xs text-[#0F172A]">{getPageTitle()}</span>
+          </div>
         )}
-
-        {/* Breadcrumb path: Home icon / Workspace / [Page Name] */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs select-none">
-          <Link href={getDashboardPath(userRole)} className="text-[#94A3B8] hover:text-[#0D9488] transition-colors">
-            <span className="sr-only">Home</span>
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </Link>
-          <span className="text-[#CBD5E1]">/</span>
-          <span className="text-[#64748B] font-medium">Workspace</span>
-          <span className="text-[#CBD5E1]">/</span>
-          <span className="font-semibold text-[#0F172A] truncate max-w-[140px] sm:max-w-none">{getPageTitle()}</span>
-        </nav>
       </div>
 
       {/* Center: Global Search Bar */}
@@ -250,7 +238,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="text"
             readOnly
             placeholder="Search students, teachers, roll numbers, or circulars..."
-            className="w-full pl-9 pr-14 py-1.5 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:border-[#0D9488] focus:bg-white transition-all cursor-pointer"
+            className="w-full pl-9 pr-14 py-1.5 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:bg-white transition-all cursor-pointer"
             onClick={() => {
               const noticeLink = getNoticesLink(userRole);
               router.push(noticeLink);
@@ -262,7 +250,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Right: Academic Year Selector + Quick Action + Notification Bell + User Profile */}
+      {/* Right: Academic Year Selector + Notification Bell + User Profile */}
       <div className="flex items-center gap-2 sm:gap-2.5">
         {/* Academic Year Selector */}
         <div className="relative" ref={academicYearRef}>
@@ -272,7 +260,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#F1F5F9] text-xs font-semibold text-[#0F172A] transition-colors cursor-pointer shadow-2xs"
             aria-label="Select academic year"
           >
-            <Calendar className="h-3.5 w-3.5 text-[#0D9488]" />
+            <Calendar className="h-3.5 w-3.5 text-[#2563EB]" />
             <span>AY {selectedAcademicYear}</span>
             <ChevronDown className="h-3 w-3 text-[#94A3B8]" />
           </button>
@@ -292,7 +280,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer flex items-center justify-between ${
                     selectedAcademicYear === year
-                      ? "bg-[#0D9488] text-white font-bold"
+                      ? "bg-[#2563EB] text-white font-bold"
                       : "text-[#0F172A] hover:bg-[#F8FAFC]"
                   }`}
                 >
@@ -308,18 +296,6 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        {/* Quick Action Button */}
-        {userRole === "SCHOOL_ADMIN" && (
-          <Link
-            href="/app/admin/students"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#CCFBF1] bg-[#F0FDFA] hover:bg-[#CCFBF1] text-xs font-bold text-[#0D9488] transition-colors shadow-2xs cursor-pointer"
-          >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-            <span>Quick Action</span>
-          </Link>
-        )}
 
         {/* Notification Bell */}
         <div className="relative" ref={notifRef}>
@@ -346,14 +322,14 @@ export const Header: React.FC<HeaderProps> = ({
                     <button
                       type="button"
                       onClick={() => setUnreadCount(0)}
-                      className="text-[10px] font-semibold text-[#64748B] hover:text-[#0D9488] hover:underline cursor-pointer"
+                      className="text-[10px] font-semibold text-[#64748B] hover:text-[#2563EB] hover:underline cursor-pointer"
                     >
                       Mark all as read
                     </button>
                   ) : (
                     <span className="text-[10px] font-medium text-[#94A3B8]">All caught up</span>
                   )}
-                  <span className="text-[10px] font-semibold text-[#0D9488] bg-[#F0FDFA] border border-[#CCFBF1] px-1.5 py-0.5 rounded">
+                  <span className="text-[10px] font-semibold text-[#1D4ED8] bg-[#EFF6FF] border border-[#BFDBFE] px-1.5 py-0.5 rounded">
                     {unreadCount} new
                   </span>
                 </div>
@@ -380,7 +356,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <Link
                   href={getNoticesLink(userRole)}
                   onClick={() => setNotifOpen(false)}
-                  className="text-[11px] font-semibold text-[#0D9488] hover:underline inline-flex items-center gap-1"
+                  className="text-[11px] font-semibold text-[#2563EB] hover:underline inline-flex items-center gap-1"
                 >
                   <span>View All Circulars & Notices</span>
                   <ChevronRight className="h-3 w-3" />
@@ -397,7 +373,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#F1F5F9] transition-colors cursor-pointer text-[#0F172A] shadow-2xs"
           >
-            <div className="h-7 w-7 rounded-full bg-[#0D9488] text-white border border-[#14B8A6] flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="h-7 w-7 rounded-full bg-[#2563EB] text-white border border-[#3B82F6] flex items-center justify-center font-bold text-xs shrink-0">
               {initials}
             </div>
             <div className="hidden sm:flex flex-col text-left min-w-0">
@@ -416,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="px-3 py-2 border-b border-[#F1F5F9]">
                 <p className="text-xs font-bold text-[#0F172A] truncate">{userName || "Account"}</p>
                 <p className="text-[10px] text-[#64748B]">{userRoleLabel || "User"}</p>
-                <p className="text-[10px] text-[#94A3B8] mt-0.5">Sunrise Public School</p>
+                <p className="text-[10px] text-[#94A3B8] mt-0.5">SIMPLEIN School</p>
               </div>
               <div className="py-1">
                 <Link

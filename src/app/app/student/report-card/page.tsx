@@ -53,7 +53,7 @@ export default function StudentReportCardPage() {
         <div className="rounded-xl border border-neutral-200 bg-white p-8 shadow-xs space-y-6">
           <div className="text-center border-b border-neutral-200 pb-4">
             <h2 className="text-lg font-bold text-neutral-900 uppercase tracking-wide">
-              Sunrise Public School
+              SIMPLEIN School
             </h2>
             <p className="text-xs text-neutral-500 mt-0.5">Student Progress Card • Term 1 (2026–27)</p>
           </div>
@@ -126,7 +126,7 @@ export default function StudentReportCardPage() {
         <div className="p-4 rounded-xl border border-neutral-300 bg-neutral-100/70 flex items-start gap-3 text-xs text-neutral-800">
           <AlertTriangle className="h-4 w-4 text-neutral-700 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            Enterprise demonstration environment active for Sunrise Public School, Hyderabad (CBSE Affiliation #1930284). Displaying Aarav Sharma&apos;s Class 10 Mid-Term Assessment report card.
+            Enterprise demonstration environment active for SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284). Displaying Aarav Sharma&apos;s Class 10 Mid-Term Assessment report card.
           </p>
         </div>
       </div>

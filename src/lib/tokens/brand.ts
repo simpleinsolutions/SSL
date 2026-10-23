@@ -3,27 +3,27 @@
  * 
  * Company: SIMPLEIN SOLUTIONS LLP
  * Source of Truth: https://www.simpleinsolutions.com/
- * Product Identity: SimpleIn School ERP
- * Visual Direction: Professional Navy (#0F172A), Interactive Teal (#0D9488),
+ * Product Identity: SIMPLEIN School ERP
+ * Visual Direction: Professional Navy (#0F172A), Interactive Royal Blue (#2563EB),
  * Pure White Card Surfaces (#FFFFFF), and Anti-Glare Soft Slate Canvas (#F8FAFC).
  */
 
 export const BRAND_TOKENS = {
-  name: "SimpleIn School",
+  name: "SIMPLEIN School",
   companyName: "SIMPLEIN SOLUTIONS LLP",
   companyUrl: "https://www.simpleinsolutions.com/",
   tagline: "One School. One Connected System.",
   subTagline: "The modern unified education management platform for schools, teachers, students, and parents.",
 
-  // SimpleIn School Professional Navy & Teal Palette
+  // SIMPLEIN School Professional Navy & Blue Palette
   colors: {
-    // Primary Interactive (Teal)
-    primary: "#0D9488", // Surgical Teal / Primary Brand Action
-    primaryHover: "#0F766E", // Deep Teal Hover
-    primaryPressed: "#115E59", // Active Pressed
-    primaryLight: "#F0FDFA", // Light Teal Surface
-    primarySubtle: "rgba(13, 148, 136, 0.08)",
-    primaryBorder: "#CCFBF1",
+    // Primary Interactive (Royal Blue)
+    primary: "#2563EB", // Royal Blue / Primary Brand Action
+    primaryHover: "#1D4ED8", // Deep Blue Hover
+    primaryPressed: "#1E40AF", // Active Navy-Blue Pressed
+    primaryLight: "#EFF6FF", // Light Blue Surface
+    primarySubtle: "rgba(37, 99, 235, 0.08)",
+    primaryBorder: "#BFDBFE",
 
     // Secondary & Structural (Deep Architectural Navy)
     navy: "#0F172A", // Deep Navy Structural Chrome
@@ -37,14 +37,14 @@ export const BRAND_TOKENS = {
     surface: "#FFFFFF", // Crisp pure white cards and containers
     surfaceSecondary: "#F1F5F9", // Secondary table headers & panels
     surfaceTertiary: "#E2E8F0", // Inset containers
-    surfaceHover: "#F0FDFA", // Interactive hover with subtle teal tint
+    surfaceHover: "#EFF6FF", // Interactive hover with subtle blue tint
     surfaceDark: "#0F172A", // Dark structural surface
 
     // Hairline Borders & Dividers
     border: "#E2E8F0", // Standard neutral hairline divider
     borderLight: "#F1F5F9", // Subtle divider
     borderDark: "#0F172A", // High contrast active border
-    borderFocus: "#0D9488", // Focus ring
+    borderFocus: "#2563EB", // Focus ring
 
     // Typography (High-Contrast, Long-Session Comfort)
     textPrimary: "#0F172A", // Deep navy heading & body text

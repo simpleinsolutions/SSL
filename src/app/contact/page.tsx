@@ -64,7 +64,7 @@ export default function ContactPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
             <Breadcrumbs items={[{ label: "Contact & Enquiries" }]} />
             <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900">
-              Get in Touch with SimpleIn Solutions
+              Get in Touch with SIMPLEIN Solutions
             </h1>
             <p className="text-sm text-neutral-600 max-w-2xl">
               Connect with our education technology advisors to discuss onboarding, pilots, or architectural questions.
@@ -80,7 +80,7 @@ export default function ContactPage() {
                 Institutional Support & Consulting
               </h3>
               <p className="text-xs text-neutral-600 leading-relaxed">
-                SimpleIn Schools is developed and maintained by SIMPLEIN SOLUTIONS LLP. Our engineering and school success teams are based in Bengaluru, India.
+                SIMPLEIN School is developed and maintained by SIMPLEIN SOLUTIONS LLP. Our engineering and school success teams are based in Bengaluru, India.
               </p>
 
               <div className="space-y-4 pt-2">
@@ -165,7 +165,7 @@ export default function ContactPage() {
                       <Input
                         label="Official Email Address *"
                         type="email"
-                        placeholder="principal@sunrisepublic.edu.in"
+                        placeholder="principal@simplein.school"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                       />
@@ -174,7 +174,7 @@ export default function ContactPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <Input
                         label="School / Institution Name"
-                        placeholder="Sunrise Public School"
+                        placeholder="SIMPLEIN School"
                         value={form.school}
                         onChange={(e) => setForm({ ...form, school: e.target.value })}
                       />

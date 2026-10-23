@@ -2,7 +2,7 @@
   "name": "simplein-schools",
   "version": "1.0.0",
   "private": true,
-  "description": "SimpleIn Schools — Education Management SaaS & School ERP Platform",
+  "description": "SIMPLEIN School — Education Management SaaS & School ERP Platform",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

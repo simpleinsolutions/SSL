@@ -59,7 +59,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
     setError(null);
 
     if (!identifier.trim()) {
-      setError("Please enter your registered email or account ID.");
+      setError("Please enter your User ID.");
       return;
     }
     if (!password) {
@@ -96,12 +96,12 @@ export const LoginView: React.FC<LoginViewProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#F8FAFC] text-[#0F172A] selection:bg-[#0D9488] selection:text-white">
+    <div className="min-h-screen flex flex-col justify-between bg-[#F8FAFC] text-[#0F172A] selection:bg-[#2563EB] selection:text-white">
       {/* Top Utility Bar */}
       <header className="w-full h-11 border-b border-[#E2E8F0] bg-white/80 backdrop-blur-xs px-4 sm:px-6 flex items-center justify-between shrink-0">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-[#0D9488] transition-colors group"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-[#2563EB] transition-colors group"
         >
           <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
           <span>Back to School Website</span>
@@ -114,7 +114,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
           </span>
           <span className="text-[#0F172A]">System Operational</span>
           <span className="text-[#CBD5E1]">•</span>
-          <span className="inline-flex items-center gap-1 text-[#0D9488]">
+          <span className="inline-flex items-center gap-1 text-[#2563EB]">
             <Lock className="w-3 h-3" />
             <span>SSL Encrypted</span>
           </span>
@@ -126,14 +126,14 @@ export const LoginView: React.FC<LoginViewProps> = ({
         <div className="w-full max-w-[400px] flex flex-col items-center">
           {/* Centered Institutional Header */}
           <div className="text-center mb-5">
-            <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#0D9488] text-white shadow-xs mb-2">
+            <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#2563EB] text-white shadow-xs mb-2">
               <GraduationCap className="w-6 h-6" />
             </div>
             <h1 className="text-xl font-bold text-[#0F172A] tracking-tight">
-              SimpleIn School
+              SIMPLEIN School
             </h1>
             <p className="text-xs text-[#64748B] mt-0.5">
-              Sunrise Public School, Hyderabad
+              SIMPLEIN School, Hyderabad
             </p>
           </div>
 
@@ -150,7 +150,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                 onClick={() => handleRoleSwitch("TEACHER")}
                 className={`flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   portalRole === "TEACHER"
-                    ? "bg-[#0D9488] text-white shadow-xs"
+                    ? "bg-[#2563EB] text-white shadow-xs"
                     : "text-[#64748B] hover:text-[#0F172A]"
                 }`}
                 aria-selected={portalRole === "TEACHER"}
@@ -165,7 +165,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                 onClick={() => handleRoleSwitch("STUDENT")}
                 className={`flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   portalRole === "STUDENT"
-                    ? "bg-[#0D9488] text-white shadow-xs"
+                    ? "bg-[#2563EB] text-white shadow-xs"
                     : "text-[#64748B] hover:text-[#0F172A]"
                 }`}
                 aria-selected={portalRole === "STUDENT"}
@@ -180,7 +180,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                 onClick={() => handleRoleSwitch("PARENT")}
                 className={`flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   portalRole === "PARENT"
-                    ? "bg-[#0D9488] text-white shadow-xs"
+                    ? "bg-[#2563EB] text-white shadow-xs"
                     : "text-[#64748B] hover:text-[#0F172A]"
                 }`}
                 aria-selected={portalRole === "PARENT"}
@@ -219,7 +219,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                     onChange={(e) => setIdentifier(e.target.value)}
                     placeholder={identifierPlaceholder}
                     autoComplete="username"
-                    className="w-full pl-9 pr-3.5 h-10 bg-white border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/15 transition-all"
+                    className="w-full pl-9 pr-3.5 h-10 bg-white border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
                   />
                 </div>
               </div>
@@ -235,7 +235,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-[#0D9488] hover:text-[#0F766E] hover:underline font-medium"
+                    className="text-xs text-[#2563EB] hover:text-[#1D4ED8] hover:underline font-medium"
                   >
                     Forgot password?
                   </Link>
@@ -252,7 +252,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
                     autoComplete="current-password"
-                    className="w-full pl-9 pr-10 h-10 bg-white border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/15 transition-all"
+                    className="w-full pl-9 pr-10 h-10 bg-white border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
                   />
                   <button
                     type="button"
@@ -272,7 +272,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="h-3.5 w-3.5 rounded border-[#CBD5E1] text-[#0D9488] accent-[#0D9488] cursor-pointer"
+                    className="h-3.5 w-3.5 rounded border-[#CBD5E1] text-[#2563EB] accent-[#2563EB] cursor-pointer"
                   />
                   <span className="text-xs text-[#64748B]">
                     Remember this device
@@ -285,7 +285,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-10 bg-[#0D9488] hover:bg-[#0F766E] active:bg-[#115E59] text-white text-xs font-semibold rounded-xl shadow-xs hover:shadow transition-all flex items-center justify-center gap-1.5 group cursor-pointer disabled:opacity-60"
+                  className="w-full h-10 bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white text-xs font-semibold rounded-xl shadow-xs hover:shadow transition-all flex items-center justify-center gap-1.5 group cursor-pointer disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -315,7 +315,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                     setIdentifier(demoCredentials.identifier);
                     setPassword("SimpleIn@2026");
                   }}
-                  className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#F0FDFA] hover:bg-[#CCFBF1] text-[#0D9488] text-xs font-semibold border border-[#CCFBF1] transition-colors cursor-pointer text-center truncate"
+                  className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] text-xs font-semibold border border-[#BFDBFE] transition-colors cursor-pointer text-center truncate"
                 >
                   Fill {portalRole === "TEACHER" ? "Teacher" : portalRole === "STUDENT" ? "Student" : "Parent"} Demo
                 </button>
@@ -339,8 +339,8 @@ export const LoginView: React.FC<LoginViewProps> = ({
           <p className="mt-4 text-center text-xs text-[#94A3B8]">
             Need help?{" "}
             <a
-              href="mailto:admin@sunrisepublic.edu.in"
-              className="text-[#64748B] hover:text-[#0D9488] font-medium transition-colors"
+              href="mailto:admin@simplein.school"
+              className="text-[#64748B] hover:text-[#2563EB] font-medium transition-colors"
             >
               Contact IT Support
             </a>
@@ -351,7 +351,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
       {/* Understated Institutional Footer */}
       <footer className="w-full py-3 px-4 border-t border-[#E2E8F0] bg-white/50 text-center shrink-0">
         <p className="text-[11px] text-[#94A3B8]">
-          SimpleIn School • SIMPLEIN SOLUTIONS LLP • Academic Year 2026–27
+          SIMPLEIN School • SIMPLEIN SOLUTIONS LLP • Academic Year 2026–27
         </p>
       </footer>
     </div>

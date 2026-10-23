@@ -220,7 +220,7 @@ export default function StudentsPage() {
         {/* Header matching Stitch Design System */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#0D9488]">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#2563EB]">
               SCHOOL MANAGEMENT
             </p>
             <h1 className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight mt-1">
@@ -243,7 +243,7 @@ export default function StudentsPage() {
             <button
               type="button"
               onClick={() => setAddModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0D9488] hover:bg-[#0F766E] text-xs font-bold text-white transition-colors cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-xs font-bold text-white transition-colors cursor-pointer shadow-xs"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Add student</span>
@@ -254,7 +254,7 @@ export default function StudentsPage() {
         {/* 4 Metric Cards matching Stitch design */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 sm:p-5 rounded-2xl border border-[#E2E8F0] bg-white shadow-xs relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-[#0D9488]" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-[#2563EB]" />
             <p className="text-xs font-medium text-[#64748B]">Total records</p>
             <p className="text-2xl sm:text-3xl font-black text-[#0F172A] mt-1">{totalCount}</p>
           </div>
@@ -271,7 +271,7 @@ export default function StudentsPage() {
           <div className="p-4 sm:p-5 rounded-2xl border border-[#E2E8F0] bg-white shadow-xs relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#6366F1]" />
             <p className="text-xs font-medium text-[#64748B]">Academic year</p>
-            <p className="text-2xl sm:text-3xl font-black text-[#0F172A] mt-1">2026–27</p>
+            <p className="text-2xl sm:text-3xl font-black text-[#0F172A] mt-1">{2026}–27</p>
           </div>
         </div>
 
@@ -285,7 +285,7 @@ export default function StudentsPage() {
                 Search, filter and manage student records.
               </p>
             </div>
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488]">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB]">
               {filtered.length} records
             </span>
           </div>
@@ -299,7 +299,7 @@ export default function StudentsPage() {
                 placeholder="Search name, admission ID or guardian..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white focus:outline-hidden focus:border-[#0D9488] focus:ring-1 focus:ring-[#0D9488] text-[#0F172A] placeholder:text-[#94A3B8]"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white focus:outline-hidden focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] text-[#0F172A] placeholder:text-[#94A3B8]"
               />
             </div>
 
@@ -307,7 +307,7 @@ export default function StudentsPage() {
               <select
                 value={classFilter}
                 onChange={(e) => setClassFilter(e.target.value)}
-                className="text-xs font-medium text-[#0F172A] bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 outline-none cursor-pointer focus:border-[#0D9488]"
+                className="text-xs font-medium text-[#0F172A] bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 outline-none cursor-pointer focus:border-[#2563EB]"
                 aria-label="Filter by class"
               >
                 <option value="ALL">All classes</option>
@@ -321,7 +321,7 @@ export default function StudentsPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="text-xs font-medium text-[#0F172A] bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 outline-none cursor-pointer focus:border-[#0D9488]"
+                className="text-xs font-medium text-[#0F172A] bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 outline-none cursor-pointer focus:border-[#2563EB]"
                 aria-label="Filter by status"
               >
                 <option value="ALL">All statuses</option>
@@ -350,7 +350,7 @@ export default function StudentsPage() {
                       type="checkbox"
                       checked={selectedIds.length === filtered.length && filtered.length > 0}
                       onChange={toggleSelectAll}
-                      className="rounded accent-[#0D9488] cursor-pointer"
+                      className="rounded accent-[#2563EB] cursor-pointer"
                       aria-label="Select all students"
                     />
                   </th>
@@ -383,7 +383,7 @@ export default function StudentsPage() {
                       <tr
                         key={s.id}
                         className={`hover:bg-[#F8FAFC] transition-colors ${
-                          isSelected ? "bg-[#F0FDFA]/50" : ""
+                          isSelected ? "bg-[#EFF6FF]/60" : ""
                         }`}
                       >
                         <td className="px-4 py-3.5">
@@ -391,13 +391,13 @@ export default function StudentsPage() {
                             type="checkbox"
                             checked={isSelected}
                             onChange={() => toggleSelect(s.id)}
-                            className="rounded accent-[#0D9488] cursor-pointer"
+                            className="rounded accent-[#2563EB] cursor-pointer"
                             aria-label={`Select ${s.name}`}
                           />
                         </td>
                         <td className="px-4 py-3.5">
                           <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] flex items-center justify-center font-bold text-xs shrink-0">
+                            <div className="h-8 w-8 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center font-bold text-xs shrink-0">
                               {initials}
                             </div>
                             <div>
@@ -491,7 +491,7 @@ export default function StudentsPage() {
           isOpen={addModalOpen}
           onClose={() => setAddModalOpen(false)}
           title="Add New Student"
-          description="Register a student record for Sunrise Public School."
+          description="Register a student record for SIMPLEIN School."
           maxWidth="md"
         >
           <form onSubmit={handleCreate} className="space-y-4 pt-2">

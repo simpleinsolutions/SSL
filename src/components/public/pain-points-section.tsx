@@ -14,7 +14,7 @@ import {
 export const PAIN_POINTS = [
   {
     id: "records",
-    icon: <FileSpreadsheet className="h-5 w-5 text-[#0D9488]" />,
+    icon: <FileSpreadsheet className="h-5 w-5 text-[#2563EB]" />,
     problem: "Fragmented School Records",
     problemText:
       "Student, staff and academic information is scattered across disparate spreadsheets, paper registers and isolated files.",
@@ -25,7 +25,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "attendance",
-    icon: <Clock className="h-5 w-5 text-[#0D9488]" />,
+    icon: <Clock className="h-5 w-5 text-[#2563EB]" />,
     problem: "Manual Attendance Workflows",
     problemText:
       "Daily roll-call entry and monthly attendance registers consume significant faculty time and introduce calculation errors.",
@@ -36,7 +36,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "academic-visibility",
-    icon: <Eye className="h-5 w-5 text-[#0D9488]" />,
+    icon: <Eye className="h-5 w-5 text-[#2563EB]" />,
     problem: "Delayed Academic Visibility",
     problemText:
       "Parents and students struggle to access up-to-date timetables, homework deadlines, examination dates, and marks.",
@@ -47,7 +47,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "communication",
-    icon: <MessageSquareOff className="h-5 w-5 text-[#0D9488]" />,
+    icon: <MessageSquareOff className="h-5 w-5 text-[#2563EB]" />,
     problem: "Disconnected Communication",
     problemText:
       "Important circulars, emergency closures, and event notices are missed when distributed across scattered messaging apps.",
@@ -58,7 +58,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "repetitive-admin",
-    icon: <Repeat className="h-5 w-5 text-[#0D9488]" />,
+    icon: <Repeat className="h-5 w-5 text-[#2563EB]" />,
     problem: "Repetitive Administrative Work",
     problemText:
       "Staff repeatedly re-type identical student information and manually assemble recurring academic summaries.",
@@ -69,7 +69,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "operational-visibility",
-    icon: <LayoutDashboard className="h-5 w-5 text-[#0D9488]" />,
+    icon: <LayoutDashboard className="h-5 w-5 text-[#2563EB]" />,
     problem: "Limited Operational Visibility",
     problemText:
       "School leadership lacks a consolidated overview of today's attendance, active enrolments, and faculty assignments.",
@@ -80,7 +80,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "privacy-concerns",
-    icon: <ShieldAlert className="h-5 w-5 text-[#0D9488]" />,
+    icon: <ShieldAlert className="h-5 w-5 text-[#2563EB]" />,
     problem: "Data Access & Privacy Concerns",
     problemText:
       "Unrestricted file shares and shared logins expose sensitive student health, contact, and academic records.",
@@ -91,7 +91,7 @@ export const PAIN_POINTS = [
   },
   {
     id: "difficult-reporting",
-    icon: <FileBarChart className="h-5 w-5 text-[#0D9488]" />,
+    icon: <FileBarChart className="h-5 w-5 text-[#2563EB]" />,
     problem: "Laborious & Slow Reporting",
     problemText:
       "Compiling student rosters, attendance summaries, and term marks manually requires days of spreadsheet merging.",
@@ -107,15 +107,15 @@ export const PainPointsSection: React.FC = () => {
     <section className="py-20 bg-[#F8FAFC] border-y border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-xs font-semibold">
             Institutional Operational Blueprint
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
-            The Challenges Schools Face — And How SimpleIn Solves Them
+            The Challenges Schools Face — And How SIMPLEIN School Solves Them
           </h2>
           <p className="text-base text-[#64748B]">
             Schools are vibrant institutions often slowed down by fragmented administrative tools.
-            Here is how SimpleIn School replaces operational friction with structured institutional clarity.
+            Here is how SIMPLEIN School replaces operational friction with structured institutional clarity.
           </p>
         </div>
 
@@ -123,12 +123,12 @@ export const PainPointsSection: React.FC = () => {
           {PAIN_POINTS.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#0D9488]/40 hover:shadow-md transition-all space-y-4 shadow-2xs"
+              className="rounded-2xl border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#2563EB]/40 hover:shadow-md transition-all space-y-4 shadow-2xs"
             >
               {/* Problem Block */}
               <div className="space-y-2 border-b border-[#F1F5F9] pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-[#F0FDFA] border border-[#CCFBF1] shadow-2xs">
+                  <div className="p-2.5 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] shadow-2xs">
                     {item.icon}
                   </div>
                   <div>
@@ -151,8 +151,8 @@ export const PainPointsSection: React.FC = () => {
               {/* Solution Block */}
               <div className="space-y-1.5 pl-12">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#0F172A]">
-                  <CheckCircle2 className="h-4 w-4 text-[#0D9488] shrink-0" />
-                  <span>The SimpleIn Solution: {item.solution}</span>
+                  <CheckCircle2 className="h-4 w-4 text-[#2563EB] shrink-0" />
+                  <span>The SIMPLEIN Solution: {item.solution}</span>
                 </div>
                 <p className="text-xs text-[#475569] leading-relaxed">
                   {item.solutionText}

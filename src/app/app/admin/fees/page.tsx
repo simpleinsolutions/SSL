@@ -119,7 +119,7 @@ export default function FeesPage() {
         <div className="p-4 rounded-xl border border-neutral-300 bg-neutral-100/70 flex items-start gap-3 text-xs text-neutral-800">
           <AlertTriangle className="h-4 w-4 text-neutral-700 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            Enterprise demonstration fee ledger active for Sunrise Public School, Hyderabad (CBSE Affiliation #1930284). All student fee structures, installments, and online payment receipts are reconciled in INR (₹).
+            Enterprise demonstration fee ledger active for SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284). All student fee structures, installments, and online payment receipts are reconciled in INR (₹).
           </p>
         </div>
 

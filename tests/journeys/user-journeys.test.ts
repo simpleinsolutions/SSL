@@ -195,7 +195,7 @@ describe("End-to-End User Journeys (A through F)", () => {
     it("allows prospective visitors to browse public features and submit demonstration inquiries", async () => {
       // Step 1: Visitor browses school profile and features
       const profile = SchoolData.getProfile();
-      expect(profile.name).toBe("Sunrise Public School");
+      expect(profile.name).toBe("SIMPLEIN School");
       expect(profile.board).toContain("CBSE");
 
       // Step 2: Visitor inspects curriculum subjects offered
@@ -204,12 +204,12 @@ describe("End-to-End User Journeys (A through F)", () => {
 
       // Step 3: Demonstration enquiry submission simulation
       const newEnquiry = {
-        schoolName: "Oakridge Global Academy",
+        schoolName: "SIMPLEIN School",
         contactPerson: "Dr. Sarah Mitchell",
-        workEmail: "headmaster@oakridge.edu",
+        workEmail: "headmaster@simplein.school",
         phone: "+91 99887 76655",
         studentStrength: "1000-2500",
-        message: "Requesting a live demonstration of SimpleIn Schools for our administrative council.",
+        message: "Requesting a live demonstration of SIMPLEIN School for our administrative council.",
       };
 
       // Log demo enquiry event
@@ -222,7 +222,7 @@ describe("End-to-End User Journeys (A through F)", () => {
 
       expect(auditEntry.id).toBeDefined();
       expect(auditEntry.outcome).toBe("success");
-      expect(auditEntry.metadata?.schoolName).toBe("Oakridge Global Academy");
+      expect(auditEntry.metadata?.schoolName).toBe("SIMPLEIN School");
     });
   });
 

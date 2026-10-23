@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding SimpleIn Schools database on Supabase PostgreSQL...");
+  console.log("Seeding SIMPLEIN School database on Supabase PostgreSQL...");
 
   const defaultPasswordHash = bcrypt.hashSync("SimpleIn@2026", 10);
 

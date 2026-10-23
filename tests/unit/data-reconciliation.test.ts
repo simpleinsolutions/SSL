@@ -130,9 +130,9 @@ describe("Unit: Indian CBSE Demonstration Data & Mathematical Reconciliation", (
       expect(wardNames).not.toContain("Arjun Kumar");
     });
 
-    it("preserves CBSE academic metadata for Sunrise Public School, Hyderabad", () => {
+    it("preserves CBSE academic metadata for SIMPLEIN School, Hyderabad", () => {
       const profile = SchoolData.getProfile();
-      expect(profile.name).toBe("Sunrise Public School");
+      expect(profile.name).toBe("SIMPLEIN School");
       expect(profile.address).toContain("Hyderabad");
       expect(profile.address).toContain("Telangana");
       expect(profile.board).toContain("CBSE");

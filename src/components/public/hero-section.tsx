@@ -15,27 +15,27 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-6">
           {/* Institutional Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] text-xs font-semibold shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-xs font-semibold shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-[#2563EB]" />
             <span>Institutional Operating Architecture • Unified School ERP</span>
           </div>
 
           {/* Canonical Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-[1.12]">
             One School. <br className="hidden sm:inline" />
-            <span className="text-[#0D9488]">One Connected System.</span>
+            <span className="text-[#2563EB]">One Connected System.</span>
           </h1>
 
           {/* Canonical Subtitle */}
           <p className="text-base sm:text-lg text-[#64748B] leading-relaxed font-normal max-w-2xl mx-auto">
-            SimpleIn School brings campus administration, student records, attendance rosters, examination marks, and guardian communication together in one unified institutional platform.
+            SIMPLEIN School brings campus administration, student records, attendance rosters, examination marks, and guardian communication together in one unified institutional platform.
           </p>
 
           {/* Call to Actions */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Link
               href="/features"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold rounded-xl gap-2 bg-[#0D9488] text-white hover:bg-[#0F766E] active:bg-[#115E59] shadow-xs hover:shadow transition-all group cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold rounded-xl gap-2 bg-[#2563EB] text-white hover:bg-[#1D4ED8] active:bg-[#1E40AF] shadow-xs hover:shadow transition-all group cursor-pointer"
             >
               <span>Explore Features</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -54,7 +54,7 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
             Already have an authorized school account?{" "}
             <Link
               href="/login/teacher"
-              className="font-semibold text-[#0D9488] hover:text-[#0F766E] hover:underline"
+              className="font-semibold text-[#2563EB] hover:text-[#1D4ED8] hover:underline"
             >
               Sign in to your portal &rarr;
             </Link>
@@ -63,15 +63,15 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
           {/* Quick Pillars */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-[#64748B] font-medium">
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-[#0D9488]" />
+              <CheckCircle2 className="h-4 w-4 text-[#2563EB]" />
               <span>Role-Specific Portals</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-[#0D9488]" />
+              <CheckCircle2 className="h-4 w-4 text-[#2563EB]" />
               <span>Strict Two-Admin Institutional Scope</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-[#0D9488]" />
+              <CheckCircle2 className="h-4 w-4 text-[#2563EB]" />
               <span>Zero Fragmented Spreadsheets</span>
             </div>
           </div>
@@ -87,10 +87,10 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                 <div className="h-3 w-3 rounded-full bg-[#E2E8F0]" />
                 <div className="h-3 w-3 rounded-full bg-[#E2E8F0]" />
                 <span className="ml-2 text-xs font-mono text-[#64748B] hidden sm:inline">
-                  SimpleIn School • Sunrise Public School, Hyderabad (AY 2026–27)
+                  SIMPLEIN School • Hyderabad (AY 2026–27)
                 </span>
               </div>
-              <div className="px-2.5 py-0.5 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] text-[11px] font-semibold">
+              <div className="px-2.5 py-0.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-[11px] font-semibold">
                 Live Interface Composition
               </div>
             </div>
@@ -102,18 +102,18 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                 <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-2xs">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-[#64748B] font-semibold">Total Students</p>
-                    <div className="p-1.5 rounded-lg bg-[#F0FDFA] text-[#0D9488]">
+                    <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB]">
                       <Users className="h-4 w-4" />
                     </div>
                   </div>
                   <p className="text-2xl font-bold text-[#0F172A] mt-2">1,280</p>
-                  <p className="text-[11px] text-[#0D9488] font-medium mt-0.5">36 Active Sections</p>
+                  <p className="text-[11px] text-[#2563EB] font-medium mt-0.5">36 Active Sections</p>
                 </div>
 
                 <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-2xs">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-[#64748B] font-semibold">Faculty & Staff</p>
-                    <div className="p-1.5 rounded-lg bg-[#F0FDFA] text-[#0D9488]">
+                    <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB]">
                       <ShieldCheck className="h-4 w-4" />
                     </div>
                   </div>
@@ -124,18 +124,18 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                 <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-2xs">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-[#64748B] font-semibold">Today&apos;s Attendance</p>
-                    <div className="p-1.5 rounded-lg bg-[#F0FDFA] text-[#0D9488]">
+                    <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB]">
                       <BarChart3 className="h-4 w-4" />
                     </div>
                   </div>
                   <p className="text-2xl font-bold text-[#0F172A] mt-2">96.8%</p>
-                  <p className="text-[11px] text-[#0D9488] font-medium mt-0.5">1,239 Present Today</p>
+                  <p className="text-[11px] text-[#2563EB] font-medium mt-0.5">1,239 Present Today</p>
                 </div>
 
                 <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-2xs">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-[#64748B] font-semibold">Active Term</p>
-                    <div className="p-1.5 rounded-lg bg-[#F0FDFA] text-[#0D9488]">
+                    <div className="p-1.5 rounded-lg bg-[#EFF6FF] text-[#2563EB]">
                       <Calendar className="h-4 w-4" />
                     </div>
                   </div>
@@ -173,7 +173,7 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                         <span className="font-semibold text-[#0F172A]">
                           Annual Science & Innovation Fair — Call for Projects
                         </span>
-                        <span className="px-2 py-0.5 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] text-[10px] font-bold uppercase">
+                        <span className="px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-[10px] font-bold uppercase">
                           Academics
                         </span>
                       </div>
@@ -196,7 +196,7 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                       </div>
                       <div className="flex justify-between items-center text-[#64748B]">
                         <span>Authentication Mode:</span>
-                        <span className="font-semibold text-[#0D9488]">HMAC-SHA256 Encrypted</span>
+                        <span className="font-semibold text-[#2563EB]">HMAC-SHA256 Encrypted</span>
                       </div>
                       <div className="flex justify-between items-center text-[#64748B]">
                         <span>Portal Role Isolation:</span>
@@ -209,7 +209,7 @@ export const HeroSection: React.FC<{ onOpenDemoModal: () => void }> = ({
                       <Clock className="h-3.5 w-3.5" />
                       <span>Last audited 2m ago</span>
                     </div>
-                    <span className="text-[#0D9488] font-semibold">CBSE Audited</span>
+                    <span className="text-[#2563EB] font-semibold">CBSE Audited</span>
                   </div>
                 </div>
               </div>

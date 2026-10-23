@@ -3,22 +3,22 @@
 /*
  * SIMPLEIN SCHOOL — Enterprise Education Management SaaS
  * Company: SIMPLEIN SOLUTIONS LLP (https://www.simpleinsolutions.com/)
- * Visual Environment: Stitch MCP Navy & Teal Professional Theme
+ * Visual Environment: Navy & Blue Professional Theme
  * Shell: Architectural Navy Sidebar (#0F172A) & Pure White Header (#FFFFFF)
  * Canvas: Anti-Glare Soft Slate Canvas (#F8FAFC) & Pure White Surfaces (#FFFFFF)
- * Accents: Surgical Interactive Teal (#0D9488 / #0F766E)
+ * Accents: Surgical Interactive Royal Blue (#2563EB / #1D4ED8)
  */
 
 @theme {
   --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", var(--font-inter), sans-serif;
 
-  /* SimpleIn School Design Tokens */
-  --color-brand-primary: #0D9488;
-  --color-brand-primary-hover: #0F766E;
-  --color-brand-primary-pressed: #115E59;
-  --color-brand-primary-light: #F0FDFA;
-  --color-brand-primary-border: #CCFBF1;
+  /* SIMPLEIN School Design Tokens */
+  --color-brand-primary: #2563EB;
+  --color-brand-primary-hover: #1D4ED8;
+  --color-brand-primary-pressed: #1E40AF;
+  --color-brand-primary-light: #EFF6FF;
+  --color-brand-primary-border: #BFDBFE;
 
   --color-brand-navy: #0F172A;
   --color-brand-navy-dark: #0B132B;
@@ -33,9 +33,9 @@
   --color-brand-border-subtle: #F1F5F9;
 
   /* Backward-compatible brand tokens */
-  --color-school-primary: #0D9488;
-  --color-school-primary-hover: #0F766E;
-  --color-school-primary-light: #F0FDFA;
+  --color-school-primary: #2563EB;
+  --color-school-primary-hover: #1D4ED8;
+  --color-school-primary-light: #EFF6FF;
   --color-school-emerald: #10B981;
   --color-school-emerald-dark: #059669;
   --color-school-navy: #0F172A;
@@ -44,7 +44,7 @@
   --color-school-surface: #FFFFFF;
   --color-school-border: #E2E8F0;
 
-  /* Backward-compatible mono tokens smoothly mapped to Navy/Teal system */
+  /* Backward-compatible mono tokens smoothly mapped to Navy/Blue system */
   --color-mono-black: #0F172A;
   --color-mono-deep: #0B132B;
   --color-mono-charcoal: #0F172A;
@@ -59,7 +59,7 @@
   --color-mono-border: #E2E8F0;
   --color-mono-border-subtle: #F1F5F9;
   --color-mono-surface: #F8FAFC;
-  --color-mono-surface-hover: #F0FDFA;
+  --color-mono-surface-hover: #EFF6FF;
   --color-mono-canvas: #F8FAFC;
   --color-mono-white: #FFFFFF;
 }
@@ -69,14 +69,14 @@
   --foreground: #0F172A;
   --card: #FFFFFF;
   --card-foreground: #0F172A;
-  --primary: #0D9488;
+  --primary: #2563EB;
   --primary-foreground: #FFFFFF;
   --secondary: #F1F5F9;
   --secondary-foreground: #0F172A;
   --muted: #64748B;
   --muted-background: #F1F5F9;
   --border: #E2E8F0;
-  --ring: #0D9488;
+  --ring: #2563EB;
 }
 
 @layer base {
@@ -86,7 +86,7 @@
   }
 
   ::selection {
-    background-color: #0D9488;
+    background-color: #2563EB;
     color: #FFFFFF;
   }
 
@@ -98,7 +98,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid #0D9488;
+    outline: 2px solid #2563EB;
     outline-offset: 2px;
   }
 }
@@ -118,8 +118,9 @@
     box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
   }
 
-  .card-accent-teal {
-    border-left: 3px solid #0D9488 !important;
+  .card-accent-teal,
+  .card-accent-blue {
+    border-left: 3px solid #2563EB !important;
   }
 
   .card-accent-navy {

@@ -1,7 +1,7 @@
 /**
- * SIMPLEIN SCHOOLS — School Data Repository & Indian Demonstration Dataset
+ * SIMPLEIN SCHOOL — School Data Repository & Indian Demonstration Dataset
  *
- * Fictional School: Sunrise Public School, Hyderabad, Telangana, India
+ * School: SIMPLEIN School, Hyderabad, Telangana, India
  * Board / Curriculum: CBSE — Central Board of Secondary Education
  * Affiliation Number: CBSE/AFF/2026/1930284
  * Academic Year: 2026–27
@@ -155,16 +155,16 @@ export interface AdmissionEnquiry {
 // Initial In-Memory Indian Demonstration Store
 class SchoolStore {
   private profile: SchoolProfile = {
-    id: "school-sunrise-01",
-    name: "Sunrise Public School",
+    id: "school-simplein-01",
+    name: "SIMPLEIN School",
     affiliationNumber: "CBSE/AFF/2026/1930284",
     board: "CBSE — Central Board of Secondary Education",
     establishedYear: 2004,
     principalName: "Dr. Eleanor Vance (Principal) & Dr. Radhika Sundaram (Academic Director)",
     address: "Road No. 12, Banjara Hills, Hyderabad, Telangana 500034",
     phone: "+91 40 2335 8421",
-    email: "office@sunrisepublic.edu.in",
-    website: "https://sunrisepublic.edu.in",
+    email: "office@simplein.school",
+    website: "https://simplein.school",
     activeAcademicYear: "2026 - 2027",
     totalStudents: 1280,
     totalTeachers: 74,
@@ -233,14 +233,14 @@ class SchoolStore {
 
   private teachers: TeacherRecord[] = [
     { id: "usr_teacher_1", employeeCode: "FAC-1002", name: "Marcus Holloway", designation: "Senior Mathematics Faculty & 10-A Mentor", department: "Mathematics", email: "teacher@springfield.edu", phone: "+91 98765 43212", assignedClasses: ["Class 10-A", "Class 10-B"], assignedSubjects: ["Advanced Mathematics"], status: "Active" },
-    { id: "tch_1003", employeeCode: "FAC-1003", name: "Dr. K. V. Raman", designation: "Physics Department Lead", department: "Science", email: "raman.k@sunrisepublic.edu.in", phone: "+91 98765 43218", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Physics & Mechanics"], status: "Active" },
-    { id: "tch_1004", employeeCode: "FAC-1004", name: "Devraj Mukherjee", designation: "Chemistry Faculty", department: "Science", email: "devraj.m@sunrisepublic.edu.in", phone: "+91 98765 43219", assignedClasses: ["Class 10-A", "Class 9-B"], assignedSubjects: ["Organic Chemistry"], status: "Active" },
-    { id: "tch_1005", employeeCode: "FAC-1005", name: "Sunita Rao", designation: "Biology Department Lead & 10-B Class Teacher", department: "Science", email: "sunita.r@sunrisepublic.edu.in", phone: "+91 98765 43223", assignedClasses: ["Class 10-B", "Class 9-A"], assignedSubjects: ["Biology & Life Sciences"], status: "Active" },
-    { id: "tch_1006", employeeCode: "FAC-1006", name: "Anita Deshmukh", designation: "English Department Lead", department: "Languages", email: "anita.d@sunrisepublic.edu.in", phone: "+91 98765 43224", assignedClasses: ["Class 10-A", "Class 9-A", "Class 8-A"], assignedSubjects: ["English Literature"], status: "Active" },
-    { id: "tch_1007", employeeCode: "FAC-1007", name: "Suresh Kumar", designation: "Computer Science Faculty", department: "Technology", email: "suresh.k@sunrisepublic.edu.in", phone: "+91 98765 43225", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Computer Science & Python"], status: "Active" },
-    { id: "tch_1008", employeeCode: "FAC-1008", name: "S. Padmavathi", designation: "Telugu Senior Faculty", department: "Languages", email: "padmavathi.s@sunrisepublic.edu.in", phone: "+91 98765 43226", assignedClasses: ["Class 10-A", "Class 6-B"], assignedSubjects: ["Telugu (First Language)"], status: "Active" },
-    { id: "tch_1009", employeeCode: "FAC-1009", name: "K. Meenakshi", designation: "Hindi Department Lead", department: "Languages", email: "meenakshi.k@sunrisepublic.edu.in", phone: "+91 98765 43227", assignedClasses: ["Class 10-A", "Class 9-B"], assignedSubjects: ["Hindi (Second Language)"], status: "Active" },
-    { id: "tch_1010", employeeCode: "FAC-1010", name: "Venkatasubramanian S.", designation: "Social Science Faculty", department: "Humanities", email: "venkat.s@sunrisepublic.edu.in", phone: "+91 98765 43228", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Social Science"], status: "Active" },
+    { id: "tch_1003", employeeCode: "FAC-1003", name: "Dr. K. V. Raman", designation: "Physics Department Lead", department: "Science", email: "raman.k@simplein.school", phone: "+91 98765 43218", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Physics & Mechanics"], status: "Active" },
+    { id: "tch_1004", employeeCode: "FAC-1004", name: "Devraj Mukherjee", designation: "Chemistry Faculty", department: "Science", email: "devraj.m@simplein.school", phone: "+91 98765 43219", assignedClasses: ["Class 10-A", "Class 9-B"], assignedSubjects: ["Organic Chemistry"], status: "Active" },
+    { id: "tch_1005", employeeCode: "FAC-1005", name: "Sunita Rao", designation: "Biology Department Lead & 10-B Class Teacher", department: "Science", email: "sunita.r@simplein.school", phone: "+91 98765 43223", assignedClasses: ["Class 10-B", "Class 9-A"], assignedSubjects: ["Biology & Life Sciences"], status: "Active" },
+    { id: "tch_1006", employeeCode: "FAC-1006", name: "Anita Deshmukh", designation: "English Department Lead", department: "Languages", email: "anita.d@simplein.school", phone: "+91 98765 43224", assignedClasses: ["Class 10-A", "Class 9-A", "Class 8-A"], assignedSubjects: ["English Literature"], status: "Active" },
+    { id: "tch_1007", employeeCode: "FAC-1007", name: "Suresh Kumar", designation: "Computer Science Faculty", department: "Technology", email: "suresh.k@simplein.school", phone: "+91 98765 43225", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Computer Science & Python"], status: "Active" },
+    { id: "tch_1008", employeeCode: "FAC-1008", name: "S. Padmavathi", designation: "Telugu Senior Faculty", department: "Languages", email: "padmavathi.s@simplein.school", phone: "+91 98765 43226", assignedClasses: ["Class 10-A", "Class 6-B"], assignedSubjects: ["Telugu (First Language)"], status: "Active" },
+    { id: "tch_1009", employeeCode: "FAC-1009", name: "K. Meenakshi", designation: "Hindi Department Lead", department: "Languages", email: "meenakshi.k@simplein.school", phone: "+91 98765 43227", assignedClasses: ["Class 10-A", "Class 9-B"], assignedSubjects: ["Hindi (Second Language)"], status: "Active" },
+    { id: "tch_1010", employeeCode: "FAC-1010", name: "Venkatasubramanian S.", designation: "Social Science Faculty", department: "Humanities", email: "venkat.s@simplein.school", phone: "+91 98765 43228", assignedClasses: ["Class 10-A", "Class 9-A"], assignedSubjects: ["Social Science"], status: "Active" },
   ];
 
   private homeworks: HomeworkRecord[] = [

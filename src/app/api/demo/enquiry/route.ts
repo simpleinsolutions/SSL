@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       apiSuccess({
         enquiryId,
         message:
-          "Thank you for requesting a SimpleIn Schools demonstration. Our education technology consultants have received your enquiry and will contact you within 24 business hours.",
+          "Thank you for requesting a SIMPLEIN School demonstration. Our education technology consultants have received your enquiry and will contact you within 24 business hours.",
       }),
       { status: 201 }
     );

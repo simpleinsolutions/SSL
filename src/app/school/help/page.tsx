@@ -27,7 +27,7 @@ export default function SchoolHelpPage() {
             Administrator Knowledge Base & Support
           </h1>
           <p className="text-xs text-[#666666]">
-            Guidance for managing academic schedules, student lifecycle, and fee operations in SimpleIn Schools.
+            Guidance for managing academic schedules, student lifecycle, and fee operations in SIMPLEIN School.
           </p>
         </div>
 

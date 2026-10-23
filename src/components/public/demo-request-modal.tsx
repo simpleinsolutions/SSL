@@ -95,7 +95,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({
       description={
         successResult
           ? "Our education technology consultants have received your details."
-          : "Discover how SimpleIn Schools can be configured for your campus."
+          : "Discover how SIMPLEIN School can be configured for your campus."
       }
       maxWidth="md"
     >
@@ -129,7 +129,7 @@ export const DemoRequestModal: React.FC<DemoRequestModalProps> = ({
 
           <Input
             label="School / Institution Name *"
-            placeholder="e.g. Springfield Academy of Excellence"
+            placeholder="e.g. SIMPLEIN School"
             value={formData.schoolName}
             error={errors.schoolName}
             onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}

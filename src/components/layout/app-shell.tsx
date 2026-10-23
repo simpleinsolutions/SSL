@@ -114,7 +114,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
         <div className="flex flex-col items-center gap-3">
           <svg
-            className="animate-spin h-8 w-8 text-[#0D9488]"
+            className="animate-spin h-8 w-8 text-[#2563EB]"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -134,7 +134,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             ></path>
           </svg>
           <p className="text-xs font-semibold text-[#64748B]">
-            Verifying SimpleIn School credentials...
+            Verifying SIMPLEIN School credentials...
           </p>
         </div>
       </div>

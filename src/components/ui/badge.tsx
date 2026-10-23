@@ -30,7 +30,7 @@ export const Badge: React.FC<BadgeProps> = ({
   // Stitch Design System Semantic Variants
   const variantClasses = {
     default: "bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]",
-    primary: "bg-[#F0FDFA] text-[#0D9488] border border-[#CCFBF1] font-semibold",
+    primary: "bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE] font-semibold",
     success: "bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] font-semibold",
     warning: "bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A] font-semibold",
     danger: "bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA] font-semibold",

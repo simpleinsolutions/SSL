@@ -100,7 +100,7 @@ function ResetPasswordForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Minimum 8 characters"
-                className="w-full pl-9 pr-10 h-10 border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/15"
+                className="w-full pl-9 pr-10 h-10 border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
               />
               <button
                 type="button"
@@ -128,7 +128,7 @@ function ResetPasswordForm() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter new password"
-                className="w-full pl-9 pr-3.5 h-10 border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/15"
+                className="w-full pl-9 pr-3.5 h-10 border border-[#CBD5E1] rounded-xl text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
               />
             </div>
           </div>
@@ -137,7 +137,7 @@ function ResetPasswordForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-10 bg-[#0D9488] hover:bg-[#0F766E] active:bg-[#115E59] text-white text-xs font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60"
+              className="w-full h-10 bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white text-xs font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60"
             >
               {loading ? (
                 <>
@@ -157,12 +157,12 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#F8FAFC] text-[#0F172A] selection:bg-[#0D9488] selection:text-white">
+    <div className="min-h-screen flex flex-col justify-between bg-[#F8FAFC] text-[#0F172A] selection:bg-[#2563EB] selection:text-white">
       {/* Top Utility Bar */}
       <header className="w-full h-11 border-b border-[#E2E8F0] bg-white/80 backdrop-blur-xs px-4 sm:px-6 flex items-center justify-between shrink-0">
         <Link
           href="/login/teacher"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-[#0D9488] transition-colors group"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#64748B] hover:text-[#2563EB] transition-colors group"
         >
           <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
           <span>Back to Sign In</span>
@@ -178,7 +178,7 @@ export default function ResetPasswordPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-6 sm:py-8">
         <div className="w-full max-w-[400px] flex flex-col items-center">
           <div className="text-center mb-5">
-            <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#0D9488] text-white shadow-xs mb-2">
+            <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#2563EB] text-white shadow-xs mb-2">
               <Lock className="w-6 h-6" />
             </div>
             <h1 className="text-xl font-bold text-[#0F172A] tracking-tight">
@@ -198,7 +198,7 @@ export default function ResetPasswordPage() {
           <p className="mt-4 text-center text-xs text-[#94A3B8]">
             <Link
               href="/login/teacher"
-              className="text-[#64748B] hover:text-[#0D9488] transition-colors"
+              className="text-[#64748B] hover:text-[#2563EB] transition-colors"
             >
               Remember your password? Sign in
             </Link>
@@ -208,7 +208,7 @@ export default function ResetPasswordPage() {
 
       <footer className="w-full py-3 px-4 border-t border-[#E2E8F0] bg-white/50 text-center shrink-0">
         <p className="text-[11px] text-[#94A3B8]">
-          SimpleIn School • SIMPLEIN SOLUTIONS LLP • Academic Year 2026–27
+          SIMPLEIN School • SIMPLEIN SOLUTIONS LLP • Academic Year 2026–27
         </p>
       </footer>
     </div>

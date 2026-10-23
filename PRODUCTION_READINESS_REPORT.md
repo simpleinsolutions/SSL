@@ -157,8 +157,8 @@ All test suites were executed against the live Supabase PostgreSQL database:
   - Form controls & buttons: 40px standard height.
   - Multi-viewport verification: `360×800`, `390×844`, `768×1024`, `1024×768`, `1366×768`, `1536×864` (documented in `UI_LAYOUT_MEASUREMENT_REPORT.md`).
 
-### Indian Demonstration Dataset (Sunrise Public School, Hyderabad)
-- **Institutional Profile:** Sunrise Public School, Road No. 12, Banjara Hills, Hyderabad, Telangana (CBSE Affiliation #1930284, Academic Session 2026–27, Timezone: Asia/Kolkata).
+### Indian Demonstration Dataset (SIMPLEIN School, Hyderabad)
+- **Institutional Profile:** SIMPLEIN School, Road No. 12, Banjara Hills, Hyderabad, Telangana (CBSE Affiliation #1930284, Academic Session 2026–27, Timezone: Asia/Kolkata).
 - **Curriculum & Faculty:** CBSE classes Nursery to Grade 10, sections A, B, C. Authentic faculty roster headed by Dr. Radhika Sundaram (Principal), Marcus Holloway (Math & 10-A Mentor), Dr. K.V. Raman (Physics), Anita Deshmukh (English), Suresh Kumar (Computer Science), S. Padmavathi (Telugu), K. Meenakshi (Hindi).
 - **Fee Ledger & Currency:** Reconciled tuition, lab, activity, and transportation fee schedules in Indian Rupees (`₹`), with student balances, payments, and receipts reconciling accurately.
 - **Zero Student Fee Access:** Fully verified absence of fee widgets, navigation items, and API capabilities in the Student portal.

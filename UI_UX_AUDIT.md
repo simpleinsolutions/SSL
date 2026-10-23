@@ -44,7 +44,7 @@ SimpleIn Schools employs the **SIMPLEIN Monochrome Visual Identity**, designed f
 | :--- | :--- | :--- | :--- |
 | **Sidebar Navigation** | Persistent desktop sidebar with role-aware grouped navigation | `src/components/layout/sidebar.tsx` | **Excellent.** Clean monochrome indicator pills, collapsible section headers, account drawer. |
 | **Mobile Drawer Navigation** | Slide-out drawer on viewports < 768px | `src/components/ui/drawer.tsx` | **Pass.** Captures focus, closes on backdrop click and `Escape` key, eliminates mobile overflow. |
-| **Header Bar** | Breadcrumbs, campus identifier, universal search, quick notifications | `src/components/layout/header.tsx` | **Pass.** Displays school context (`Springfield Academy`), active role badge, user profile avatar. |
+| **Header Bar** | Breadcrumbs, campus identifier, universal search, quick notifications | `src/components/layout/header.tsx` | **Pass.** Displays school context (`SIMPLEIN School`), active role badge, user profile avatar. |
 | **Data Tables** | Column headers, real-time search, status pills, action drawers | Reusable `Table` components | **Good.** Instant client filtering; needs server-side pagination indicator for enterprise rosters. |
 | **Modals & Dialogs** | Backdrop blur, centered card, focus trap, non-destructive close | Reusable `Modal` / `Drawer` | **Pass.** Verified accessible keyboard behavior (`Escape` dismisses without submission). |
 | **Empty States** | Contextual explanations when lists or records have zero items | Built into directory views | **Pass.** Descriptive copy guiding next actions rather than blank screens. |

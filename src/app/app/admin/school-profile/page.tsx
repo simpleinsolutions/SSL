@@ -34,7 +34,7 @@ export default function SettingsPage() {
     principalName: profile.principalName,
     address: profile.address,
     academicYear: "2026–27",
-    settingsDescription: "Sunrise Public School configuration master parameters",
+    settingsDescription: "SIMPLEIN School configuration master parameters",
   });
 
   const handleSave = (e: React.FormEvent) => {
@@ -268,7 +268,7 @@ export default function SettingsPage() {
         <div className="p-4 rounded-xl border border-neutral-300 bg-neutral-100/70 flex items-start gap-3 text-xs text-neutral-800">
           <AlertTriangle className="h-4 w-4 text-neutral-700 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            Enterprise demonstration environment active for Sunrise Public School, Hyderabad (CBSE Affiliation #1930284). Institutional affiliation, address, and academic parameters are fully configured.
+            Enterprise demonstration environment active for SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284). Institutional affiliation, address, and academic parameters are fully configured.
           </p>
         </div>
       </div>

@@ -29,7 +29,7 @@ const INITIAL_LOGS: PlatformAuditEvent[] = [
     timestamp: "2026-10-22 14:45:10 UTC",
     actor: "ops@simplein.io",
     action: "TENANT_PROVISION_VERIFIED",
-    target: "Springfield Academy of Excellence (SPRF-ACAD-01)",
+    target: "SIMPLEIN School (SIMPLEIN-SCH-01)",
     ipAddress: "192.168.1.100",
     status: "SUCCESS",
     details: "PostgreSQL isolated schema verification check passed with zero cross-tenant references.",

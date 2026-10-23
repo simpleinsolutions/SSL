@@ -2,7 +2,7 @@
 
 **Document Status:** COMPLETE & VERIFIED  
 **Data Simulation Engineer:** Principal Systems & Data Architect  
-**Affiliated Institution:** Sunrise Public School, Hyderabad, Telangana  
+**Affiliated Institution:** SIMPLEIN School, Hyderabad, Telangana  
 **Affiliation Code:** CBSE Affiliation #1930284  
 **Academic Session:** 2026–27  
 **Currency Standard:** Indian Rupee (INR - ₹)  
@@ -14,17 +14,17 @@
 
 | Parameter | Specification | Demonstration Value |
 | :--- | :--- | :--- |
-| **School Name** | Official Institutional Title | **Sunrise Public School** |
+| **School Name** | Official Institutional Title | **SIMPLEIN School** |
 | **Address** | Campus Geographic Location | Road No. 12, Banjara Hills, Hyderabad, Telangana 500034 |
 | **Affiliated Board** | National Educational Council | **CBSE (Central Board of Secondary Education, New Delhi)** |
 | **Affiliation Number**| Board Registration ID | **CBSE-1930284** |
-| **School Code** | Institutional Portal Identifier| `SUNRISE-HYD-01` |
+| **School Code** | Institutional Portal Identifier| `SIMPLEIN-HYD-01` |
 | **Academic Session** | Current Active Calendar Year | **2026–2027** |
 | **Currency Symbol** | Financial Notation | **INR (₹)** |
 | **Date Display Format**| Cultural Date Standard | `DD MMM YYYY` (e.g., `19 Oct 2026`) |
 | **Timezone** | Official Operating Clock | `Asia/Kolkata` |
 | **Official Contact** | Institutional Helpdesk Phone | `+91 40 2335 1200` (Hyderabad Landline) |
-| **Official Email** | Institutional Domain | `contact@sunriseschool.edu.in` |
+| **Official Email** | Institutional Domain | `contact@simplein.school` |
 
 ---
 

@@ -21,16 +21,16 @@ export const PublicFooter: React.FC = () => {
                 />
               </div>
               <span className="text-white font-black tracking-tight text-sm">
-                SimpleIn School
+                SIMPLEIN School
               </span>
             </div>
             <p className="text-[#94A3B8] text-xs leading-relaxed max-w-sm">
-              SimpleIn School is the unified education operating system engineered by{" "}
+              SIMPLEIN School is the unified education operating system engineered by{" "}
               <strong className="text-white">SIMPLEIN SOLUTIONS LLP</strong>.
               Consolidating campus administration, student records, attendance, examinations, and guardian communication into one role-governed platform.
             </p>
             <div className="pt-2 flex items-center gap-2 text-[#94A3B8]">
-              <Shield className="h-4 w-4 text-[#0D9488]" />
+              <Shield className="h-4 w-4 text-[#2563EB]" />
               <span className="text-[11px]">
                 Role-governed data protection & strict two-administrator institutional scope.
               </span>
@@ -44,32 +44,32 @@ export const PublicFooter: React.FC = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/" className="hover:text-[#2563EB] transition-colors">
                   Product Home
                 </Link>
               </li>
               <li>
-                <Link href="/features" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/features" className="hover:text-[#2563EB] transition-colors">
                   Feature Catalogue
                 </Link>
               </li>
               <li>
-                <Link href="/solutions" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/solutions" className="hover:text-[#2563EB] transition-colors">
                   User Roles & Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/benefits" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/benefits" className="hover:text-[#2563EB] transition-colors">
                   School Benefits
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/pricing" className="hover:text-[#2563EB] transition-colors">
                   Editions & Plans
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/faq" className="hover:text-[#2563EB] transition-colors">
                   Frequently Asked Questions
                 </Link>
               </li>
@@ -83,27 +83,27 @@ export const PublicFooter: React.FC = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/login/teacher" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/login/teacher" className="hover:text-[#2563EB] transition-colors">
                   Teacher & Staff Sign In
                 </Link>
               </li>
               <li>
-                <Link href="/login/teacher" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/login/teacher" className="hover:text-[#2563EB] transition-colors">
                   School Administrator Portal
                 </Link>
               </li>
               <li>
-                <Link href="/login/student" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/login/student" className="hover:text-[#2563EB] transition-colors">
                   Student Academic Portal
                 </Link>
               </li>
               <li>
-                <Link href="/login/parent" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/login/parent" className="hover:text-[#2563EB] transition-colors">
                   Parent & Guardian Portal
                 </Link>
               </li>
               <li>
-                <Link href="/forgot-password" className="hover:text-[#0D9488] transition-colors">
+                <Link href="/forgot-password" className="hover:text-[#2563EB] transition-colors">
                   Password Recovery
                 </Link>
               </li>
@@ -117,7 +117,7 @@ export const PublicFooter: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-[11px]">
               <li className="flex items-start gap-2 text-[#94A3B8]">
-                <MapPin className="h-4 w-4 text-[#0D9488] shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-[#2563EB] shrink-0 mt-0.5" />
                 <span>
                   SIMPLEIN SOLUTIONS LLP
                   <br />
@@ -125,16 +125,16 @@ export const PublicFooter: React.FC = () => {
                 </span>
               </li>
               <li className="flex items-center gap-2 text-[#94A3B8]">
-                <Mail className="h-4 w-4 text-[#0D9488] shrink-0" />
+                <Mail className="h-4 w-4 text-[#2563EB] shrink-0" />
                 <span>contact@simpleinsolutions.com</span>
               </li>
               <li className="flex items-center gap-2 text-[#94A3B8]">
-                <ExternalLink className="h-4 w-4 text-[#0D9488] shrink-0" />
+                <ExternalLink className="h-4 w-4 text-[#2563EB] shrink-0" />
                 <a
                   href="https://www.simpleinsolutions.com/"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-[#0D9488] underline underline-offset-2"
+                  className="hover:text-[#2563EB] underline underline-offset-2"
                 >
                   www.simpleinsolutions.com
                 </a>

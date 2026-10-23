@@ -3,7 +3,7 @@
 **Document Status:** COMPLETE & VERIFIED  
 **Auditor / Architect:** Principal Frontend Engineer & Design Systems Architect  
 **Evaluation Standard:** Enterprise Monochrome Design System & Layout Alignment  
-**Target Environment:** SimpleIn Schools Cloud ERP — Fictional Demonstration Profile (Sunrise Public School, Hyderabad)
+**Target Environment:** SIMPLEIN School Cloud ERP — Demonstration Profile (SIMPLEIN School, Hyderabad)
 
 ---
 

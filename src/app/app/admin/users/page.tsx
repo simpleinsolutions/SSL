@@ -531,7 +531,7 @@ export default function AdminUsersPage() {
         <div className="p-4 rounded-xl border border-neutral-300 bg-neutral-100/70 flex items-start gap-3 text-xs text-neutral-800">
           <AlertTriangle className="h-4 w-4 text-neutral-700 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            Enterprise demonstration environment active for Sunrise Public School, Hyderabad (CBSE Affiliation #1930284). User credentials and role-based access policies are synchronized with institutional security rules.
+            Enterprise demonstration environment active for SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284). User credentials and role-based access policies are synchronized with institutional security rules.
           </p>
         </div>
 
@@ -555,7 +555,7 @@ export default function AdminUsersPage() {
             <Input
               label="Official Email Address *"
               type="email"
-              placeholder="e.g. rkumar@springfield.edu"
+              placeholder="e.g. rkumar@simplein.school"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required

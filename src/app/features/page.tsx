@@ -18,7 +18,7 @@ export default function FeaturesPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
             <Breadcrumbs items={[{ label: "Features Catalogue" }]} />
             <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900">
-              SimpleIn Schools Feature Catalogue
+              SIMPLEIN School Feature Catalogue
             </h1>
             <p className="text-sm text-neutral-600 max-w-2xl">
               Explore every operational module engineered for academic excellence, attendance integrity, and centralized institutional oversight.

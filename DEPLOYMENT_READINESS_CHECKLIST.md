@@ -14,7 +14,7 @@
 | **Frontend Codebase & Build** | Next.js 16 Turbopack (0 errors, 160 routes) | **PASS** | 160 static and dynamic routes compile cleanly with zero TypeScript or Lint errors. |
 | **Monochrome Design System** | Pure Black, White, Charcoal, Grey (#111111, #171717, #262626) | **PASS** | Complete visual system standardized. No chromatic accents or gradients remain. |
 | **Precision Layout Tokens** | 256px sidebar, 68px header, 4px grid scale across 6 viewports | **PASS** | Fully responsive from 360×800 to 1536×864 with verified touch targets. |
-| **Indian Demonstration Data** | Sunrise Public School, Hyderabad (CBSE Affiliation #1930284) | **PASS** | Coherent, reconciled CBSE dataset with INR (₹) fees and Indian faculty/students. |
+| **Indian Demonstration Data** | SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284) | **PASS** | Coherent, reconciled CBSE dataset with INR (₹) fees and Indian faculty/students. |
 | **Authentication & AuthZ** | HMAC-SHA256 signed session tokens, bcrypt password hashes | **PASS** | Server-side role protection, portal routing guards, and password recovery active. |
 | **Multi-Tenancy Isolation** | Hard database-per-school boundary required by SIMPLEIN LLP | **CONDITIONAL** | Database is currently single-tenant Supabase PostgreSQL. Separate database provisioning required before customer production deployment. |
 | **Automated Test Suite** | 47 / 47 tests passing across unit, journey, and DB integration suites | **PASS** | 100% test pass rate with Vitest. |

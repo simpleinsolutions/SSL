@@ -29,7 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses = {
       primary:
-        "bg-[#0D9488] text-white hover:bg-[#0F766E] active:bg-[#115E59] shadow-xs font-semibold transition-colors",
+        "bg-[#2563EB] text-white hover:bg-[#1D4ED8] active:bg-[#1E40AF] shadow-xs font-semibold transition-colors",
       secondary:
         "bg-[#F8FAFC] text-[#0F172A] hover:bg-[#F1F5F9] active:bg-[#E2E8F0] border border-[#E2E8F0] transition-colors",
       outline:
@@ -47,7 +47,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center font-sans select-none focus-visible:outline-2 focus-visible:outline-[#0D9488] focus-visible:outline-offset-2 disabled:opacity-50 disabled:pointer-events-none transition duration-150 cursor-pointer",
+          "inline-flex items-center justify-center font-sans select-none focus-visible:outline-2 focus-visible:outline-[#2563EB] focus-visible:outline-offset-2 disabled:opacity-50 disabled:pointer-events-none transition duration-150 cursor-pointer",
           sizeClasses[size],
           variantClasses[variant],
           className

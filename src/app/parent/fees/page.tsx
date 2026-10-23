@@ -136,7 +136,7 @@ export default function ParentFeesPage() {
 
     const receiptContent = `
 ============================================================
-              SPRINGFIELD ACADEMY OF EXCELLENCE
+              SIMPLEIN SCHOOL
             Affiliation: CBSE/AFF/2026/84210
              OFFICIAL FEE PAYMENT RECEIPT
 ============================================================
@@ -161,8 +161,8 @@ Payment Status : COMPLETED & RECONCILED
 
 ============================================================
 Authorized Signature: _________________________
-Accounts & Bursar Office, Springfield Academy
-Generated electronically via SimpleIn Schools ERP
+Accounts & Bursar Office, SIMPLEIN School
+Generated electronically via SIMPLEIN School ERP
 ============================================================
     `.trim();
 
@@ -212,8 +212,8 @@ Generated electronically via SimpleIn Schools ERP
                   onClick={() => setSelectedWardId(ward.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     selectedWardId === ward.id
-                      ? "bg-[#0D9488] text-white shadow-xs"
-                      : "bg-transparent text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F766E]"
+                      ? "bg-[#2563EB] text-white shadow-xs"
+                      : "bg-transparent text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#1D4ED8]"
                   }`}
                 >
                   {ward.name} ({ward.grade.split("-")[0].trim()})
@@ -226,7 +226,7 @@ Generated electronically via SimpleIn Schools ERP
         {/* Selected Child Identity Banner */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] flex items-center justify-center font-bold text-sm">
+            <div className="w-10 h-10 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] flex items-center justify-center font-bold text-sm">
               {currentWard.name.slice(0, 2).toUpperCase()}
             </div>
             <div>
@@ -251,10 +251,10 @@ Generated electronically via SimpleIn Schools ERP
         {/* Financial KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white p-5 rounded-xl border border-[#E2E8F0] shadow-xs relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-[#0D9488]" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-[#2563EB]" />
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-[#64748B]">Total Year Dues</span>
-              <div className="p-2 bg-[#F0FDFA] rounded-lg text-[#0D9488]">
+              <div className="p-2 bg-[#EFF6FF] rounded-lg text-[#2563EB]">
                 <CreditCard className="w-4 h-4" />
               </div>
             </div>
@@ -300,12 +300,12 @@ Generated electronically via SimpleIn Schools ERP
         </div>
 
         {/* Offline Payment Notice */}
-        <div className="p-4 bg-gradient-to-r from-[#F0FDFA] to-white border border-[#CCFBF1] rounded-xl text-xs text-[#0F172A] flex items-start gap-3 shadow-xs">
-          <Info className="w-5 h-5 text-[#0D9488] shrink-0 mt-0.5" />
+        <div className="p-4 bg-gradient-to-r from-[#EFF6FF] to-white border border-[#BFDBFE] rounded-xl text-xs text-[#0F172A] flex items-start gap-3 shadow-xs">
+          <Info className="w-5 h-5 text-[#2563EB] shrink-0 mt-0.5" />
           <div className="space-y-1">
             <span className="font-semibold text-[#0F172A]">Institutional Fee Payment Notice</span>
             <p className="text-[12px] text-[#64748B] leading-relaxed">
-              Sunrise Public School, Hyderabad accepts fee remittances through Bank Transfer (NEFT/RTGS), Demand Draft, Account Payee Cheque, or counter collection at the School Bursar’s office. After completing your transfer, please ensure the UTR or Cheque Number is provided to accounts for digital reconciliation.
+              SIMPLEIN School, Hyderabad accepts fee remittances through Bank Transfer (NEFT/RTGS), Demand Draft, Account Payee Cheque, or counter collection at the School Bursar’s office. After completing your transfer, please ensure the UTR or Cheque Number is provided to accounts for digital reconciliation.
             </p>
           </div>
         </div>
@@ -426,7 +426,7 @@ Generated electronically via SimpleIn Schools ERP
                         <button
                           type="button"
                           onClick={() => handleDownloadReceipt(fee)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-[#F0FDFA] hover:text-[#0D9488] hover:border-[#CCFBF1] text-[#0F172A] text-xs font-semibold shadow-xs transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-[#EFF6FF] hover:text-[#2563EB] hover:border-[#BFDBFE] text-[#0F172A] text-xs font-semibold shadow-xs transition-colors"
                         >
                           <Download className="w-3.5 h-3.5" />
                           <span>Receipt</span>
@@ -443,7 +443,7 @@ Generated electronically via SimpleIn Schools ERP
 
           <div className="p-4 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between text-xs text-[#64748B]">
             <span>Showing {filteredFees.length} fee records for {currentWard.name}</span>
-            <span>Fee queries? Contact bursar@sunrisepublic.edu.in</span>
+            <span>Fee queries? Contact bursar@simplein.school</span>
           </div>
         </div>
       </div>

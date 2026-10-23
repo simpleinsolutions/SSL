@@ -10,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SimpleIn Schools — One School. One Connected System.",
+  title: "SIMPLEIN School — One School. One Connected System.",
   description:
-    "SimpleIn Schools brings school administration, student records, attendance, academics and communication together in one organised platform by SIMPLEIN SOLUTIONS LLP.",
+    "SIMPLEIN School brings school administration, student records, attendance, academics and communication together in one organised platform by SIMPLEIN SOLUTIONS LLP.",
   keywords: [
     "School Management System",
     "School ERP",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Attendance Management",
     "Timetable Software",
     "Report Card Generator",
-    "SimpleIn Solutions",
+    "SIMPLEIN Solutions",
   ],
   authors: [{ name: "SIMPLEIN SOLUTIONS LLP", url: "https://www.simpleinsolutions.com/" }],
   icons: {

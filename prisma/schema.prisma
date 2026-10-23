@@ -1,4 +1,4 @@
-// SimpleIn Schools — Prisma Schema
+// SIMPLEIN School — Prisma Schema
 // Provider: PostgreSQL (Supabase)
 
 generator client {

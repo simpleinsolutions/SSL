@@ -506,26 +506,26 @@ export const Sidebar: React.FC<{
       {/* 1. Brand Logo Header (SIMPLEIN SCHOOL | PORTAL BADGE) */}
       <div className="h-16 px-4 border-b border-[#1E293B] flex items-center justify-between bg-[#0F172A]">
         <Link href="/" className="flex items-center gap-2.5 group min-w-0">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0D9488] text-white shrink-0 font-bold shadow-xs">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2563EB] text-white shrink-0 font-bold shadow-xs">
             <Building2 className="h-5 w-5" />
           </div>
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-black tracking-wide text-white truncate">
-                SimpleIn School
+                SIMPLEIN School
               </span>
             </div>
             <span className="text-[10px] font-medium text-[#94A3B8] tracking-tight truncate">
-              ERP by SimpleIn Solutions
+              ERP by SIMPLEIN Solutions
             </span>
           </div>
         </Link>
-        <span className="text-[9px] font-bold text-[#2DD4BF] bg-[#0F766E]/20 border border-[#0D9488]/30 px-1.5 py-0.5 rounded shrink-0">
+        <span className="text-[9px] font-bold text-[#60A5FA] bg-[#1D4ED8]/20 border border-[#2563EB]/30 px-1.5 py-0.5 rounded shrink-0">
           {getPortalSubtitle()}
         </span>
       </div>
 
-      {/* 2. Workspace Selector Card (Sunrise Public School / CBSE #1930284) */}
+      {/* 2. Workspace Selector Card (SIMPLEIN School / CBSE #1930284) */}
       <div className="p-3 border-b border-[#1E293B] bg-[#0F172A] relative" ref={workspaceRef}>
         <button
           type="button"
@@ -535,13 +535,13 @@ export const Sidebar: React.FC<{
           aria-label="Workspace campus options"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="h-7 w-7 rounded-lg bg-[#0F172A] border border-[#334155] flex items-center justify-center font-bold text-xs text-[#2DD4BF] shrink-0">
+            <div className="h-7 w-7 rounded-lg bg-[#0F172A] border border-[#334155] flex items-center justify-center font-bold text-xs text-[#60A5FA] shrink-0">
               S
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs font-bold text-white truncate leading-tight flex items-center gap-1">
-                Sunrise Public School
-                <ShieldCheck className="h-3 w-3 text-[#2DD4BF] shrink-0" />
+                SIMPLEIN School
+                <ShieldCheck className="h-3 w-3 text-[#60A5FA] shrink-0" />
               </span>
               <span className="text-[10px] text-[#94A3B8] font-medium leading-tight flex items-center gap-1 mt-0.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
@@ -558,19 +558,19 @@ export const Sidebar: React.FC<{
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">
                 Active Campus
               </span>
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#2DD4BF] bg-[#0F766E]/20 px-1.5 py-0.5 rounded border border-[#0D9488]/30">
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#60A5FA] bg-[#1D4ED8]/20 px-1.5 py-0.5 rounded border border-[#2563EB]/30">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
                 Verified
               </span>
             </div>
             <div>
-              <p className="text-xs font-bold text-white">Sunrise Public School, Hyderabad</p>
+              <p className="text-xs font-bold text-white">SIMPLEIN School, Hyderabad</p>
               <p className="text-[11px] text-[#94A3B8]">CBSE Affiliation #1930284</p>
               <p className="text-[10px] text-[#64748B] mt-1">Academic Year 2026–27 • Term 1 In Session</p>
             </div>
             <div className="pt-2 border-t border-[#1E293B] flex items-center justify-between text-[11px]">
               <span className="text-[#94A3B8]">Database Cluster</span>
-              <span className="font-mono text-[10px] text-[#2DD4BF] bg-[#1E293B] border border-[#334155] px-1.5 py-0.5 rounded">
+              <span className="font-mono text-[10px] text-[#60A5FA] bg-[#1E293B] border border-[#334155] px-1.5 py-0.5 rounded">
                 Supabase PG
               </span>
             </div>
@@ -594,7 +594,7 @@ export const Sidebar: React.FC<{
                     href={item.href}
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-colors ${
                       isActive
-                        ? "bg-[#0D9488] text-white font-bold shadow-xs"
+                        ? "bg-[#2563EB] text-white font-bold shadow-xs"
                         : "text-[#94A3B8] font-medium hover:text-white hover:bg-[#1E293B]"
                     }`}
                   >
@@ -612,7 +612,7 @@ export const Sidebar: React.FC<{
                         <span
                           className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
                             isActive
-                              ? "bg-white text-[#0D9488]"
+                              ? "bg-white text-[#2563EB]"
                               : "bg-[#1E293B] text-[#CBD5E1] border border-[#334155]"
                           }`}
                         >
@@ -635,7 +635,7 @@ export const Sidebar: React.FC<{
           className="flex items-center justify-between p-3 rounded-xl border border-[#1E293B] bg-[#1E293B]/40 hover:bg-[#1E293B] transition-colors group cursor-pointer text-white shadow-xs"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="h-7 w-7 rounded-lg bg-[#0F172A] border border-[#334155] flex items-center justify-center text-[#2DD4BF] shrink-0">
+            <div className="h-7 w-7 rounded-lg bg-[#0F172A] border border-[#334155] flex items-center justify-center text-[#60A5FA] shrink-0">
               <HelpCircle className="h-4 w-4" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -647,7 +647,7 @@ export const Sidebar: React.FC<{
               </span>
             </div>
           </div>
-          <ChevronRight className="h-3.5 w-3.5 text-[#64748B] group-hover:translate-x-0.5 group-hover:text-[#2DD4BF] transition-all" />
+          <ChevronRight className="h-3.5 w-3.5 text-[#64748B] group-hover:translate-x-0.5 group-hover:text-[#60A5FA] transition-all" />
         </Link>
       </div>
 
@@ -658,7 +658,7 @@ export const Sidebar: React.FC<{
           className="flex items-center justify-between p-2 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] transition-colors border border-transparent hover:border-[#334155] cursor-pointer"
         >
           <div className="flex items-center gap-2.5 min-w-0 pr-1">
-            <div className="h-8 w-8 rounded-full bg-[#0D9488] text-white border border-[#14B8A6] flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="h-8 w-8 rounded-full bg-[#2563EB] text-white border border-[#3B82F6] flex items-center justify-center text-xs font-bold shrink-0">
               {initials}
             </div>
             <div className="truncate">

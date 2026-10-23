@@ -75,7 +75,7 @@ export default function ParentDashboardPage() {
                   onClick={() => setSelectedChildId(child.id)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     selectedChild.id === child.id
-                      ? "bg-[#0D9488] text-white shadow-xs font-bold"
+                      ? "bg-[#2563EB] text-white shadow-xs font-bold"
                       : "bg-[#F8FAFC] text-[#0F172A] hover:bg-[#F1F5F9] border border-[#E2E8F0]"
                   }`}
                 >
@@ -88,10 +88,10 @@ export default function ParentDashboardPage() {
 
         {/* Selected Child Detail Card */}
         {selectedChild && (
-          <div className="rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#0D9488] bg-white p-6 shadow-xs">
+          <div className="rounded-xl border border-[#E2E8F0] border-l-[3px] border-l-[#2563EB] bg-white p-6 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F1F5F9] pb-5 mb-5">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-[#0D9488] text-white flex items-center justify-center font-bold text-base shadow-xs">
+                <div className="h-12 w-12 rounded-xl bg-[#2563EB] text-white flex items-center justify-center font-bold text-base shadow-xs">
                   {selectedChild.name.split(" ").map((n) => n[0]).join("")}
                 </div>
                 <div>
@@ -131,7 +131,7 @@ export default function ParentDashboardPage() {
                 <ProgressBar value={selectedChild.attendanceRate} variant="emerald" className="mt-2" />
                 <Link
                   href="/app/parent/attendance"
-                  className="text-[11px] text-[#0D9488] font-semibold hover:underline mt-2 block"
+                  className="text-[11px] text-[#2563EB] font-semibold hover:underline mt-2 block"
                 >
                   View Attendance History →
                 </Link>
@@ -146,7 +146,7 @@ export default function ParentDashboardPage() {
                 </p>
                 <Link
                   href="/app/parent/homework"
-                  className="text-[11px] text-[#0D9488] font-semibold hover:underline mt-1 block"
+                  className="text-[11px] text-[#2563EB] font-semibold hover:underline mt-1 block"
                 >
                   Review Homework Instructions →
                 </Link>
@@ -161,7 +161,7 @@ export default function ParentDashboardPage() {
                 </p>
                 <Link
                   href="/app/parent/examinations"
-                  className="text-[11px] text-[#0D9488] font-semibold hover:underline mt-1 block"
+                  className="text-[11px] text-[#2563EB] font-semibold hover:underline mt-1 block"
                 >
                   View Exam Datesheet ({exams.startDate}) →
                 </Link>
@@ -176,14 +176,14 @@ export default function ParentDashboardPage() {
             <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
               <div className="p-4 border-b border-[#F1F5F9] flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-[#0D9488]" />
+                  <Clock className="h-4 w-4 text-[#2563EB]" />
                   <h3 className="text-sm font-semibold text-[#0F172A]">
                     {selectedChild.name}&apos;s Daily Timetable (Monday)
                   </h3>
                 </div>
                 <Link
                   href="/app/parent/timetable"
-                  className="text-xs text-[#0D9488] hover:text-[#0F766E] hover:underline font-semibold"
+                  className="text-xs text-[#2563EB] hover:text-[#1D4ED8] hover:underline font-semibold"
                 >
                   Weekly Schedule →
                 </Link>
@@ -192,10 +192,10 @@ export default function ParentDashboardPage() {
                 {timetable.map((period) => (
                   <div
                     key={period.periodNumber}
-                    className="flex items-center justify-between p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#F0FDFA] transition-colors"
+                    className="flex items-center justify-between p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#EFF6FF] transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-lg bg-[#0D9488] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                      <div className="h-9 w-9 rounded-lg bg-[#2563EB] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                         P{period.periodNumber}
                       </div>
                       <div>
@@ -220,14 +220,14 @@ export default function ParentDashboardPage() {
             <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
               <div className="p-4 border-b border-[#F1F5F9] flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Bell className="h-4 w-4 text-[#0D9488]" />
+                  <Bell className="h-4 w-4 text-[#2563EB]" />
                   <h3 className="text-sm font-semibold text-[#0F172A]">
                     Important Circulars
                   </h3>
                 </div>
                 <Link
                   href="/app/parent/notices"
-                  className="text-xs text-[#0D9488] hover:text-[#0F766E] hover:underline font-semibold"
+                  className="text-xs text-[#2563EB] hover:text-[#1D4ED8] hover:underline font-semibold"
                 >
                   View All →
                 </Link>
@@ -250,9 +250,9 @@ export default function ParentDashboardPage() {
 
         {/* System Alignment Banner */}
         <div className="p-4 rounded-xl border border-[#E2E8F0] bg-white flex items-start gap-3 text-xs text-[#0F172A] shadow-2xs">
-          <AlertTriangle className="h-4 w-4 text-[#0D9488] shrink-0 mt-0.5" />
+          <AlertTriangle className="h-4 w-4 text-[#2563EB] shrink-0 mt-0.5" />
           <p className="leading-relaxed text-[#64748B]">
-            Enterprise demonstration environment active for Sunrise Public School, Hyderabad (CBSE Affiliation #1930284). Live academic records, report cards, and fee schedules are synchronized with the institutional database.
+            Enterprise demonstration environment active for SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284). Live academic records, report cards, and fee schedules are synchronized with the institutional database.
           </p>
         </div>
       </div>

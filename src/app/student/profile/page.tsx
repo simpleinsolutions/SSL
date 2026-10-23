@@ -21,7 +21,7 @@ export default function StudentProfilePage() {
             Official Student Record
           </h1>
           <p className="text-xs text-[#666666]">
-            Enrolment details registered with Sunrise Public School, Hyderabad (CBSE Affiliation #1930284).
+            Enrolment details registered with SIMPLEIN School, Hyderabad (CBSE Affiliation #1930284).
           </p>
         </div>
 

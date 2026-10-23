@@ -114,7 +114,7 @@ export default function PlatformEnvironmentsPage() {
             <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#FAFAFA] transition-colors">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-sm text-[#111111]">Springfield Academy of Excellence</span>
+                  <span className="font-semibold text-sm text-[#111111]">SIMPLEIN School</span>
                   <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#ECFDF5] text-[#059669] border border-[#A7F3D0]">
                     ACTIVE_PRIMARY
                   </span>

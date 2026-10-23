@@ -18,12 +18,12 @@ export default function TermsPage() {
           </div>
 
           <h1 className="text-3xl font-black text-slate-900">
-            SimpleIn Schools Terms of Use (Draft)
+            SIMPLEIN School Terms of Use (Draft)
           </h1>
 
           <div className="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-4">
             <p>
-              These draft Terms of Use govern access to and use of SimpleIn Schools, an enterprise education platform operated by <strong>SIMPLEIN SOLUTIONS LLP</strong>.
+              These draft Terms of Use govern access to and use of SIMPLEIN School, an enterprise education platform operated by <strong>SIMPLEIN SOLUTIONS LLP</strong>.
             </p>
 
             <h2 className="text-base font-bold text-slate-900 pt-2">

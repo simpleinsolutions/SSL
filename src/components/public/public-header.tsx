@@ -43,8 +43,8 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
             />
           </div>
           <div className="hidden sm:flex flex-col border-l border-[#E2E8F0] pl-3">
-            <span className="text-sm font-black tracking-tight text-[#0F172A] leading-none group-hover:text-[#0D9488] transition-colors">
-              SimpleIn School
+            <span className="text-sm font-black tracking-tight text-[#0F172A] leading-none group-hover:text-[#2563EB] transition-colors">
+              SIMPLEIN School
             </span>
             <span className="text-[10px] text-[#64748B] font-semibold tracking-wider uppercase mt-0.5">
               Unified School ERP
@@ -54,25 +54,25 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#475569]">
-          <Link href="/" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/" className="hover:text-[#2563EB] transition-colors">
             Home
           </Link>
-          <Link href="/features" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/features" className="hover:text-[#2563EB] transition-colors">
             Features
           </Link>
-          <Link href="/solutions" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/solutions" className="hover:text-[#2563EB] transition-colors">
             Solutions
           </Link>
-          <Link href="/benefits" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/benefits" className="hover:text-[#2563EB] transition-colors">
             Benefits
           </Link>
-          <Link href="/pricing" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/pricing" className="hover:text-[#2563EB] transition-colors">
             Plans
           </Link>
-          <Link href="/faq" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/faq" className="hover:text-[#2563EB] transition-colors">
             FAQ
           </Link>
-          <Link href="/contact" className="hover:text-[#0D9488] transition-colors">
+          <Link href="/contact" className="hover:text-[#2563EB] transition-colors">
             Contact
           </Link>
         </nav>
@@ -83,7 +83,7 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
             <button
               type="button"
               onClick={onOpenDemoModal}
-              className="px-4 py-2 text-xs font-semibold rounded-xl text-[#0F172A] hover:text-[#0D9488] hover:bg-[#F8FAFC] border border-[#E2E8F0] transition-colors cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold rounded-xl text-[#0F172A] hover:text-[#2563EB] hover:bg-[#F8FAFC] border border-[#E2E8F0] transition-colors cursor-pointer"
             >
               Request a Demo
             </button>
@@ -94,7 +94,7 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
             <button
               type="button"
               onClick={() => setLoginDropdownOpen((prev) => !prev)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-[#0D9488] text-white hover:bg-[#0F766E] active:bg-[#115E59] shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-[#2563EB] text-white hover:bg-[#1D4ED8] active:bg-[#1E40AF] shadow-xs transition-all cursor-pointer"
               aria-expanded={loginDropdownOpen}
             >
               <span>Sign In</span>
@@ -111,13 +111,13 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
                   <Link
                     href="/login/teacher"
                     onClick={() => setLoginDropdownOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#F0FDFA] hover:text-[#0D9488] rounded-xl transition-colors cursor-pointer group"
+                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#EFF6FF] hover:text-[#2563EB] rounded-xl transition-colors cursor-pointer group"
                   >
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDFA] text-[#0D9488] group-hover:bg-[#0D9488] group-hover:text-white transition-colors">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white transition-colors">
                       <ShieldCheck className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#0F172A] group-hover:text-[#0D9488] transition-colors">
+                      <p className="font-semibold text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
                         Teacher & Admin
                       </p>
                       <p className="text-[10px] text-[#64748B]">Faculty, Staff & Leadership</p>
@@ -127,13 +127,13 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
                   <Link
                     href="/login/student"
                     onClick={() => setLoginDropdownOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#F0FDFA] hover:text-[#0D9488] rounded-xl transition-colors cursor-pointer group"
+                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#EFF6FF] hover:text-[#2563EB] rounded-xl transition-colors cursor-pointer group"
                   >
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDFA] text-[#0D9488] group-hover:bg-[#0D9488] group-hover:text-white transition-colors">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white transition-colors">
                       <GraduationCap className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#0F172A] group-hover:text-[#0D9488] transition-colors">
+                      <p className="font-semibold text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
                         Student Portal
                       </p>
                       <p className="text-[10px] text-[#64748B]">Timetable, Marks & Homework</p>
@@ -143,13 +143,13 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
                   <Link
                     href="/login/parent"
                     onClick={() => setLoginDropdownOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#F0FDFA] hover:text-[#0D9488] rounded-xl transition-colors cursor-pointer group"
+                    className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-[#475569] hover:bg-[#EFF6FF] hover:text-[#2563EB] rounded-xl transition-colors cursor-pointer group"
                   >
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDFA] text-[#0D9488] group-hover:bg-[#0D9488] group-hover:text-white transition-colors">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white transition-colors">
                       <Users className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#0F172A] group-hover:text-[#0D9488] transition-colors">
+                      <p className="font-semibold text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
                         Parent Portal
                       </p>
                       <p className="text-[10px] text-[#64748B]">Attendance, Circulars & Fees</p>
@@ -180,49 +180,49 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Home
             </Link>
             <Link
               href="/features"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Features
             </Link>
             <Link
               href="/solutions"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Solutions
             </Link>
             <Link
               href="/benefits"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Benefits
             </Link>
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Plans
             </Link>
             <Link
               href="/faq"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               FAQ
             </Link>
             <Link
               href="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#0D9488]"
+              className="py-1 hover:text-[#2563EB]"
             >
               Contact
             </Link>
@@ -235,31 +235,31 @@ export const PublicHeader: React.FC<{ onOpenDemoModal?: () => void }> = ({
             <Link
               href="/login/teacher"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#0D9488] transition-colors"
+              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#2563EB] transition-colors"
             >
               <span>Teacher & Administrator Sign In</span>
-              <ShieldCheck className="h-4 w-4 text-[#0D9488]" />
+              <ShieldCheck className="h-4 w-4 text-[#2563EB]" />
             </Link>
             <Link
               href="/login/student"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#0D9488] transition-colors"
+              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#2563EB] transition-colors"
             >
               <span>Student Sign In</span>
-              <GraduationCap className="h-4 w-4 text-[#0D9488]" />
+              <GraduationCap className="h-4 w-4 text-[#2563EB]" />
             </Link>
             <Link
               href="/login/parent"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#0D9488] transition-colors"
+              className="flex items-center justify-between p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-xs font-semibold text-[#0F172A] hover:border-[#2563EB] transition-colors"
             >
               <span>Parent Sign In</span>
-              <Users className="h-4 w-4 text-[#0D9488]" />
+              <Users className="h-4 w-4 text-[#2563EB]" />
             </Link>
             {onOpenDemoModal && (
               <button
                 type="button"
-                className="w-full mt-2 py-2.5 px-4 rounded-xl border border-[#0D9488] text-[#0D9488] font-semibold text-xs hover:bg-[#F0FDFA] transition-colors cursor-pointer"
+                className="w-full mt-2 py-2.5 px-4 rounded-xl border border-[#2563EB] text-[#2563EB] font-semibold text-xs hover:bg-[#EFF6FF] transition-colors cursor-pointer"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenDemoModal();

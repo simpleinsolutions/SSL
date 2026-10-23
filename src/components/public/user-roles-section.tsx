@@ -9,7 +9,7 @@ export const USER_ROLES = [
     id: "admin",
     name: "School Administrators",
     roleTag: "Principal, Vice-Principal & Trustees",
-    icon: <ShieldCheck className="h-6 w-6 text-[#0D9488]" />,
+    icon: <ShieldCheck className="h-6 w-6 text-[#2563EB]" />,
     portalRoute: "/login/teacher",
     headline: "Centralized Governance & Institutional Oversight",
     description:
@@ -26,7 +26,7 @@ export const USER_ROLES = [
     id: "teacher",
     name: "Teachers & Staff",
     roleTag: "Class Teachers & Subject Specialists",
-    icon: <UserCheck className="h-6 w-6 text-[#0D9488]" />,
+    icon: <UserCheck className="h-6 w-6 text-[#2563EB]" />,
     portalRoute: "/login/teacher",
     headline: "Frictionless Daily Academic Workflows",
     description:
@@ -43,7 +43,7 @@ export const USER_ROLES = [
     id: "student",
     name: "Students",
     roleTag: "Primary & Secondary Learners",
-    icon: <GraduationCap className="h-6 w-6 text-[#0D9488]" />,
+    icon: <GraduationCap className="h-6 w-6 text-[#2563EB]" />,
     portalRoute: "/login/student",
     headline: "Clear Academic Visibility & Responsibility",
     description:
@@ -60,7 +60,7 @@ export const USER_ROLES = [
     id: "parent",
     name: "Parents & Guardians",
     roleTag: "Families & Parent Community",
-    icon: <Users className="h-6 w-6 text-[#0D9488]" />,
+    icon: <Users className="h-6 w-6 text-[#2563EB]" />,
     portalRoute: "/login/parent",
     headline: "Transparent Ward Progress & School Connection",
     description:
@@ -83,14 +83,14 @@ export const UserRolesSection: React.FC = () => {
     <section className="py-20 bg-white border-t border-[#E2E8F0]" id="solutions">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488] text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-semibold">
             Multi-Tenant Role Architecture
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             Designed for Every School Stakeholder
           </h2>
           <p className="text-base text-[#64748B]">
-            Education requires seamless collaboration. SimpleIn School provides purpose-built, secure portal views tailored specifically to each institutional role.
+            Education requires seamless collaboration. SIMPLEIN School provides purpose-built, secure portal views tailored specifically to each institutional role.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ export const UserRolesSection: React.FC = () => {
               onClick={() => setSelectedRole(role.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 selectedRole === role.id
-                  ? "bg-[#0D9488] text-white shadow-xs"
+                  ? "bg-[#2563EB] text-white shadow-xs"
                   : "bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] border border-[#E2E8F0]"
               }`}
             >
@@ -116,7 +116,7 @@ export const UserRolesSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-6">
               <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0D9488]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#2563EB]">
                   {activeRole.roleTag}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-black text-[#0F172A] leading-tight">
@@ -135,7 +135,7 @@ export const UserRolesSection: React.FC = () => {
                 <ul className="space-y-2.5">
                   {activeRole.capabilities.map((cap, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-xs text-[#475569]">
-                      <CheckCircle2 className="h-4 w-4 text-[#0D9488] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="h-4 w-4 text-[#2563EB] shrink-0 mt-0.5" />
                       <span>{cap}</span>
                     </li>
                   ))}
@@ -145,7 +145,7 @@ export const UserRolesSection: React.FC = () => {
               <div className="pt-2">
                 <Link
                   href={activeRole.portalRoute}
-                  className="inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold rounded-xl gap-2 bg-[#0D9488] text-white hover:bg-[#0F766E] shadow-xs hover:shadow transition-all group cursor-pointer"
+                  className="inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold rounded-xl gap-2 bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-xs hover:shadow transition-all group cursor-pointer"
                 >
                   <span>Open {activeRole.name} Sign In</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -157,12 +157,12 @@ export const UserRolesSection: React.FC = () => {
             <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-2xs space-y-4">
               <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2.5 rounded-xl bg-[#F0FDFA] border border-[#CCFBF1] text-[#0D9488]">
+                  <div className="p-2.5 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB]">
                     {activeRole.icon}
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-[#0F172A]">{activeRole.name} Experience</h4>
-                    <p className="text-[10px] text-[#64748B]">SimpleIn School Verified Role Flow</p>
+                    <p className="text-[10px] text-[#64748B]">SIMPLEIN School Verified Role Flow</p>
                   </div>
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-[10px] font-bold uppercase">
@@ -173,7 +173,7 @@ export const UserRolesSection: React.FC = () => {
               <div className="p-4 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] space-y-2 text-xs">
                 <div className="flex justify-between items-center text-[#64748B] font-medium">
                   <span>Authorized Entry Route:</span>
-                  <code className="text-[11px] font-mono text-[#0D9488] font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">
+                  <code className="text-[11px] font-mono text-[#2563EB] font-bold bg-white px-2 py-0.5 rounded border border-[#E2E8F0]">
                     {activeRole.portalRoute}
                   </code>
                 </div>
@@ -188,7 +188,7 @@ export const UserRolesSection: React.FC = () => {
               </div>
 
               <p className="text-[11px] text-[#64748B] leading-relaxed italic">
-                &ldquo;SimpleIn School isolates permissions at the database and edge route levels so teachers focus on classroom mastery while parents enjoy uninterrupted updates on their child.&rdquo;
+                &ldquo;SIMPLEIN School isolates permissions at the database and edge route levels so teachers focus on classroom mastery while parents enjoy uninterrupted updates on their child.&rdquo;
               </p>
             </div>
           </div>

@@ -18,19 +18,19 @@ export default function PrivacyPage() {
           </div>
 
           <h1 className="text-3xl font-black text-slate-900">
-            SimpleIn Schools Privacy Policy (Draft)
+            SIMPLEIN School Privacy Policy (Draft)
           </h1>
 
           <div className="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-4">
             <p>
-              This draft policy explains how <strong>SIMPLEIN SOLUTIONS LLP</strong> collects, protects, and governs student, guardian, and staff information processed through the SimpleIn Schools SaaS platform.
+              This draft policy explains how <strong>SIMPLEIN SOLUTIONS LLP</strong> collects, protects, and governs student, guardian, and staff information processed through the SIMPLEIN School SaaS platform.
             </p>
 
             <h2 className="text-base font-bold text-slate-900 pt-2">
               1. Institutional Scope & Data Ownership
             </h2>
             <p>
-              The subscribing educational institution acts as the primary Data Controller. Student records, attendance histories, examination scores, and guardian contacts remain the exclusive property of the school institution. SimpleIn Schools acts strictly as a secure Data Processor.
+              The subscribing educational institution acts as the primary Data Controller. Student records, attendance histories, examination scores, and guardian contacts remain the exclusive property of the school institution. SIMPLEIN School acts strictly as a secure Data Processor.
             </p>
 
             <h2 className="text-base font-bold text-slate-900 pt-2">
