@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
-import Link from "next/link";
+import React, { useState, useEffect, useMemo } from "react";
+import { isLocalDevHost } from "@/lib/auth/portal";
 import { loginAction } from "@/app/auth-actions";
 import {
   School,
@@ -9,162 +9,158 @@ import {
   GraduationCap,
   Users,
   User,
-  Lock,
   Mail,
   ArrowRight,
   Eye,
   EyeOff,
-  Check,
   AlertCircle,
-  Sparkles,
   ChevronLeft,
+  ExternalLink,
+  Laptop,
+  HeartHandshake,
+  Sparkles,
 } from "lucide-react";
+import Link from "next/link";
+import type { PortalType } from "@/lib/auth/portal";
 
 type RoleKey = "admin" | "teacher" | "parent" | "student";
 
 interface RoleConfig {
   key: RoleKey;
-  role: "ADMIN" | "TEACHER" | "PARENT" | "STUDENT";
   label: string;
   badge: string;
-  email: string;
   name: string;
   title: string;
-  placeholder: string;
-  inputMode: "email" | "text" | "tel";
+  portal: "staff" | "family";
 }
 
 const roleConfigs: Record<RoleKey, RoleConfig> = {
   admin: {
     key: "admin",
-    role: "ADMIN",
     label: "Administrator",
     badge: "Principal's Office",
-    email: "admin@greenfield-demo.edu",
-    name: "Dr. Robert Vance",
-    title: "Head of School & Principal",
-    placeholder: "admin@greenfield-demo.edu",
-    inputMode: "email",
+    name: "School Administrator",
+    title: "Institutional Control & Operations",
+    portal: "staff",
   },
   teacher: {
     key: "teacher",
-    role: "TEACHER",
     label: "Faculty / Teacher",
     badge: "Academic Staff",
-    email: "T-1001",
-    name: "Sarah Jenkins (Rajesh)",
-    title: "Class Teacher (5-A) & Head of Science",
-    placeholder: "T-1001 or teacher.math@greenfield-demo.edu",
-    inputMode: "text",
+    name: "Academic Faculty",
+    title: "Class Teacher & Head of Department",
+    portal: "staff",
   },
   parent: {
     key: "parent",
-    role: "PARENT",
     label: "Parent / Guardian",
     badge: "Family Portal",
-    email: "9876543210",
-    name: "David Miller (Vikram)",
-    title: "Guardian of Lucas & Aarav",
-    placeholder: "9876543210 or parent.sharma@greenfield-demo.edu",
-    inputMode: "tel",
+    name: "Guardian Portal",
+    title: "Parental Supervision & Records",
+    portal: "family",
   },
   student: {
     key: "student",
-    role: "STUDENT",
     label: "Student",
     badge: "Scholar Terminal",
-    email: "S-2026-001",
-    name: "Lucas Miller (Aarav)",
-    title: "Grade 5-A Scholar (Adm: S-2026-001)",
-    placeholder: "S-2026-001 or student.aarav@greenfield-demo.edu",
-    inputMode: "text",
+    name: "Student Scholar",
+    title: "Enrolled Scholar Terminal",
+    portal: "family",
   },
 };
 
+/**
+ * Identifier accepted per tab. The server action resolves non-email
+ * identifiers (admission number, phone, employee ID) to the account email.
+ */
+const IDENTIFIER: Record<RoleKey, { role: string; label: string; placeholder: string; inputMode: "email" | "text" | "tel" }> = {
+  admin: { role: "SCHOOL_ADMIN", label: "Email Address", placeholder: "admin@greenfield-demo.edu or school email", inputMode: "email" },
+  teacher: { role: "TEACHER", label: "Employee ID or Email", placeholder: "T-1001 or teacher.math@greenfield-demo.edu", inputMode: "text" },
+  parent: { role: "PARENT", label: "Mobile Number or Email", placeholder: "9876543210 or parent.sharma@greenfield-demo.edu", inputMode: "text" },
+  student: { role: "STUDENT", label: "Admission Number or Email", placeholder: "S-2026-001 or student.aarav@greenfield-demo.edu", inputMode: "text" },
+};
+
 const ERROR_MESSAGES: Record<string, string> = {
-  missing_fields: "Please enter both your identifier and password.",
-  invalid_password: "The password you entered is incorrect. Please try again.",
+  missing_fields: "Please enter both your identifier and security password.",
+  invalid_password: "The password you entered is incorrect. Please verify and try again.",
   not_found: "No account found matching that ID, phone, or email. Check your details or select the correct role.",
-  invalid: "Invalid login credentials. Please verify your ID/email and password.",
-  unconfirmed: "Your email has not been verified yet.",
+  invalid: "Those login details are incorrect. Check your ID/email and password.",
+  unconfirmed: "Your email has not been verified yet. Please check your inbox for verification.",
   rate_limited: "Too many sign-in attempts. Please wait a moment and try again.",
-  disabled: "This account has been deactivated. Please contact your administrator.",
+  disabled: "This account has been deactivated. Please contact your school administrator.",
   no_profile: "Authentication succeeded, but no linked school profile was found.",
-  portal_mismatch_staff: "This account belongs to the Family Portal. Please select Parent or Student.",
-  portal_mismatch_family: "This account belongs to the Staff Portal. Please select Administrator or Teacher.",
+  portal_mismatch_staff:
+    "This account belongs to the Family Portal (Parents & Students). Access to the Staff Portal is restricted.",
+  portal_mismatch_family:
+    "This account belongs to the Staff Portal (Administration & Faculty). Access to the Family Portal is restricted.",
+};
+
+const DEMO_CREDENTIALS: Record<RoleKey, { identifier: string; label: string }> = {
+  admin: { identifier: "admin@greenfield-demo.edu", label: "admin@greenfield-demo.edu" },
+  teacher: { identifier: "T-1001", label: "T-1001 (Rajesh)" },
+  student: { identifier: "S-2026-001", label: "S-2026-001 (Aarav)" },
+  parent: { identifier: "9876543210", label: "9876543210 (Vikram)" },
 };
 
 export function LoginForm({
   initialError,
   initialIdentifier,
+  initialPortal = "unified",
   nextPath,
+  staffBaseUrl = "https://staff.simplinschool.com",
+  familyBaseUrl = "https://family.simplinschool.com",
+  currentHost = "",
 }: {
   initialError?: string;
   initialIdentifier?: string;
-  initialPortal?: string;
+  initialPortal?: PortalType;
   nextPath?: string;
   staffBaseUrl?: string;
   familyBaseUrl?: string;
   currentHost?: string;
 }) {
-  const [selectedRole, setSelectedRole] = useState<RoleKey>("admin");
-  const activeConfig = roleConfigs[selectedRole];
-
-  const [identifier, setIdentifier] = useState(initialIdentifier ?? activeConfig.email);
-  const [password, setPassword] = useState("SimpleIn@2026");
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
-  const [isPending, startTransition] = useTransition();
-  const [errorMessage, setErrorMessage] = useState<string | null>(
-    initialError ? ERROR_MESSAGES[initialError] ?? "Sign-in failed. Please try again." : null
+  // In unified mode, user can toggle portal view
+  const [activePortalTab, setActivePortalTab] = useState<"staff" | "family">(
+    initialPortal === "family" ? "family" : "staff",
   );
 
-  const [forgotModalOpen, setForgotModalOpen] = useState(false);
-  const [forgotSubmitted, setForgotSubmitted] = useState(false);
+  const effectivePortal: "staff" | "family" =
+    initialPortal === "unified" ? activePortalTab : initialPortal;
 
-  // When changing role, prefill the demo identifier
+  // Available roles filtered strictly by active portal
+  const availableRoles = useMemo<readonly [RoleKey, ...RoleKey[]]>(
+    () =>
+      effectivePortal === "staff"
+        ? ["admin", "teacher"]
+        : ["parent", "student"],
+    [effectivePortal],
+  );
+
+  const defaultRole: RoleKey = availableRoles[0];
+  const [selectedRole, setSelectedRole] = useState<RoleKey>(defaultRole);
+  const currentRole: RoleKey = availableRoles.includes(selectedRole)
+    ? selectedRole
+    : availableRoles[0];
+
+  const [email, setEmail] = useState(initialIdentifier ?? "");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  // When effective portal changes, sync selected role
+  useEffect(() => {
+    if (!availableRoles.includes(selectedRole)) {
+      const nextRole: RoleKey = availableRoles[0];
+      setSelectedRole(nextRole);
+      setEmail("");
+      setPassword("");
+    }
+  }, [effectivePortal, availableRoles, selectedRole]);
+
   const handleRoleChange = (key: RoleKey) => {
     setSelectedRole(key);
-    setIdentifier(roleConfigs[key].email);
-    setPassword("SimpleIn@2026");
-    setErrorMessage(null);
-  };
-
-  const handleQuickFill = () => {
-    setIdentifier(activeConfig.email);
-    setPassword("SimpleIn@2026");
-    setErrorMessage(null);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!identifier.trim()) {
-      setErrorMessage("Please enter your institutional email or ID.");
-      return;
-    }
-    if (!password.trim()) {
-      setErrorMessage("Please enter your security password.");
-      return;
-    }
-
-    setErrorMessage(null);
-    const formData = new FormData(e.currentTarget);
-    startTransition(async () => {
-      try {
-        await loginAction(formData);
-      } catch (err: unknown) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "digest" in err &&
-          typeof (err as { digest: unknown }).digest === "string" &&
-          (err as { digest: string }).digest.startsWith("NEXT_REDIRECT")
-        ) {
-          throw err;
-        }
-        setErrorMessage("Authentication failed. Please verify credentials.");
-      }
-    });
+    setEmail("");
+    setPassword("");
   };
 
   const getRoleIcon = (key: RoleKey) => {
@@ -180,21 +176,47 @@ export function LoginForm({
     }
   };
 
+  // Only known codes are shown; free text from the URL is never rendered.
+  const errorMessage = initialError
+    ? ERROR_MESSAGES[initialError] ?? "Sign-in failed. Please try again."
+    : null;
+
+  const isStaffPortal = effectivePortal === "staff";
+
   return (
-    <div className="min-h-screen bg-zinc-50 flex flex-col justify-between selection:bg-zinc-900 selection:text-white">
+    <div
+      className="min-h-screen flex flex-col justify-between bg-background selection:bg-primary/20"
+    >
       {/* Top Header */}
-      <header className="border-b border-zinc-200 bg-white">
+      <header
+        className={`border-b transition-colors duration-200 ${
+          isStaffPortal
+            ? "border-border bg-surface-muted"
+            : "border-border bg-surface"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xs font-mono text-zinc-600 hover:text-zinc-950 transition-colors"
+            className="flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Return to School Website</span>
           </Link>
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-            <span>TERMINAL ENCRYPTION: ACTIVE</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+
+          <div className="flex items-center gap-3">
+            {initialPortal === "unified" && isLocalDevHost(currentHost) && (
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono bg-muted text-gray-700 border border-border">
+                <Laptop className="w-3 h-3" />
+                <span>DEV MODE: UNIFIED</span>
+              </span>
+            )}
+            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+              <span className="hidden md:inline">
+                {isStaffPortal ? "STAFF AUTH PROTOCOL" : "FAMILY GUARDIAN GATEWAY"}
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            </div>
           </div>
         </div>
       </header>
@@ -202,44 +224,69 @@ export function LoginForm({
       {/* Main Login Card Area */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
         <div className="w-full max-w-lg">
-          {/* School Badge & Card Header */}
+          {/* School Badge & Portal Header */}
           <div className="text-center mb-8">
-            <div className="w-12 h-12 rounded-xl bg-zinc-950 text-white flex items-center justify-center mx-auto mb-3 shadow-md">
-              <School className="w-6 h-6" />
+            <div
+              className="w-13 h-13 rounded-2xl bg-sidebar text-white flex items-center justify-center mx-auto mb-3.5 shadow-md"
+            >
+              {isStaffPortal ? (
+                <School className="w-7 h-7" />
+              ) : (
+                <HeartHandshake className="w-7 h-7" />
+              )}
             </div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
-              Greenfield Academy
+
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              {isStaffPortal ? "STAFF ACCESS PORTAL" : "FAMILY & STUDENT PORTAL"}
             </h1>
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider mt-1">
-              Authorized Institutional Access Portal
+            <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mt-1.5">
+              {isStaffPortal
+                ? "SIMPLIN SCHOOL ERP • ADMINISTRATORS & TEACHERS"
+                : "SIMPLIN SCHOOL ERP • PARENTS & STUDENTS"}
             </p>
           </div>
 
-          <div className="bg-white border border-zinc-200 rounded-xl shadow-sm p-6 sm:p-8">
-            {/* Role Selection Tabs */}
+          <div
+            className={`border rounded-2xl shadow-xs p-6 sm:p-8 transition-colors duration-200 ${
+              isStaffPortal
+                ? "bg-surface-muted border-border"
+                : "bg-surface border-border"
+            }`}
+          >
+            {/* Persona Selection Tabs (Strictly filtered by Portal) */}
             <div className="mb-6">
-              <label className="block text-xs font-mono font-semibold uppercase tracking-wider text-zinc-600 mb-2">
-                Select Persona / Access Level
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-zinc-100 rounded-lg border border-zinc-200">
-                {(["admin", "teacher", "parent", "student"] as RoleKey[]).map((r) => {
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
+                  {isStaffPortal
+                    ? "Select Staff Credentials"
+                    : "Select Family Persona"}
+                </label>
+                <span className="text-[11px] font-mono text-muted-foreground">
+                  {isStaffPortal ? "Authorized Personnel" : "Enrolled Families"}
+                </span>
+              </div>
+
+              <div
+                className="grid grid-cols-2 gap-1.5 p-1 rounded-xl border bg-muted border-border"
+              >
+                {availableRoles.map((r) => {
                   const cfg = roleConfigs[r];
-                  const active = selectedRole === r;
+                  const active = currentRole === r;
                   return (
                     <button
                       key={r}
                       type="button"
                       onClick={() => handleRoleChange(r)}
-                      className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-md text-xs transition-all cursor-pointer ${
+                      className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-lg text-xs nav-item-interactive cursor-pointer ${
                         active
-                          ? "bg-white text-zinc-950 font-bold shadow-xs border border-zinc-200"
-                          : "text-zinc-600 hover:text-zinc-950 hover:bg-white/60"
+                          ? "bg-primary text-primary-foreground font-bold shadow-xs border border-primary"
+                          : "text-gray-700 hover:text-foreground hover:bg-muted"
                       }`}
                       id={`tab-role-${r}`}
                     >
                       <div className="mb-1">{getRoleIcon(r)}</div>
-                      <span className="truncate w-full text-center leading-none">
-                        {cfg.label.split(" ")[0]}
+                      <span className="truncate w-full text-center leading-none font-medium">
+                        {cfg.label}
                       </span>
                     </button>
                   );
@@ -247,224 +294,210 @@ export function LoginForm({
               </div>
             </div>
 
-            {/* Active Persona Banner */}
-            <div className="mb-6 p-3 bg-zinc-50 border border-zinc-200 rounded-lg flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center shrink-0">
-                  {activeConfig.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join("")}
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs font-bold text-zinc-900 leading-tight truncate">
-                    {activeConfig.name}
-                  </div>
-                  <div className="text-[11px] text-zinc-500 font-mono truncate">
-                    {activeConfig.title}
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Fill Button */}
-              <button
-                type="button"
-                onClick={handleQuickFill}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded border border-zinc-300 bg-white text-[11px] font-mono font-semibold text-zinc-700 hover:border-zinc-900 hover:text-zinc-950 transition-colors shadow-2xs shrink-0 cursor-pointer"
-                title="Quick Fill Demo Credentials"
-              >
-                <Sparkles className="w-3 h-3 text-zinc-900" />
-                <span>Demo Fill</span>
-              </button>
-            </div>
-
-            {/* Error Message */}
+            {/* Error Message & Portal Mismatch Navigation */}
             {errorMessage && (
-              <div role="alert" className="mb-4 p-3 bg-red-50 border border-red-200 text-red-900 text-xs rounded-md flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-700" />
-                <span className="font-medium leading-relaxed">{errorMessage}</span>
+              <div role="alert" className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-900 text-xs rounded-xl flex flex-col gap-2">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-700" />
+                  <span className="font-medium leading-relaxed">
+                    {errorMessage}
+                  </span>
+                </div>
+
+                {initialError === "portal_mismatch_staff" && (
+                  <div className="mt-1 pt-2 border-t border-red-200/60 flex items-center justify-between">
+                    <span className="text-[11px] text-red-800">
+                      Looking for Parents & Students login?
+                    </span>
+                    <a
+                      href={familyBaseUrl}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-red-900 underline hover:no-underline"
+                    >
+                      <span>Go to Family Portal</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                )}
+
+                {initialError === "portal_mismatch_family" && (
+                  <div className="mt-1 pt-2 border-t border-red-200/60 flex items-center justify-between">
+                    <span className="text-[11px] text-red-800">
+                      Looking for Administration & Faculty login?
+                    </span>
+                    <a
+                      href={staffBaseUrl}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-red-900 underline hover:no-underline"
+                    >
+                      <span>Go to Staff Portal</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Real Authentication Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input type="hidden" name="portal" value="unified" />
-              <input type="hidden" name="role" value={activeConfig.role} />
+            <form
+              action={loginAction}
+              onSubmit={() => setIsPending(true)}
+              className="space-y-4"
+            >
+              {/* Hidden Inputs for Portal and Next redirect */}
+              <input type="hidden" name="portal" value={effectivePortal} />
+              <input type="hidden" name="role" value={IDENTIFIER[currentRole].role} />
               {nextPath && <input type="hidden" name="next" value={nextPath} />}
 
               <div>
-                <label htmlFor="login-identifier-input" className="block text-xs font-semibold text-zinc-800 mb-1.5">
-                  {selectedRole === "student"
-                    ? "Institutional Email or Admission Number"
-                    : selectedRole === "parent"
-                    ? "Institutional Email or Mobile Number"
-                    : selectedRole === "teacher"
-                    ? "Institutional Email or Employee ID"
-                    : "Institutional Administrator Email"}
+                <label htmlFor="input-email" className="block text-xs font-semibold text-foreground mb-1.5">
+                  {IDENTIFIER[currentRole].label}
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
                     <Mail className="w-4 h-4" />
                   </div>
                   <input
                     name="identifier"
                     type="text"
-                    inputMode={activeConfig.inputMode}
+                    inputMode={IDENTIFIER[currentRole].inputMode}
                     autoComplete="username"
                     autoCapitalize="none"
                     spellCheck={false}
                     required
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    placeholder={activeConfig.placeholder}
-                    className="w-full pl-9 pr-3 py-2 text-sm border border-zinc-300 rounded-md focus:outline-hidden focus:border-zinc-950 focus:ring-1 focus:ring-zinc-950 font-mono text-zinc-900"
-                    id="login-identifier-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={IDENTIFIER[currentRole].placeholder}
+                    className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-input rounded-xl text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-gray-400"
+                    id="input-email"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label htmlFor="login-password-input" className="block text-xs font-semibold text-zinc-800">
-                    Terminal Security Key
+                  <label className="text-xs font-semibold text-foreground">
+                    Security Password
                   </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setForgotModalOpen(true);
-                      setForgotSubmitted(false);
-                    }}
-                    className="text-[11px] font-mono text-zinc-500 hover:text-zinc-900 hover:underline cursor-pointer"
-                  >
-                    Forgot passcode?
-                  </button>
+                  <span className="text-[11px] text-muted-foreground font-mono">
+                    Encrypted via Supabase
+                  </span>
                 </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400">
-                    <Lock className="w-4 h-4" />
-                  </div>
                   <input
                     name="password"
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter security key"
-                    className="w-full pl-9 pr-10 py-2 text-sm border border-zinc-300 rounded-md focus:outline-hidden focus:border-zinc-950 focus:ring-1 focus:ring-zinc-950 font-mono text-zinc-900"
-                    id="login-password-input"
+                    className="w-full pl-3.5 pr-10 py-2.5 bg-surface border border-input rounded-xl text-sm font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                    id="input-password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-zinc-400 hover:text-zinc-700 cursor-pointer"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-1">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-zinc-300 text-zinc-950 focus:ring-zinc-950 accent-zinc-950"
-                  />
-                  <span className="text-xs text-zinc-600">Trust this station for 30 days</span>
-                </label>
               </div>
 
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full py-2.5 px-4 rounded-md bg-zinc-950 hover:bg-zinc-800 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-50"
-                id="login-submit-button"
+                className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary-hover text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-colors shadow-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                id="btn-submit-login"
               >
                 {isPending ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Verifying Credentials...</span>
-                  </>
+                  <span>Verifying Credentials...</span>
                 ) : (
                   <>
-                    <span>Enter {activeConfig.label} Portal</span>
+                    <span>
+                      {isStaffPortal
+                        ? "Enter Staff Portal"
+                        : "Enter Family Portal"}
+                    </span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
             </form>
-          </div>
 
-          {/* Institutional Advisory Note */}
-          <div className="text-center mt-6 text-xs text-zinc-500 font-mono leading-relaxed">
-            SIMPLEIN SECURE GATEWAY • STRICT ROLE PERMISSIONS ENFORCED
-            <br />
-            For credential resets or enrollment assistance, contact the Registrar’s Desk.
-          </div>
-        </div>
-      </main>
-
-      {/* Forgot Password Modal */}
-      {forgotModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white border border-zinc-200 rounded-xl max-w-md w-full p-6 shadow-xl">
-            <h3 className="font-serif text-lg font-bold text-zinc-950 mb-2">
-              Credential Recovery Service
-            </h3>
-            <p className="text-xs text-zinc-600 mb-4 leading-relaxed">
-              Institutional credentials are managed centrally by the Registrar. Enter your registered identifier to receive recovery instructions.
-            </p>
-
-            {forgotSubmitted ? (
-              <div className="p-3 bg-zinc-100 border border-zinc-300 rounded-md text-xs font-mono text-zinc-900 mb-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span>
-                  Recovery instructions dispatched to <strong>{identifier}</strong>. Click &apos;Demo Fill&apos; to use default credentials.
-                </span>
-              </div>
-            ) : (
-              <div className="space-y-3 mb-4">
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1">
-                    Registered Identifier
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue={identifier}
-                    className="w-full px-3 py-2 text-xs border border-zinc-300 rounded font-mono"
-                  />
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center justify-end gap-2 pt-2">
+            {/* Demo Testing Credentials Quick Fill (Text Link for Current Role Only) */}
+            <div className="mt-4 pt-3.5 border-t border-border flex items-center justify-between text-xs">
+              <span className="text-muted-foreground text-[11px]">
+                Demo Account:
+              </span>
               <button
                 type="button"
-                onClick={() => setForgotModalOpen(false)}
-                className="px-3 py-1.5 rounded border border-zinc-200 text-xs font-semibold hover:bg-zinc-50 cursor-pointer"
+                onClick={() => {
+                  setEmail(DEMO_CREDENTIALS[currentRole].identifier);
+                  setPassword("SimpleIn@2026");
+                }}
+                className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline font-medium text-xs cursor-pointer transition-colors"
+                id={`btn-quickfill-${currentRole}`}
               >
-                Close
+                <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span>
+                  Fill {DEMO_CREDENTIALS[currentRole].label}
+                </span>
+                <span className="text-[10px] text-muted-foreground font-mono">
+                  (SimpleIn@2026)
+                </span>
               </button>
-              {!forgotSubmitted && (
+            </div>
+
+            {/* Portal Switch Link at Bottom */}
+            <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
+              <span>
+                {isStaffPortal
+                  ? "Are you a student or parent?"
+                  : "Are you a teacher or administrator?"}
+              </span>
+              {initialPortal === "unified" || isLocalDevHost(currentHost) ? (
                 <button
                   type="button"
-                  onClick={() => setForgotSubmitted(true)}
-                  className="px-3 py-1.5 rounded bg-zinc-950 text-white text-xs font-semibold hover:bg-zinc-800 cursor-pointer"
+                  onClick={() =>
+                    setActivePortalTab(isStaffPortal ? "family" : "staff")
+                  }
+                  className="font-semibold text-foreground hover:underline cursor-pointer"
                 >
-                  Send Recovery Link
+                  {isStaffPortal
+                    ? "Switch to Family Portal →"
+                    : "Switch to Staff Portal →"}
                 </button>
+              ) : (
+                <a
+                  href={isStaffPortal ? familyBaseUrl : staffBaseUrl}
+                  className="font-semibold text-foreground hover:underline inline-flex items-center gap-1"
+                >
+                  <span>
+                    {isStaffPortal ? "Go to Family Portal" : "Go to Staff Portal"}
+                  </span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               )}
             </div>
           </div>
         </div>
-      )}
+      </main>
 
-      {/* Minimal Footer */}
-      <footer className="border-t border-zinc-200 bg-white py-4 text-center text-xs font-mono text-zinc-400">
-        © 2026 Greenfield Academy. Single sign-on authentication service.
+      {/* Footer */}
+      <footer
+        className={`border-t py-4 text-center text-xs font-mono transition-colors duration-200 ${
+          isStaffPortal
+            ? "border-border bg-surface-muted text-muted-foreground"
+            : "border-border bg-surface text-muted-foreground"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>SIMPLIN SCHOOL ERP • SECURE ACCESS GATEWAY</span>
+          <span>SYSTEM TIME: {new Date().getFullYear()} ACADEMIC SESSION</span>
+        </div>
       </footer>
     </div>
   );
