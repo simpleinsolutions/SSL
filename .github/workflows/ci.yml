@@ -1,0 +1,111 @@
+name: SIMPLEIN SCHOOL ERP — CI Pipeline
+
+on:
+  push:
+    branches: [ main, phase-16-production-infrastructure, 'release/**', production-hardening ]
+  pull_request:
+    branches: [ main, 'release/**' ]
+
+permissions:
+  contents: read
+
+# A newer push to the same branch/PR supersedes the running checks.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Actions are pinned by major tag. Pinning by commit SHA needs the SHAs looked
+# up on GitHub (not done offline); see docs/PRODUCTION_READINESS.md.
+
+jobs:
+  validate:
+    name: Typecheck, Lint, Test & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Safe CI build placeholders (never production secrets)
+      NEXT_PUBLIC_SUPABASE_URL: https://ci-placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+      SUPABASE_SERVICE_ROLE_KEY: ci-placeholder-service-role-key
+      ONBOARDING_SECRET: ci-placeholder-onboarding-secret
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js 22 (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint Code
+        run: npm run lint
+
+      - name: Unit Tests
+        run: npm test
+
+      - name: Production dependency audit (fails on critical and on unlisted high)
+        # Known high advisories are listed, with reasons and a review date, in
+        # scripts/audit-gate.mjs (docs/PRODUCTION_READINESS.md §4). The gate
+        # fails closed if the audit itself cannot run.
+        run: |
+          npm audit --omit=dev --json > "$RUNNER_TEMP/audit.json" || true
+          node scripts/audit-gate.mjs "$RUNNER_TEMP/audit.json"
+
+      - name: Verify Environment Check
+        run: node scripts/check-env.mjs
+
+      - name: Next.js Production Build
+        run: npm run build
+
+  database:
+    name: Database (pgTAP) & integration tests on a throwaway local Supabase
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js 22 (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Start local Supabase (Docker, this runner only)
+        run: npx --no-install supabase start -x realtime,studio,edge-runtime,logflare,vector,imgproxy,postgres-meta,supavisor,mailpit
+
+      - name: Database tests (all migrations + pgTAP, incl. fee, assignment, receipt and audit integrity, storage limits)
+        run: npx --no-install supabase test db
+
+      - name: Export local keys (local default keys of the throwaway stack)
+        run: |
+          npx --no-install supabase status -o env \
+            | sed -nE 's/^(API_URL|ANON_KEY|SERVICE_ROLE_KEY)="?([^"]*)"?$/LOCAL_\1=\2/p' >> "$GITHUB_ENV"
+
+      - name: Seed demo data and run integration tests
+        run: |
+          export LOCAL_SUPABASE_URL="$LOCAL_API_URL"
+          export LOCAL_SUPABASE_ANON_KEY="$LOCAL_ANON_KEY"
+          export LOCAL_SUPABASE_SERVICE_ROLE_KEY="$LOCAL_SERVICE_ROLE_KEY"
+          node scripts/seed-local.mjs
+          npm run test:integration
+
+      - name: Stop local Supabase
+        if: always()
+        run: npx --no-install supabase stop --no-backup

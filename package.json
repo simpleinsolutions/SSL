@@ -1,49 +1,45 @@
 {
-  "name": "simplein-schools",
-  "version": "1.0.0",
+  "name": "simplin-school-erp",
+  "version": "0.1.0",
   "private": true,
-  "description": "SIMPLEIN School — Education Management SaaS & School ERP Platform",
+  "description": "SIMPLEIN SCHOOL ERP (V1) — multi-tenant school platform by SIMPLEIN SOLUTIONS LLP",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "check:env": "node scripts/check-env.mjs",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.3",
-    "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.118.0",
-    "bcryptjs": "^3.0.3",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.0",
     "clsx": "^2.1.1",
-    "lucide-react": "^1.59.0",
-    "next": "16.4.2",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "zod": "^4.6.7"
+    "lucide-react": "^1.54.0",
+    "next": "^15.1.0",
+    "pdf-lib": "^1.17.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.7.0",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.1",
-    "@tailwindcss/postcss": "^4",
-    "@tailwindcss/turbopack": "^4",
-    "postcss": "^8",
-    "@types/bcryptjs": "^3.0.0",
-    "@types/node": "^22.20.5",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^6.1.2",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.2",
-    "prisma": "^6.19.3",
-    "tailwindcss": "^4",
-    "tsx": "^4.23.15",
-    "typescript": "^5",
-    "vitest": "^5.0.5"
+    "@eslint/eslintrc": "^3.3.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.1.0",
+    "supabase": "^2.118.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+  "engines": {
+    "node": ">=20"
   }
 }

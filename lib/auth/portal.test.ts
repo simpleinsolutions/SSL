@@ -1,0 +1,221 @@
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  crossPortalRedirectUrl,
+  detectPortal,
+  getPortalBaseUrl,
+  isLocalDevHost,
+  getPortalForPath,
+  getPortalHome,
+  isPathAllowedForPortal,
+  isRoleAllowedForPortal,
+  validateSafeRedirect,
+} from "./portal";
+
+describe("detectPortal", () => {
+  it("detects staff portal from production subdomain", () => {
+    expect(detectPortal("staff.simplinschool.com")).toBe("staff");
+    expect(detectPortal("staff.simplinschool.com:443")).toBe("staff");
+  });
+
+  it("detects family portal from production subdomain", () => {
+    expect(detectPortal("family.simplinschool.com")).toBe("family");
+    expect(detectPortal("family.simplinschool.com:443")).toBe("family");
+  });
+
+  it("detects local subdomains without modifying /etc/hosts", () => {
+    expect(detectPortal("staff.localhost:3000")).toBe("staff");
+    expect(detectPortal("family.localhost:3000")).toBe("family");
+    expect(detectPortal("staff.localhost")).toBe("staff");
+    expect(detectPortal("family.localhost")).toBe("family");
+  });
+
+  it("falls back to unified mode for plain localhost and root domains", () => {
+    expect(detectPortal("localhost:3000")).toBe("unified");
+    expect(detectPortal("127.0.0.1:3000")).toBe("unified");
+    expect(detectPortal("simplinschool.com")).toBe("unified");
+    expect(detectPortal(null)).toBe("unified");
+    expect(detectPortal(undefined)).toBe("unified");
+  });
+
+  it("supports query parameter override in local development", () => {
+    expect(detectPortal("localhost:3000", "staff")).toBe("staff");
+    expect(detectPortal("localhost:3000", "family")).toBe("family");
+    expect(detectPortal("localhost:3000", "invalid")).toBe("unified");
+  });
+});
+
+describe("isRoleAllowedForPortal", () => {
+  it("restricts staff portal to SCHOOL_ADMIN and TEACHER only", () => {
+    expect(isRoleAllowedForPortal("staff", ["SCHOOL_ADMIN"])).toBe(true);
+    expect(isRoleAllowedForPortal("staff", ["TEACHER"])).toBe(true);
+    expect(isRoleAllowedForPortal("staff", ["SCHOOL_ADMIN", "TEACHER"])).toBe(true);
+    expect(isRoleAllowedForPortal("staff", ["PARENT"])).toBe(false);
+    expect(isRoleAllowedForPortal("staff", ["STUDENT"])).toBe(false);
+    expect(isRoleAllowedForPortal("staff", [])).toBe(false);
+  });
+
+  it("restricts family portal to PARENT and STUDENT only", () => {
+    expect(isRoleAllowedForPortal("family", ["PARENT"])).toBe(true);
+    expect(isRoleAllowedForPortal("family", ["STUDENT"])).toBe(true);
+    expect(isRoleAllowedForPortal("family", ["PARENT", "STUDENT"])).toBe(true);
+    expect(isRoleAllowedForPortal("family", ["SCHOOL_ADMIN"])).toBe(false);
+    expect(isRoleAllowedForPortal("family", ["TEACHER"])).toBe(false);
+    expect(isRoleAllowedForPortal("family", [])).toBe(false);
+  });
+
+  it("allows all roles in unified development mode", () => {
+    expect(isRoleAllowedForPortal("unified", ["SCHOOL_ADMIN"])).toBe(true);
+    expect(isRoleAllowedForPortal("unified", ["TEACHER"])).toBe(true);
+    expect(isRoleAllowedForPortal("unified", ["PARENT"])).toBe(true);
+    expect(isRoleAllowedForPortal("unified", ["STUDENT"])).toBe(true);
+  });
+});
+
+describe("getPortalForPath & isPathAllowedForPortal", () => {
+  it("correctly identifies staff routes", () => {
+    expect(getPortalForPath("/admin")).toBe("staff");
+    expect(getPortalForPath("/admin/students")).toBe("staff");
+    expect(getPortalForPath("/teacher")).toBe("staff");
+    expect(getPortalForPath("/teacher/marks")).toBe("staff");
+  });
+
+  it("correctly identifies family routes", () => {
+    expect(getPortalForPath("/parent")).toBe("family");
+    expect(getPortalForPath("/parent/attendance")).toBe("family");
+    expect(getPortalForPath("/student")).toBe("family");
+    expect(getPortalForPath("/student/timetable")).toBe("family");
+  });
+
+  it("identifies shared / public routes as null", () => {
+    expect(getPortalForPath("/login")).toBeNull();
+    expect(getPortalForPath("/api/v1/auth/login")).toBeNull();
+    expect(getPortalForPath("/unauthorized")).toBeNull();
+  });
+
+  it("enforces path boundaries per portal", () => {
+    expect(isPathAllowedForPortal("staff", "/admin")).toBe(true);
+    expect(isPathAllowedForPortal("staff", "/teacher/marks")).toBe(true);
+    expect(isPathAllowedForPortal("staff", "/parent")).toBe(false);
+    expect(isPathAllowedForPortal("staff", "/student")).toBe(false);
+    expect(isPathAllowedForPortal("staff", "/login")).toBe(true);
+
+    expect(isPathAllowedForPortal("family", "/parent")).toBe(true);
+    expect(isPathAllowedForPortal("family", "/student/results")).toBe(true);
+    expect(isPathAllowedForPortal("family", "/admin")).toBe(false);
+    expect(isPathAllowedForPortal("family", "/teacher")).toBe(false);
+    expect(isPathAllowedForPortal("family", "/login")).toBe(true);
+  });
+});
+
+describe("getPortalHome", () => {
+  it("returns appropriate dashboard for staff portal", () => {
+    expect(getPortalHome("staff", ["SCHOOL_ADMIN"])).toBe("/admin");
+    expect(getPortalHome("staff", ["TEACHER"])).toBe("/teacher");
+    expect(getPortalHome("staff", ["PARENT"])).toBe("/unauthorized");
+  });
+
+  it("returns appropriate dashboard for family portal", () => {
+    expect(getPortalHome("family", ["PARENT"])).toBe("/parent");
+    expect(getPortalHome("family", ["STUDENT"])).toBe("/student");
+    expect(getPortalHome("family", ["TEACHER"])).toBe("/unauthorized");
+  });
+});
+
+describe("getPortalBaseUrl", () => {
+  it("handles production domains", () => {
+    expect(getPortalBaseUrl("staff", "simplinschool.com")).toBe(
+      "https://staff.simplinschool.com",
+    );
+    expect(getPortalBaseUrl("family", "simplinschool.com")).toBe(
+      "https://family.simplinschool.com",
+    );
+  });
+
+  it("handles local development subdomains with ports preserved", () => {
+    expect(getPortalBaseUrl("staff", "family.localhost:3000")).toBe(
+      "http://staff.localhost:3000",
+    );
+    expect(getPortalBaseUrl("family", "staff.localhost:3000")).toBe(
+      "http://family.localhost:3000",
+    );
+  });
+});
+
+describe("validateSafeRedirect", () => {
+  it("permits safe internal relative paths", () => {
+    expect(validateSafeRedirect("/admin", "/")).toBe("/admin");
+    expect(validateSafeRedirect("/teacher/attendance?date=2026-10-11", "/")).toBe(
+      "/teacher/attendance?date=2026-10-11",
+    );
+    expect(validateSafeRedirect("/parent", "/")).toBe("/parent");
+  });
+
+  it("rejects open redirects and external URLs", () => {
+    expect(validateSafeRedirect("https://evil.example.com", "/")).toBe("/");
+    expect(validateSafeRedirect("http://evil.example.com", "/")).toBe("/");
+    expect(validateSafeRedirect("//evil.example.com", "/")).toBe("/");
+    expect(validateSafeRedirect("/\\evil.example.com", "/")).toBe("/");
+    expect(validateSafeRedirect("javascript:alert(1)", "/")).toBe("/");
+    expect(validateSafeRedirect(null, "/fallback")).toBe("/fallback");
+    expect(validateSafeRedirect(undefined, "/fallback")).toBe("/fallback");
+    expect(validateSafeRedirect("", "/fallback")).toBe("/fallback");
+  });
+});
+
+describe("single-domain deployments", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("keeps users on the deployment's own configured host instead of a hard-coded domain", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://erp.someschool.edu.in");
+    vi.stubEnv("VERCEL_URL", "simplin-erp-abc123.vercel.app");
+    vi.stubEnv("VERCEL_BRANCH_URL", "simplin-erp-git-main.vercel.app");
+    expect(getPortalBaseUrl("family", "erp.someschool.edu.in")).toBe("https://erp.someschool.edu.in");
+    expect(getPortalBaseUrl("staff", "simplin-erp-abc123.vercel.app")).toBe("https://simplin-erp-abc123.vercel.app");
+    expect(getPortalBaseUrl("staff", "simplin-erp-git-main.vercel.app")).toBe("https://simplin-erp-git-main.vercel.app");
+    expect(getPortalBaseUrl("staff", null)).toBe("");
+  });
+
+  it("never echoes an unconfigured Host header back into redirects", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://erp.someschool.edu.in/");
+    expect(getPortalBaseUrl("staff", "evil.example.com")).toBe("https://erp.someschool.edu.in");
+    expect(getPortalBaseUrl("family", "evil.example.com:8443")).toBe("https://erp.someschool.edu.in");
+    const url = crossPortalRedirectUrl(getPortalBaseUrl("staff", "evil.example.com"), "/admin", "?portal=staff", "evil.example.com", "https://evil.example.com");
+    expect(url.origin).toBe("https://erp.someschool.edu.in");
+    // Nothing configured: no origin is trusted, so links stay relative ("") and
+    // the middleware falls back to the framework's request origin.
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "");
+    expect(getPortalBaseUrl("staff", "evil.example.com")).toBe("");
+    expect(crossPortalRedirectUrl("", "/parent", "?portal=staff", "erp.local", "http://erp.local").toString()).toBe("http://erp.local/parent");
+  });
+
+  it("keeps the configured protocol (e.g. an http intranet deployment)", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://erp.school.lan:8080");
+    expect(getPortalBaseUrl("staff", "erp.school.lan:8080")).toBe("http://erp.school.lan:8080");
+  });
+
+  it("still honours explicit portal URLs", () => {
+    vi.stubEnv("NEXT_PUBLIC_STAFF_PORTAL_URL", "https://staff.example.org/");
+    expect(getPortalBaseUrl("staff", "simplin-erp.vercel.app")).toBe("https://staff.example.org");
+  });
+
+  it("does not loop when switching portals on the same host", () => {
+    const url = crossPortalRedirectUrl("https://simplin-erp.vercel.app", "/parent", "?portal=staff&x=1", "simplin-erp.vercel.app", "https://simplin-erp.vercel.app");
+    expect(url.toString()).toBe("https://simplin-erp.vercel.app/parent?x=1");
+    const cross = crossPortalRedirectUrl("https://family.simplinschool.com", "/parent", "?portal=staff", "staff.simplinschool.com", "https://staff.simplinschool.com");
+    expect(cross.toString()).toBe("https://family.simplinschool.com/parent?portal=staff");
+  });
+});
+
+describe("isLocalDevHost (DEV MODE badge only on local hosts)", () => {
+  it("recognises local development hosts", () => {
+    for (const h of ["localhost:3000", "127.0.0.1:3999", "staff.localhost:3000", "[::1]:3000", "staff.127.0.0.1.nip.io"]) {
+      expect(isLocalDevHost(h)).toBe(true);
+    }
+  });
+
+  it("treats real hosts as production", () => {
+    for (const h of ["simplin-erp.vercel.app", "staff.simplinschool.com", "erp.someschool.edu.in", "", null]) {
+      expect(isLocalDevHost(h)).toBe(false);
+    }
+  });
+});
