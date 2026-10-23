@@ -7,11 +7,19 @@
  */
 import { existsSync } from "node:fs";
 
-if (existsSync(".env.local") && typeof process.loadEnvFile === "function") {
-  try {
-    process.loadEnvFile(".env.local");
-  } catch {
-    // continue
+if (typeof process.loadEnvFile === "function") {
+  if (existsSync(".env.local")) {
+    try {
+      process.loadEnvFile(".env.local");
+    } catch {
+      // continue
+    }
+  } else if (existsSync(".env")) {
+    try {
+      process.loadEnvFile(".env");
+    } catch {
+      // continue
+    }
   }
 }
 

@@ -18,6 +18,7 @@ import {
   ExternalLink,
   Laptop,
   HeartHandshake,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import type { PortalType } from "@/lib/auth/portal";
@@ -73,15 +74,21 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
  * identifiers (admission number, phone, employee ID) to the account email.
  */
 const IDENTIFIER: Record<RoleKey, { role: string; label: string; placeholder: string; inputMode: "email" | "text" | "tel" }> = {
-  admin: { role: "SCHOOL_ADMIN", label: "Email", placeholder: "admin@school.edu", inputMode: "email" },
-  teacher: { role: "TEACHER", label: "Employee ID or email", placeholder: "T-1001 or name@school.edu", inputMode: "text" },
-  parent: { role: "PARENT", label: "Mobile number or email", placeholder: "98765 43210 or parent@example.com", inputMode: "text" },
-  student: { role: "STUDENT", label: "Admission number or email", placeholder: "GPS-2026-001 or name@school.edu", inputMode: "text" },
+  admin: { role: "SCHOOL_ADMIN", label: "Email Address", placeholder: "admin@greenfield-demo.edu or school email", inputMode: "email" },
+  teacher: { role: "TEACHER", label: "Employee ID or Email", placeholder: "T-1001 or teacher.math@greenfield-demo.edu", inputMode: "text" },
+  parent: { role: "PARENT", label: "Mobile Number or Email", placeholder: "9876543210 or parent.sharma@greenfield-demo.edu", inputMode: "text" },
+  student: { role: "STUDENT", label: "Admission Number or Email", placeholder: "S-2026-001 or student.aarav@greenfield-demo.edu", inputMode: "text" },
 };
 
 const ERROR_MESSAGES: Record<string, string> = {
+  missing_fields: "Please enter both your identifier and security password.",
+  invalid_password: "The password you entered is incorrect. Please verify and try again.",
+  not_found: "No account found matching that ID, phone, or email. Check your details or select the correct role.",
   invalid: "Those login details are incorrect. Check your ID/email and password.",
-  disabled: "This account is disabled or not provisioned. Contact your school.",
+  unconfirmed: "Your email has not been verified yet. Please check your inbox for verification.",
+  rate_limited: "Too many sign-in attempts. Please wait a moment and try again.",
+  disabled: "This account has been deactivated. Please contact your school administrator.",
+  no_profile: "Authentication succeeded, but no linked school profile was found.",
   portal_mismatch_staff:
     "This account belongs to the Family Portal (Parents & Students). Access to the Staff Portal is restricted.",
   portal_mismatch_family:
@@ -90,6 +97,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 export function LoginForm({
   initialError,
+  initialIdentifier,
   initialPortal = "unified",
   nextPath,
   staffBaseUrl = "https://staff.simplinschool.com",
@@ -97,6 +105,7 @@ export function LoginForm({
   currentHost = "",
 }: {
   initialError?: string;
+  initialIdentifier?: string;
   initialPortal?: PortalType;
   nextPath?: string;
   staffBaseUrl?: string;
@@ -124,7 +133,7 @@ export function LoginForm({
   const [selectedRole, setSelectedRole] = useState<RoleKey>(defaultRole);
   const activeConfig = roleConfigs[selectedRole];
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialIdentifier ?? "");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -139,13 +148,10 @@ export function LoginForm({
     }
   }, [effectivePortal, availableRoles, selectedRole]);
 
-  useEffect(() => {
-    setEmail("");
-    setPassword("");
-  }, [selectedRole]);
-
   const handleRoleChange = (key: RoleKey) => {
     setSelectedRole(key);
+    setEmail("");
+    setPassword("");
   };
 
   const getRoleIcon = (key: RoleKey) => {
@@ -495,6 +501,137 @@ export function LoginForm({
                 )}
               </button>
             </form>
+
+            {/* Demo Testing Credentials Quick Fill */}
+            <div className="mt-6 pt-5 border-t border-border">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-xs font-semibold text-foreground">
+                    One-Click Demo Accounts
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded-md border border-border">
+                  Password: <span className="font-semibold text-foreground">SimpleIn@2026</span>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {isStaffPortal ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRole("admin");
+                        setEmail("admin@greenfield-demo.edu");
+                        setPassword("SimpleIn@2026");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center gap-2.5 ${
+                        selectedRole === "admin" && email === "admin@greenfield-demo.edu"
+                          ? "bg-primary/10 border-primary shadow-xs"
+                          : "bg-surface border-border hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                      id="btn-quickfill-admin"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sidebar text-white flex items-center justify-center shrink-0">
+                        <Shield className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-semibold text-foreground truncate">
+                          School Admin
+                        </div>
+                        <div className="text-[10px] text-muted-foreground font-mono truncate">
+                          admin@greenfield-demo.edu
+                        </div>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRole("teacher");
+                        setEmail("T-1001");
+                        setPassword("SimpleIn@2026");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center gap-2.5 ${
+                        selectedRole === "teacher" && email === "T-1001"
+                          ? "bg-primary/10 border-primary shadow-xs"
+                          : "bg-surface border-border hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                      id="btn-quickfill-teacher"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sidebar text-white flex items-center justify-center shrink-0">
+                        <GraduationCap className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-semibold text-foreground truncate">
+                          Teacher (Rajesh)
+                        </div>
+                        <div className="text-[10px] text-muted-foreground font-mono truncate">
+                          Emp ID: T-1001
+                        </div>
+                      </div>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRole("student");
+                        setEmail("S-2026-001");
+                        setPassword("SimpleIn@2026");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center gap-2.5 ${
+                        selectedRole === "student" && email === "S-2026-001"
+                          ? "bg-primary/10 border-primary shadow-xs"
+                          : "bg-surface border-border hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                      id="btn-quickfill-student"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sidebar text-white flex items-center justify-center shrink-0">
+                        <User className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-semibold text-foreground truncate">
+                          Student (Aarav)
+                        </div>
+                        <div className="text-[10px] text-muted-foreground font-mono truncate">
+                          Adm: S-2026-001
+                        </div>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRole("parent");
+                        setEmail("9876543210");
+                        setPassword("SimpleIn@2026");
+                      }}
+                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center gap-2.5 ${
+                        selectedRole === "parent" && email === "9876543210"
+                          ? "bg-primary/10 border-primary shadow-xs"
+                          : "bg-surface border-border hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                      id="btn-quickfill-parent"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sidebar text-white flex items-center justify-center shrink-0">
+                        <Users className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-semibold text-foreground truncate">
+                          Parent (Vikram)
+                        </div>
+                        <div className="text-[10px] text-muted-foreground font-mono truncate">
+                          Phone: 9876543210
+                        </div>
+                      </div>
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Portal Switch Link at Bottom */}
             <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">

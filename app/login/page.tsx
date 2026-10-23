@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; next?: string; portal?: string }>;
+  searchParams: Promise<{ error?: string; next?: string; portal?: string; id?: string }>;
 }) {
   const params = await searchParams;
 
@@ -70,6 +70,7 @@ export default async function LoginPage({
   return (
     <LoginForm
       initialError={params.error}
+      initialIdentifier={params.id}
       initialPortal={portal}
       nextPath={params.next}
       staffBaseUrl={staffBaseUrl}

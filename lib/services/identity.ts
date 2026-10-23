@@ -42,10 +42,45 @@ function uniqueExactMatch<T>(
   return matches.length === 1 ? matches[0] : undefined;
 }
 
-/** The phone as typed and its digits/`+` form (blank forms dropped). */
+/** The phone as typed, cleaned, and common country code/spacing variants. */
 function phoneCandidates(identifier: string): string[] {
-  const cleaned = identifier.replace(/[^\d+]/g, "");
-  return [...new Set([identifier, cleaned])].filter((value) => value !== "");
+  const trimmed = identifier.trim();
+  const cleaned = trimmed.replace(/[^\d+]/g, "");
+  const digits = trimmed.replace(/\D/g, "");
+
+  const candidates = new Set<string>([identifier, trimmed, cleaned]);
+
+  if (digits.length === 10) {
+    candidates.add(digits);
+    candidates.add(`+91${digits}`);
+    candidates.add(`+91-${digits}`);
+    candidates.add(`+91 ${digits}`);
+    candidates.add(`91${digits}`);
+    candidates.add(`0${digits}`);
+    candidates.add(`${digits.slice(0, 5)} ${digits.slice(5)}`);
+    candidates.add(`${digits.slice(0, 5)}-${digits.slice(5)}`);
+    candidates.add(`+91 ${digits.slice(0, 5)} ${digits.slice(5)}`);
+    candidates.add(`+91-${digits.slice(0, 5)}-${digits.slice(5)}`);
+  } else if (digits.length === 12 && digits.startsWith("91")) {
+    const local10 = digits.slice(2);
+    candidates.add(local10);
+    candidates.add(`+${digits}`);
+    candidates.add(`+91-${local10}`);
+    candidates.add(`+91 ${local10}`);
+    candidates.add(`${local10.slice(0, 5)} ${local10.slice(5)}`);
+    candidates.add(`${local10.slice(0, 5)}-${local10.slice(5)}`);
+    candidates.add(`+91 ${local10.slice(0, 5)} ${local10.slice(5)}`);
+    candidates.add(`+91-${local10.slice(0, 5)}-${local10.slice(5)}`);
+  } else if (digits.length === 11 && digits.startsWith("0")) {
+    const local10 = digits.slice(1);
+    candidates.add(local10);
+    candidates.add(`+91${local10}`);
+    candidates.add(`+91-${local10}`);
+    candidates.add(`+91 ${local10}`);
+    candidates.add(`${local10.slice(0, 5)} ${local10.slice(5)}`);
+  }
+
+  return [...candidates].filter((value) => value !== "");
 }
 
 /**
@@ -58,8 +93,8 @@ async function rowsForCandidates<T extends { id: string }>(
   query: (value: string) => PromiseLike<{ data: T[] | null; error: unknown }>,
 ): Promise<T[] | null> {
   const byId = new Map<string, T>();
-  for (const value of candidates) {
-    const { data, error } = await query(value);
+  const results = await Promise.all(candidates.map((value) => query(value)));
+  for (const { data, error } of results) {
     if (error !== null) return null;
     for (const row of data ?? []) byId.set(row.id, row);
   }
@@ -97,23 +132,35 @@ export async function resolveIdentifierToEmail(
   const admin = createAdminClient();
 
   if (role === "STUDENT") {
-    // Lookup by admission_no in students table (literal, case-insensitive)
-    const { data: students, error: studentError } = await admin
-      .from("students")
-      .select("id, school_id, user_id, status, admission_no")
-      .ilike("admission_no", literalIlikePattern(identifier))
-      .eq("status", "active")
-      .not("user_id", "is", null)
-      .limit(MAX_CANDIDATES);
-
-    if (studentError !== null) {
-      return null;
+    // Generate candidates for admission_no (support GPS- and S- interchangeable demo prefixes)
+    const admissionCandidates = new Set<string>([identifier]);
+    if (/^GPS-/i.test(identifier)) {
+      admissionCandidates.add(identifier.replace(/^GPS-/i, "S-"));
+    } else if (/^S-/i.test(identifier)) {
+      admissionCandidates.add(identifier.replace(/^S-/i, "GPS-"));
     }
-    const student = uniqueExactMatch(
-      (students ?? []) as { user_id: string | null; admission_no: string }[],
-      (s) => s.admission_no,
-      identifier,
-    );
+
+    let student: { user_id: string | null; admission_no: string } | undefined;
+    for (const cand of admissionCandidates) {
+      const { data: students, error: studentError } = await admin
+        .from("students")
+        .select("id, school_id, user_id, status, admission_no")
+        .ilike("admission_no", literalIlikePattern(cand))
+        .eq("status", "active")
+        .not("user_id", "is", null)
+        .limit(MAX_CANDIDATES);
+
+      if (studentError !== null) {
+        return null;
+      }
+      student = uniqueExactMatch(
+        (students ?? []) as { user_id: string | null; admission_no: string }[],
+        (s) => s.admission_no,
+        cand,
+      );
+      if (student && student.user_id) break;
+    }
+
     if (student === undefined || !student.user_id) {
       return null;
     }

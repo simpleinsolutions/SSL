@@ -8,7 +8,7 @@ const compat = new FlatCompat({ baseDirectory: __dirname });
 const config = [
   ...compat.extends("next/core-web-vitals"),
   {
-    ignores: ["node_modules/**", ".next/**", "coverage/**"],
+    ignores: ["node_modules/**", ".next/**", "coverage/**", "finalfrontendsimp-main/**"],
   },
 ];
 

@@ -42,6 +42,9 @@ export async function loginAction(formData: FormData): Promise<never> {
     if (rawNext) {
       params.set("next", rawNext);
     }
+    if (rawIdentifier && rawIdentifier.trim()) {
+      params.set("id", rawIdentifier.trim());
+    }
     return `/login?${params.toString()}`;
   };
 
@@ -58,7 +61,7 @@ export async function loginAction(formData: FormData): Promise<never> {
   const password = (formData.get("password") as string | null) ?? "";
 
   if (!rawIdentifier.trim() || !password) {
-    redirect(loginErrorUrl("invalid"));
+    redirect(loginErrorUrl("missing_fields"));
   }
 
   // 3. Resolve identifier (email, admission number, phone, staff code)
@@ -66,7 +69,7 @@ export async function loginAction(formData: FormData): Promise<never> {
   const resolved = await resolveIdentifierToEmail(role, rawIdentifier);
 
   if (resolved === null || !resolved.email) {
-    redirect(loginErrorUrl("invalid"));
+    redirect(loginErrorUrl("not_found"));
   }
 
   // 4. Authenticate via Supabase Auth
@@ -77,7 +80,14 @@ export async function loginAction(formData: FormData): Promise<never> {
   });
 
   if (error !== null) {
-    redirect(loginErrorUrl("invalid"));
+    const msg = error.message.toLowerCase();
+    if (msg.includes("email not confirmed") || msg.includes("unconfirmed")) {
+      redirect(loginErrorUrl("unconfirmed"));
+    } else if (msg.includes("rate limit") || error.status === 429) {
+      redirect(loginErrorUrl("rate_limited"));
+    } else {
+      redirect(loginErrorUrl("invalid_password"));
+    }
   }
 
   // 5. Verify application user profile and active status
@@ -89,7 +99,7 @@ export async function loginAction(formData: FormData): Promise<never> {
     redirect(loginErrorUrl("disabled"));
   }
   if (ctx === null) {
-    redirect(loginErrorUrl("invalid"));
+    redirect(loginErrorUrl("no_profile"));
   }
 
   // 6. Enforce portal role boundary
