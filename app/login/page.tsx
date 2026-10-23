@@ -36,19 +36,15 @@ export default async function LoginPage({
   try {
     const ctx = await getCurrentUser();
     if (ctx !== null) {
-      // If signed in, verify they match the current portal
-      if (portal === "staff" && !isRoleAllowedForPortal("staff", ctx.roles)) {
-        // Redirect to family portal
-        const familyUrl = getPortalBaseUrl("family", host);
-        redirect(`${familyUrl}${roleHome(ctx.roles)}`);
-      } else if (portal === "family" && !isRoleAllowedForPortal("family", ctx.roles)) {
-        // Redirect to staff portal
-        const staffUrl = getPortalBaseUrl("staff", host);
-        redirect(`${staffUrl}${roleHome(ctx.roles)}`);
-      } else {
+      // If signed in, verify they match the current portal.
+      // If their role matches this portal (or unified), redirect to their dashboard.
+      if (portal === "unified" || isRoleAllowedForPortal(portal, ctx.roles)) {
         const safeDestination = validateSafeRedirect(params.next, roleHome(ctx.roles));
         redirect(safeDestination);
       }
+      // If signed into staff but visiting family portal login (or vice-versa),
+      // do not redirect them away in a loop — allow them to see the login page
+      // so they can authenticate to this portal.
     }
   } catch (e: unknown) {
     if (
@@ -63,7 +59,6 @@ export default async function LoginPage({
     // Inactive/unprovisioned: fall through to show the login form
   }
 
-  // "" = no trusted origin for this host: link to the portal on this origin.
   const staffBaseUrl = getPortalBaseUrl("staff", host) || "/login?portal=staff";
   const familyBaseUrl = getPortalBaseUrl("family", host) || "/login?portal=family";
 

@@ -131,7 +131,10 @@ export function LoginForm({
 
   const defaultRole: RoleKey = availableRoles[0];
   const [selectedRole, setSelectedRole] = useState<RoleKey>(defaultRole);
-  const activeConfig = roleConfigs[selectedRole];
+  const currentRole: RoleKey = availableRoles.includes(selectedRole)
+    ? selectedRole
+    : availableRoles[0];
+  const activeConfig = roleConfigs[currentRole];
 
   const [email, setEmail] = useState(initialIdentifier ?? "");
   const [password, setPassword] = useState("");
@@ -301,7 +304,7 @@ export function LoginForm({
               >
                 {availableRoles.map((r) => {
                   const cfg = roleConfigs[r];
-                  const active = selectedRole === r;
+                  const active = currentRole === r;
                   return (
                     <button
                       key={r}
@@ -419,12 +422,12 @@ export function LoginForm({
             >
               {/* Hidden Inputs for Portal and Next redirect */}
               <input type="hidden" name="portal" value={effectivePortal} />
-              <input type="hidden" name="role" value={IDENTIFIER[selectedRole].role} />
+              <input type="hidden" name="role" value={IDENTIFIER[currentRole].role} />
               {nextPath && <input type="hidden" name="next" value={nextPath} />}
 
               <div>
                 <label htmlFor="input-email" className="block text-xs font-semibold text-foreground mb-1.5">
-                  {IDENTIFIER[selectedRole].label}
+                  {IDENTIFIER[currentRole].label}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
@@ -433,14 +436,14 @@ export function LoginForm({
                   <input
                     name="identifier"
                     type="text"
-                    inputMode={IDENTIFIER[selectedRole].inputMode}
+                    inputMode={IDENTIFIER[currentRole].inputMode}
                     autoComplete="username"
                     autoCapitalize="none"
                     spellCheck={false}
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={IDENTIFIER[selectedRole].placeholder}
+                    placeholder={IDENTIFIER[currentRole].placeholder}
                     className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-input rounded-xl text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-gray-400"
                     id="input-email"
                   />
@@ -640,7 +643,7 @@ export function LoginForm({
                   ? "Are you a student or parent?"
                   : "Are you a teacher or administrator?"}
               </span>
-              {initialPortal === "unified" ? (
+              {initialPortal === "unified" || isLocalDevHost(currentHost) ? (
                 <button
                   type="button"
                   onClick={() =>

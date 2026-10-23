@@ -150,15 +150,20 @@ export function getPortalBaseUrl(
     const hostname = parts[0]?.toLowerCase() ?? "";
     const port = parts[1] ? `:${parts[1]}` : "";
 
-    // Local development with *.localhost
-    if (hostname.endsWith("localhost") || hostname === "127.0.0.1") {
+    // Branded portal subdomains
+    if (hostname === "simplinschool.com" || hostname.endsWith(".simplinschool.com")) {
+      return `https://${targetPortal}.simplinschool.com`;
+    }
+
+    // Local development with *.localhost subdomains (e.g. staff.localhost:3000 or family.localhost:3000)
+    if (hostname.endsWith(".localhost")) {
       const protocol = "http";
       return `${protocol}://${targetPortal}.localhost${port}`;
     }
 
-    // Branded portal subdomains
-    if (hostname === "simplinschool.com" || hostname.endsWith(".simplinschool.com")) {
-      return `https://${targetPortal}.simplinschool.com`;
+    // Plain localhost, 127.0.0.1, or ::1: single-domain local development on one origin
+    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") {
+      return `http://${hostname}${port}`;
     }
 
     // Any other host is a single-domain deployment (e.g. *.vercel.app or a
