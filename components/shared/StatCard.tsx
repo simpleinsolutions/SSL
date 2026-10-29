@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { LucideIcon } from "lucide-react";
+import { Badge3D } from "@/components/3d/Badge3D";
 
 interface StatCardProps {
   label: string;
@@ -12,15 +15,22 @@ interface StatCardProps {
   };
   onClick?: () => void;
   className?: string;
-  /** Accent for the value (Admin Portal UI spec KPI colours). */
+  /** Accent for the value */
   tone?: "blue" | "green" | "purple" | "amber";
 }
 
 const TONE_CLASS: Record<NonNullable<StatCardProps["tone"]>, string> = {
-  blue: "text-primary",
-  green: "text-success",
-  purple: "text-[#6d3fc4]",
-  amber: "text-warning",
+  blue: "text-[#0b6fdb]",
+  green: "text-[#059669]",
+  purple: "text-[#7e22ce]",
+  amber: "text-[#d97706]",
+};
+
+const TONE_BG: Record<NonNullable<StatCardProps["tone"]>, string> = {
+  blue: "bg-[#0b6fdb]/10 text-[#0b6fdb]",
+  green: "bg-[#059669]/10 text-[#059669]",
+  purple: "bg-[#7e22ce]/10 text-[#7e22ce]",
+  amber: "bg-[#d97706]/10 text-[#d97706]",
 };
 
 export function StatCard({
@@ -31,7 +41,7 @@ export function StatCard({
   trend,
   onClick,
   className = "",
-  tone,
+  tone = "blue",
 }: StatCardProps) {
   const renderIcon = () => {
     if (!icon) return null;
@@ -40,40 +50,69 @@ export function StatCard({
     }
     if (typeof icon === "function" || typeof icon === "object") {
       const IconComponent = icon as React.ComponentType<{ className?: string }>;
-      return <IconComponent className="size-4" />;
+      return <IconComponent className="size-5" />;
     }
     return null;
   };
 
-  const trendTone =
-    trend?.positive === true
-      ? "ui-badge-success"
-      : trend?.positive === false
-        ? "ui-badge-warning"
-        : "ui-badge-neutral";
-
   return (
     <div
       onClick={onClick}
-      className={`ui-card p-5 ${onClick ? "ui-card-interactive cursor-pointer" : ""} ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-[#d8e2ed] bg-gradient-to-b from-white via-[#fcfdff] to-[#f8fbfe] p-5 shadow-[var(--shadow-3d-card)] transition-all duration-200 select-none ${
+        onClick
+          ? "cursor-pointer hover:-translate-y-1 hover:shadow-[var(--shadow-3d-hover)] hover:border-[#b9d1ea] active:translate-y-0 active:scale-[0.995]"
+          : ""
+      } ${className}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
+      {/* 3D Specular Upper Rim Highlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/90 via-transparent to-transparent opacity-70"
+      />
+
+      <div className="relative z-10 flex items-start justify-between gap-3">
+        <span className="text-xs font-bold uppercase tracking-wider text-[#55667e]">
+          {label}
+        </span>
         {icon && (
-          <span aria-hidden="true" className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
+          <span
+            aria-hidden="true"
+            className={`flex size-9 shrink-0 items-center justify-center rounded-xl shadow-xs border border-white/60 ${TONE_BG[tone]}`}
+          >
             {renderIcon()}
           </span>
         )}
       </div>
 
-      <div className="mt-2 flex flex-wrap items-baseline gap-2">
-        <span className={`text-2xl font-bold tracking-tight tabular-nums sm:text-[1.75rem] ${tone === undefined ? "text-foreground" : TONE_CLASS[tone]}`}>
+      <div className="relative z-10 mt-3 flex flex-wrap items-baseline gap-2.5">
+        <span
+          className={`text-2xl font-black tracking-tight tabular-nums sm:text-3xl ${
+            tone !== undefined ? TONE_CLASS[tone] : "text-foreground"
+          }`}
+        >
           {value}
         </span>
-        {trend && <span className={`ui-badge ${trendTone}`}>{trend.text}</span>}
+        {trend && (
+          <Badge3D
+            tone={
+              trend.positive === true
+                ? "emerald"
+                : trend.positive === false
+                  ? "rose"
+                  : "slate"
+            }
+            size="sm"
+          >
+            {trend.text}
+          </Badge3D>
+        )}
       </div>
 
-      {subtext && <p className="mt-1 text-xs text-muted-foreground">{subtext}</p>}
+      {subtext && (
+        <p className="relative z-10 mt-1.5 text-xs font-medium text-muted-foreground line-clamp-1">
+          {subtext}
+        </p>
+      )}
     </div>
   );
 }

@@ -1,11 +1,17 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { LucideIcon, Inbox } from "lucide-react";
+import { LucideIcon } from "lucide-react";
+import { Icon3D, type Icon3DName, type Icon3DTone } from "@/components/3d/Icon3D";
+import { Button3D } from "@/components/3d/Button3D";
 
 interface EmptyStateProps {
   title: string;
   description: string;
   icon?: LucideIcon | React.ComponentType<{ className?: string }> | React.ReactNode;
+  icon3d?: Icon3DName;
+  iconTone?: Icon3DTone;
   action?: {
     label: string;
     onClick?: () => void;
@@ -17,47 +23,45 @@ interface EmptyStateProps {
 export function EmptyState({
   title,
   description,
-  icon = Inbox,
+  icon,
+  icon3d = "search",
+  iconTone = "blue",
   action,
   className = "",
 }: EmptyStateProps) {
-  const renderIcon = () => {
-    if (!icon) return null;
-    if (React.isValidElement(icon)) {
-      return icon;
-    }
-    if (typeof icon === "function" || typeof icon === "object") {
-      const IconComponent = icon as React.ComponentType<{ className?: string }>;
-      return <IconComponent className="w-5 h-5 stroke-[1.5]" />;
-    }
-    return <Inbox className="w-5 h-5 stroke-[1.5]" />;
-  };
-
   return (
     <div
-      className={`flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-lg border border-dashed border-[#DCDCE0] bg-[#F8F8F9] ${className}`}
+      className={`relative flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-2xl border border-dashed border-[#c5d6e8] bg-gradient-to-b from-white/70 via-[#fcfdff] to-[#f8fbfe] shadow-[var(--shadow-3d-card)] ${className}`}
     >
-      <div className="w-12 h-12 rounded-full bg-[#E7E7E9] flex items-center justify-center text-[#191919] mb-3 border border-[#DCDCE0]">
-        {renderIcon()}
+      {/* 3D Elevated Pedestal Base */}
+      <div className="relative mb-4 flex items-center justify-center">
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-2 h-3.5 w-24 rounded-full bg-black/8 blur-md"
+        />
+        <div className="relative z-10 transition-transform duration-300 hover:scale-105">
+          <Icon3D name={icon3d} tone={iconTone} size="2xl" glow={true} depth={true} />
+        </div>
       </div>
-      <h3 className="text-sm font-semibold text-[#191919] mb-1">{title}</h3>
-      <p className="text-xs text-[#6E6E73] max-w-sm mb-4 leading-relaxed font-mono">
+
+      <h3 className="text-sm sm:text-base font-bold text-foreground mb-1 tracking-tight">
+        {title}
+      </h3>
+
+      <p className="text-xs text-muted-foreground max-w-sm mb-5 leading-relaxed">
         {description}
       </p>
+
       {action && action.href ? (
-        <Link
-          href={action.href}
-          className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-[#191919] hover:bg-[#2D2D30] rounded-md btn-interactive shadow-xs"
-        >
-          {action.label}
+        <Link href={action.href}>
+          <Button3D variant="primary" size="sm">
+            {action.label}
+          </Button3D>
         </Link>
       ) : action && action.onClick ? (
-        <button
-          onClick={action.onClick}
-          className="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white bg-[#191919] hover:bg-[#2D2D30] rounded-md btn-interactive shadow-xs cursor-pointer"
-        >
+        <Button3D variant="primary" size="sm" onClick={action.onClick}>
           {action.label}
-        </button>
+        </Button3D>
       ) : null}
     </div>
   );

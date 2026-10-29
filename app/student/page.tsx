@@ -10,22 +10,14 @@ import { getStudentSummary, getStudentAttendance } from "@/lib/services/attendan
 import { listStudentFees } from "@/lib/services/fees";
 import { getStudentScope } from "@/lib/services/students";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { StatCard } from "@/components/shared/StatCard";
-import { StatusBadge } from "@/components/shared/StatusBadge";
-import { formatFriendlyDate } from "@/lib/domain";
+import { StatCard3D } from "@/components/3d/StatCard3D";
+import { Card3D } from "@/components/3d/Card3D";
+import { Button3D } from "@/components/3d/Button3D";
+import { Badge3D } from "@/components/3d/Badge3D";
+import { Icon3D, type Icon3DName, type Icon3DTone } from "@/components/3d/Icon3D";
 import { SectionCard } from "@/app/admin/_components/ui";
-import {
-  Archive,
-  Award,
-  BookOpen,
-  CalendarCheck,
-  CalendarDays,
-  ClipboardList,
-  CreditCard,
-  FileSpreadsheet,
-  History,
-  Megaphone,
-} from "lucide-react";
+import { formatFriendlyDate } from "@/lib/domain";
+import { ChevronRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +25,7 @@ export const metadata = { title: "Dashboard" };
 
 const inr = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
-/** Student dashboard: self-only data (attendance, exams, homework, fees, notices). */
+/** Student scholar terminal: self-only data with 3D visualization. */
 export default async function StudentDashboardPage() {
   const ctx = await requireRole("STUDENT");
   const db = await createServerSupabaseClient();
@@ -41,12 +33,13 @@ export default async function StudentDashboardPage() {
 
   if (scope === null) {
     return (
-      <div className="ui-card mx-auto mt-4 max-w-lg p-8 text-center">
-        <h1 className="text-lg font-semibold text-foreground">Your student profile isn&apos;t linked yet</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          No student profile is linked to your login. Please contact your school office.
+      <Card3D depth="floating" className="mx-auto mt-8 max-w-lg p-8 text-center">
+        <Icon3D name="students" tone="amber" size="xl" glow={true} depth={true} className="mx-auto mb-3" />
+        <h1 className="text-lg font-bold text-foreground">Scholar Profile Not Linked Yet</h1>
+        <p className="mt-2 text-xs text-muted-foreground">
+          No student profile is linked to your login. Please contact your school office to register your scholar ID.
         </p>
-      </div>
+      </Card3D>
     );
   }
 
@@ -77,111 +70,175 @@ export default async function StudentDashboardPage() {
       total: 0,
     })),
   ]);
-  const feeDue = fees.reduce((sum, f) => sum + f.due, 0);
 
+  const feeDue = fees.reduce((sum, f) => sum + f.due, 0);
   const hasAttendance = attendance.percentage !== null;
   const firstName = ctx.profile.fullName.split(" ")[0] ?? ctx.profile.fullName;
-  const moreLinks = [
-    { label: "Results", href: "/student/results", desc: "Published exam results", icon: ClipboardList },
-    { label: "Report cards", href: "/student/report-cards", desc: "Term report cards", icon: Award },
-    { label: "Question papers", href: "/student/pyqs", desc: "Previous year papers", icon: Archive },
-    { label: "Academic history", href: "/student/academic-history", desc: "Past classes and years", icon: History },
+
+  const moreLinks: {
+    label: string;
+    href: string;
+    desc: string;
+    icon: Icon3DName;
+    tone: Icon3DTone;
+  }[] = [
+    { label: "Published Results", href: "/student/results", desc: "Exam scores & grade achievements", icon: "marks", tone: "amber" },
+    { label: "Term Report Cards", href: "/student/report-cards", desc: "Download signed PDF certificates", icon: "report-cards", tone: "gold" },
+    { label: "Question Papers (PYQ)", href: "/student/pyqs", desc: "Past year examination archives", icon: "pyqs", tone: "purple" },
+    { label: "Academic History", href: "/student/academic-history", desc: "Past academic records & progression", icon: "history", tone: "slate" },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* 3D Student Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="page-title">Welcome back, {firstName}</h1>
-          <p className="page-description">Here is what&apos;s happening at {ctx.school.name}.</p>
+          <div className="flex items-center gap-2 mb-1.5">
+            <Badge3D tone="blue" size="sm">
+              SCHOLAR LEARNING TERMINAL
+            </Badge3D>
+            <span className="text-xs text-muted-foreground">•</span>
+            <span className="text-xs font-semibold text-muted-foreground">{ctx.school.name}</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+            Welcome back, {firstName}
+          </h1>
+          <p className="page-description text-xs sm:text-sm">
+            Here is your daily learning overview, class timetable, and assignments.
+          </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link href="/student/attendance" className="ui-btn ui-btn-secondary">
-            <CalendarCheck aria-hidden="true" className="size-4" />
-            Attendance
+
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <Link href="/student/attendance">
+            <Button3D variant="secondary" size="md" icon={<Icon3D name="attendance" tone="emerald" size="xs" />}>
+              Attendance
+            </Button3D>
           </Link>
-          <Link href="/student/results" className="ui-btn ui-btn-primary">
-            <ClipboardList aria-hidden="true" className="size-4" />
-            My results
+          <Link href="/student/results">
+            <Button3D variant="primary" size="md" icon={<Icon3D name="marks" tone="amber" size="xs" />}>
+              My Results
+            </Button3D>
           </Link>
         </div>
       </div>
 
+      {/* 3D KPI Metrics Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Link href="/student/attendance" className="block rounded-[var(--radius-card)]">
-          <StatCard
-            label="Attendance"
-            value={hasAttendance ? `${attendance.percentage}%` : "—"}
-            subtext={hasAttendance ? "Overall attendance" : "No attendance recorded yet"}
-            icon={CalendarCheck}
-            trend={
-              hasAttendance
-                ? {
-                    positive: (attendance.percentage ?? 0) >= 90,
-                    text: (attendance.percentage ?? 0) >= 90 ? "On track" : "Needs attention",
-                  }
-                : undefined
-            }
-            className="ui-card-interactive h-full"
-          />
-        </Link>
-        <Link href="/student/fees" className="block rounded-[var(--radius-card)]">
-          <StatCard
-            label="Fees due"
-            value={inr.format(feeDue)}
-            subtext="Outstanding balance"
-            icon={CreditCard}
-            className="ui-card-interactive h-full"
-          />
-        </Link>
-        <Link href="/student/exams" className="block rounded-[var(--radius-card)]">
-          <StatCard
-            label="Upcoming exams"
-            value={exams.length}
-            subtext="Latest exams for your class"
-            icon={FileSpreadsheet}
-            className="ui-card-interactive h-full"
-          />
-        </Link>
-        <Link href="/student/homework" className="block rounded-[var(--radius-card)]">
-          <StatCard
-            label="Homework"
-            value={homework.length}
-            subtext="Latest assignments"
-            icon={BookOpen}
-            className="ui-card-interactive h-full"
-          />
-        </Link>
+        <StatCard3D
+          label="Attendance Rate"
+          value={hasAttendance ? `${attendance.percentage}%` : "—"}
+          subtext={hasAttendance ? "Overall academic attendance" : "No records yet"}
+          iconName="attendance"
+          tone="emerald"
+          trend={
+            hasAttendance
+              ? {
+                  positive: (attendance.percentage ?? 0) >= 75,
+                  text: (attendance.percentage ?? 0) >= 75 ? "Eligible" : "Attendance Low",
+                }
+              : undefined
+          }
+          href="/student/attendance"
+        />
+
+        <StatCard3D
+          label="Fee Dues"
+          value={inr.format(feeDue)}
+          subtext={feeDue === 0 ? "All cleared" : "Outstanding balance"}
+          iconName="fees"
+          tone={feeDue === 0 ? "emerald" : "amber"}
+          href="/student/fees"
+        />
+
+        <StatCard3D
+          label="Upcoming Exams"
+          value={exams.length}
+          subtext="Class exam timetable"
+          iconName="exams"
+          tone="rose"
+          href="/student/exams"
+        />
+
+        <StatCard3D
+          label="Active Homework"
+          value={homework.length}
+          subtext="Pending subject assignments"
+          iconName="homework"
+          tone="blue"
+          href="/student/homework"
+        />
       </div>
 
+      {/* Two Column Work Overview */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <SectionCard title="Recent attendance" icon={CalendarCheck} href="/student/attendance" linkLabel="Full record">
+        {/* Recent Attendance */}
+        <SectionCard
+          title="Recent Roll-Call History"
+          iconName="attendance"
+          iconTone="emerald"
+          href="/student/attendance"
+          linkLabel="Full record"
+        >
           {recentAttendance.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">No attendance recorded yet.</p>
+            <p className="py-6 text-center text-xs text-muted-foreground">
+              No attendance recorded yet.
+            </p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y divide-[#eef3f8]">
               {recentAttendance.map((r) => (
-                <li key={r.sessionId + r.date} className="flex items-center justify-between gap-3 py-2.5 first:pt-0 last:pb-0">
-                  <span className="text-sm text-foreground">{formatFriendlyDate(r.date)}</span>
-                  <StatusBadge status={r.status} size="sm" />
+                <li
+                  key={r.sessionId + r.date}
+                  className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                  <span className="text-xs font-bold text-foreground">
+                    {formatFriendlyDate(r.date)}
+                  </span>
+                  <Badge3D
+                    tone={
+                      r.status === "PRESENT"
+                        ? "emerald"
+                        : r.status === "ABSENT"
+                          ? "rose"
+                          : "amber"
+                    }
+                    size="sm"
+                    dot={true}
+                  >
+                    {r.status}
+                  </Badge3D>
                 </li>
               ))}
             </ul>
           )}
         </SectionCard>
 
-        <SectionCard title="School notices" icon={Megaphone} href="/student/notices">
+        {/* School Circulars */}
+        <SectionCard
+          title="School Circulars & Announcements"
+          iconName="notices"
+          iconTone="rose"
+          href="/student/notices"
+          linkLabel="All notices"
+        >
           {notices.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">No notices right now.</p>
+            <p className="py-6 text-center text-xs text-muted-foreground">
+              No announcements posted right now.
+            </p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y divide-[#eef3f8]">
               {notices.map((n) => (
                 <li key={n.id} className="py-3 first:pt-0 last:pb-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm font-medium text-foreground">{n.title}</span>
-                    <span className="shrink-0 text-xs text-muted-foreground">{formatFriendlyDate(n.createdAt)}</span>
+                    <span className="truncate text-xs font-bold text-foreground">
+                      {n.title}
+                    </span>
+                    <span className="shrink-0 text-[11px] font-medium text-muted-foreground">
+                      {formatFriendlyDate(n.createdAt)}
+                    </span>
                   </div>
-                  <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{n.content}</p>
+                  <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
+                    {n.content}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -189,33 +246,51 @@ export default async function StudentDashboardPage() {
         </SectionCard>
       </div>
 
-      <SectionCard title="This week" icon={CalendarDays} href="/student/timetable" linkLabel="Timetable">
+      {/* Weekly Timetable Schedule Frame */}
+      <SectionCard
+        title="Weekly Class Schedule"
+        iconName="timetable"
+        iconTone="blue"
+        href="/student/timetable"
+        linkLabel="Full schedule"
+      >
         <WeeklyTimetable slots={slots} />
       </SectionCard>
 
+      {/* Quick Links Section */}
       <section aria-labelledby="student-more-links">
-        <h2 id="student-more-links" className="section-title mb-3">
-          More
-        </h2>
+        <div className="flex items-center gap-2.5 mb-4">
+          <Icon3D name="dashboard" tone="blue" size="sm" depth={true} />
+          <h2 id="student-more-links" className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+            Academic Portfolios & Resources
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {moreLinks.map((link) => {
-            const Icon = link.icon;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="ui-card ui-card-interactive group flex items-center gap-3 p-3.5"
+          {moreLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="block group outline-none">
+              <Card3D
+                interactive
+                depth="raised"
+                className="p-4 h-full flex items-start gap-3.5 group-hover:border-[#b9d1ea]"
               >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground transition-colors duration-150 group-hover:bg-primary group-hover:text-primary-foreground">
-                  <Icon aria-hidden="true" className="size-4" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium text-foreground">{link.label}</span>
-                  <span className="block truncate text-xs text-muted-foreground">{link.desc}</span>
-                </span>
-              </Link>
-            );
-          })}
+                <div className="shrink-0 transition-transform duration-200 group-hover:scale-110">
+                  <Icon3D name={link.icon} tone={link.tone} size="md" glow={true} depth={true} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="text-xs font-bold text-foreground group-hover:text-[#0b6fdb] transition-colors truncate">
+                      {link.label}
+                    </span>
+                    <ChevronRight className="size-3.5 text-muted-foreground group-hover:text-[#0b6fdb] group-hover:translate-x-0.5 transition-all" />
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground line-clamp-1">
+                    {link.desc}
+                  </p>
+                </div>
+              </Card3D>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

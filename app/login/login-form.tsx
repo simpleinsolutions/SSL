@@ -4,12 +4,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { isLocalDevHost } from "@/lib/auth/portal";
 import { loginAction } from "@/app/auth-actions";
 import {
-  School,
-  Shield,
-  GraduationCap,
-  Users,
-  User,
-  Mail,
   ArrowRight,
   Eye,
   EyeOff,
@@ -17,11 +11,14 @@ import {
   ChevronLeft,
   ExternalLink,
   Laptop,
-  HeartHandshake,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import type { PortalType } from "@/lib/auth/portal";
+import { Icon3D, type Icon3DName, type Icon3DTone } from "@/components/3d/Icon3D";
+import { Card3D } from "@/components/3d/Card3D";
+import { Button3D } from "@/components/3d/Button3D";
+import { Badge3D } from "@/components/3d/Badge3D";
 
 type RoleKey = "admin" | "teacher" | "parent" | "student";
 
@@ -32,6 +29,8 @@ interface RoleConfig {
   name: string;
   title: string;
   portal: "staff" | "family";
+  icon3d: Icon3DName;
+  tone: Icon3DTone;
 }
 
 const roleConfigs: Record<RoleKey, RoleConfig> = {
@@ -42,6 +41,8 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
     name: "School Administrator",
     title: "Institutional Control & Operations",
     portal: "staff",
+    icon3d: "users",
+    tone: "slate",
   },
   teacher: {
     key: "teacher",
@@ -50,6 +51,8 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
     name: "Academic Faculty",
     title: "Class Teacher & Head of Department",
     portal: "staff",
+    icon3d: "teachers",
+    tone: "indigo",
   },
   parent: {
     key: "parent",
@@ -58,6 +61,8 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
     name: "Guardian Portal",
     title: "Parental Supervision & Records",
     portal: "family",
+    icon3d: "parents",
+    tone: "emerald",
   },
   student: {
     key: "student",
@@ -66,6 +71,8 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
     name: "Student Scholar",
     title: "Enrolled Scholar Terminal",
     portal: "family",
+    icon3d: "students",
+    tone: "blue",
   },
 };
 
@@ -73,7 +80,10 @@ const roleConfigs: Record<RoleKey, RoleConfig> = {
  * Identifier accepted per tab. The server action resolves non-email
  * identifiers (admission number, phone, employee ID) to the account email.
  */
-const IDENTIFIER: Record<RoleKey, { role: string; label: string; placeholder: string; inputMode: "email" | "text" | "tel" }> = {
+const IDENTIFIER: Record<
+  RoleKey,
+  { role: string; label: string; placeholder: string; inputMode: "email" | "text" | "tel" }
+> = {
   admin: { role: "SCHOOL_ADMIN", label: "Email Address", placeholder: "admin@greenfield-demo.edu or school email", inputMode: "email" },
   teacher: { role: "TEACHER", label: "Employee ID or Email", placeholder: "T-1001 or teacher.math@greenfield-demo.edu", inputMode: "text" },
   parent: { role: "PARENT", label: "Mobile Number or Email", placeholder: "9876543210 or parent.sharma@greenfield-demo.edu", inputMode: "text" },
@@ -119,7 +129,6 @@ export function LoginForm({
   familyBaseUrl?: string;
   currentHost?: string;
 }) {
-  // In unified mode, user can toggle portal view
   const [activePortalTab, setActivePortalTab] = useState<"staff" | "family">(
     initialPortal === "family" ? "family" : "staff",
   );
@@ -127,7 +136,6 @@ export function LoginForm({
   const effectivePortal: "staff" | "family" =
     initialPortal === "unified" ? activePortalTab : initialPortal;
 
-  // Available roles filtered strictly by active portal
   const availableRoles = useMemo<readonly [RoleKey, ...RoleKey[]]>(
     () =>
       effectivePortal === "staff"
@@ -147,7 +155,6 @@ export function LoginForm({
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  // When effective portal changes, sync selected role
   useEffect(() => {
     if (!availableRoles.includes(selectedRole)) {
       const nextRole: RoleKey = availableRoles[0];
@@ -163,20 +170,6 @@ export function LoginForm({
     setPassword("");
   };
 
-  const getRoleIcon = (key: RoleKey) => {
-    switch (key) {
-      case "admin":
-        return <Shield className="w-4 h-4" />;
-      case "teacher":
-        return <GraduationCap className="w-4 h-4" />;
-      case "parent":
-        return <Users className="w-4 h-4" />;
-      case "student":
-        return <User className="w-4 h-4" />;
-    }
-  };
-
-  // Only known codes are shown; free text from the URL is never rendered.
   const errorMessage = initialError
     ? ERROR_MESSAGES[initialError] ?? "Sign-in failed. Please try again."
     : null;
@@ -184,91 +177,114 @@ export function LoginForm({
   const isStaffPortal = effectivePortal === "staff";
 
   return (
-    <div
-      className="min-h-screen flex flex-col justify-between bg-background selection:bg-primary/20"
-    >
-      {/* Top Header */}
-      <header
-        className={`border-b transition-colors duration-200 ${
-          isStaffPortal
-            ? "border-border bg-surface-muted"
-            : "border-border bg-surface"
-        }`}
-      >
+    <div className="min-h-screen flex flex-col justify-between bg-[#f5f8fc] selection:bg-[#0b6fdb] selection:text-white">
+      {/* Top Navigation */}
+      <header className="border-b border-[#e1e8f0] bg-white/80 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors group"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
             <span>Return to School Website</span>
           </Link>
 
           <div className="flex items-center gap-3">
             {initialPortal === "unified" && isLocalDevHost(currentHost) && (
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono bg-muted text-gray-700 border border-border">
-                <Laptop className="w-3 h-3" />
-                <span>DEV MODE: UNIFIED</span>
-              </span>
+              <Badge3D tone="slate" size="sm" icon={<Laptop className="w-3 h-3" />}>
+                DEV MODE: UNIFIED
+              </Badge3D>
             )}
-            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-              <span className="hidden md:inline">
-                {isStaffPortal ? "STAFF AUTH PROTOCOL" : "FAMILY GUARDIAN GATEWAY"}
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            </div>
+            <Badge3D tone={isStaffPortal ? "indigo" : "emerald"} size="sm" dot={true} pulse={true}>
+              {isStaffPortal ? "STAFF AUTH PROTOCOL" : "FAMILY GUARDIAN GATEWAY"}
+            </Badge3D>
           </div>
         </div>
       </header>
 
-      {/* Main Login Card Area */}
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div className="w-full max-w-lg">
-          {/* School Badge & Portal Header */}
+      {/* Main 3D Login Card Area */}
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative">
+        {/* Ambient Depth Floor Glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] rounded-full blur-3xl opacity-20"
+          style={{
+            background: isStaffPortal
+              ? "radial-gradient(circle, #0b6fdb 0%, transparent 70%)"
+              : "radial-gradient(circle, #10b981 0%, transparent 70%)",
+          }}
+        />
+
+        <div className="w-full max-w-lg relative z-10">
+          {/* 3D Institutional Emblem & Heading */}
           <div className="text-center mb-8">
-            <div
-              className="w-13 h-13 rounded-2xl bg-sidebar text-white flex items-center justify-center mx-auto mb-3.5 shadow-md"
-            >
-              {isStaffPortal ? (
-                <School className="w-7 h-7" />
-              ) : (
-                <HeartHandshake className="w-7 h-7" />
-              )}
+            <div className="inline-block transition-transform duration-300 hover:scale-108 mb-3.5">
+              <Icon3D
+                name={isStaffPortal ? "school" : "parents"}
+                tone={isStaffPortal ? "blue" : "emerald"}
+                size="2xl"
+                glow={true}
+                depth={true}
+              />
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              {isStaffPortal ? "STAFF ACCESS PORTAL" : "FAMILY & STUDENT PORTAL"}
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#14263d]">
+              {isStaffPortal ? "STAFF ACCESS PORTAL" : "FAMILY & SCHOLAR PORTAL"}
             </h1>
-            <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mt-1.5">
+            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mt-1.5">
               {isStaffPortal
-                ? "SIMPLIN SCHOOL ERP • ADMINISTRATORS & TEACHERS"
-                : "SIMPLIN SCHOOL ERP • PARENTS & STUDENTS"}
+                ? "SIMPLEIN SCHOOL ERP • INSTITUTIONAL FACULTY & ADMIN"
+                : "SIMPLEIN SCHOOL ERP • GUARDIANS & STUDENTS"}
             </p>
           </div>
 
-          <div
-            className={`border rounded-2xl shadow-xs p-6 sm:p-8 transition-colors duration-200 ${
-              isStaffPortal
-                ? "bg-surface-muted border-border"
-                : "bg-surface border-border"
-            }`}
-          >
-            {/* Persona Selection Tabs (Strictly filtered by Portal) */}
+          {/* 3D Elevated Dialog Box */}
+          <Card3D depth="floating" className="p-6 sm:p-8">
+            {/* Unified Portal Toggle Switch */}
+            {initialPortal === "unified" && (
+              <div className="mb-6 pb-6 border-b border-[#e1e8f0]">
+                <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-[#eef3f8] border border-[#d8e2ed]">
+                  <button
+                    type="button"
+                    onClick={() => setActivePortalTab("staff")}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-center gap-2 ${
+                      activePortalTab === "staff"
+                        ? "bg-white text-[#0b6fdb] shadow-[var(--shadow-3d-card)] border border-[#c5d2e1]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon3D name="teachers" tone={activePortalTab === "staff" ? "blue" : "slate"} size="xs" />
+                    <span>Staff Portal</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActivePortalTab("family")}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-center gap-2 ${
+                      activePortalTab === "family"
+                        ? "bg-white text-[#059669] shadow-[var(--shadow-3d-card)] border border-[#c5d2e1]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon3D name="parents" tone={activePortalTab === "family" ? "emerald" : "slate"} size="xs" />
+                    <span>Family Portal</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Persona Selection Tabs */}
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
-                  {isStaffPortal
-                    ? "Select Staff Credentials"
-                    : "Select Family Persona"}
+              <div className="flex items-center justify-between mb-2.5">
+                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  {isStaffPortal ? "Select Staff Persona" : "Select Family Persona"}
                 </label>
-                <span className="text-[11px] font-mono text-muted-foreground">
+                <span className="text-[11px] font-medium text-muted-foreground">
                   {isStaffPortal ? "Authorized Personnel" : "Enrolled Families"}
                 </span>
               </div>
 
-              <div
-                className="grid grid-cols-2 gap-1.5 p-1 rounded-xl border bg-muted border-border"
-              >
+              <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-[#f0f4fa] border border-[#d8e2ed]">
                 {availableRoles.map((r) => {
                   const cfg = roleConfigs[r];
                   const active = currentRole === r;
@@ -277,15 +293,23 @@ export function LoginForm({
                       key={r}
                       type="button"
                       onClick={() => handleRoleChange(r)}
-                      className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-lg text-xs nav-item-interactive cursor-pointer ${
+                      className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-xs transition-all duration-150 select-none cursor-pointer ${
                         active
-                          ? "bg-primary text-primary-foreground font-bold shadow-xs border border-primary"
-                          : "text-gray-700 hover:text-foreground hover:bg-muted"
+                          ? "bg-gradient-to-b from-white to-[#fbfdff] text-[#0b6fdb] font-bold shadow-[var(--shadow-3d-card)] border border-[#b9d1ea]"
+                          : "text-muted-foreground hover:text-foreground hover:bg-white/60"
                       }`}
                       id={`tab-role-${r}`}
                     >
-                      <div className="mb-1">{getRoleIcon(r)}</div>
-                      <span className="truncate w-full text-center leading-none font-medium">
+                      <div className="mb-1.5">
+                        <Icon3D
+                          name={cfg.icon3d}
+                          tone={active ? cfg.tone : "slate"}
+                          size="sm"
+                          depth={true}
+                          glow={active}
+                        />
+                      </div>
+                      <span className="truncate w-full text-center leading-none font-bold">
                         {cfg.label}
                       </span>
                     </button>
@@ -296,22 +320,25 @@ export function LoginForm({
 
             {/* Error Message & Portal Mismatch Navigation */}
             {errorMessage && (
-              <div role="alert" className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-900 text-xs rounded-xl flex flex-col gap-2">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-700" />
-                  <span className="font-medium leading-relaxed">
+              <div
+                role="alert"
+                className="mb-5 p-4 bg-rose-50 border border-rose-200 text-rose-900 text-xs rounded-2xl flex flex-col gap-2 shadow-xs animate-fade-in"
+              >
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+                  <span className="font-semibold leading-relaxed">
                     {errorMessage}
                   </span>
                 </div>
 
                 {initialError === "portal_mismatch_staff" && (
-                  <div className="mt-1 pt-2 border-t border-red-200/60 flex items-center justify-between">
-                    <span className="text-[11px] text-red-800">
+                  <div className="mt-1 pt-2.5 border-t border-rose-200/70 flex items-center justify-between">
+                    <span className="text-[11px] text-rose-800">
                       Looking for Parents & Students login?
                     </span>
                     <a
                       href={familyBaseUrl}
-                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-red-900 underline hover:no-underline"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-900 underline hover:no-underline"
                     >
                       <span>Go to Family Portal</span>
                       <ExternalLink className="w-3 h-3" />
@@ -320,13 +347,13 @@ export function LoginForm({
                 )}
 
                 {initialError === "portal_mismatch_family" && (
-                  <div className="mt-1 pt-2 border-t border-red-200/60 flex items-center justify-between">
-                    <span className="text-[11px] text-red-800">
+                  <div className="mt-1 pt-2.5 border-t border-rose-200/70 flex items-center justify-between">
+                    <span className="text-[11px] text-rose-800">
                       Looking for Administration & Faculty login?
                     </span>
                     <a
                       href={staffBaseUrl}
-                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-red-900 underline hover:no-underline"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-900 underline hover:no-underline"
                     >
                       <span>Go to Staff Portal</span>
                       <ExternalLink className="w-3 h-3" />
@@ -342,18 +369,20 @@ export function LoginForm({
               onSubmit={() => setIsPending(true)}
               className="space-y-4"
             >
-              {/* Hidden Inputs for Portal and Next redirect */}
               <input type="hidden" name="portal" value={effectivePortal} />
               <input type="hidden" name="role" value={IDENTIFIER[currentRole].role} />
               {nextPath && <input type="hidden" name="next" value={nextPath} />}
 
               <div>
-                <label htmlFor="input-email" className="block text-xs font-semibold text-foreground mb-1.5">
+                <label
+                  htmlFor="input-email"
+                  className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5"
+                >
                   {IDENTIFIER[currentRole].label}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
-                    <Mail className="w-4 h-4" />
+                    <Icon3D name={roleConfigs[currentRole].icon3d} tone={roleConfigs[currentRole].tone} size="xs" />
                   </div>
                   <input
                     name="identifier"
@@ -366,7 +395,7 @@ export function LoginForm({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={IDENTIFIER[currentRole].placeholder}
-                    className="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-input rounded-xl text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all placeholder:text-gray-400"
+                    className="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#c5d2e1] rounded-xl text-sm text-foreground shadow-[var(--shadow-3d-recessed)] focus:outline-none focus:ring-3 focus:ring-[#0b6fdb]/20 focus:border-[#0b6fdb] transition-all placeholder:text-muted-foreground/60"
                     id="input-email"
                   />
                 </div>
@@ -374,7 +403,10 @@ export function LoginForm({
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-semibold text-foreground">
+                  <label
+                    htmlFor="input-password"
+                    className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                  >
                     Security Password
                   </label>
                   <span className="text-[11px] text-muted-foreground font-mono">
@@ -388,7 +420,7 @@ export function LoginForm({
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-3.5 pr-10 py-2.5 bg-surface border border-input rounded-xl text-sm font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                    className="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#c5d2e1] rounded-xl text-sm font-mono text-foreground shadow-[var(--shadow-3d-recessed)] focus:outline-none focus:ring-3 focus:ring-[#0b6fdb]/20 focus:border-[#0b6fdb] transition-all"
                     id="input-password"
                   />
                   <button
@@ -406,30 +438,31 @@ export function LoginForm({
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={isPending}
-                className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary-hover text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-colors shadow-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                id="btn-submit-login"
-              >
-                {isPending ? (
-                  <span>Verifying Credentials...</span>
-                ) : (
-                  <>
+              <div className="pt-2">
+                <Button3D
+                  type="submit"
+                  disabled={isPending}
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  icon={!isPending ? <ArrowRight className="w-4 h-4" /> : undefined}
+                  iconPosition="right"
+                  id="btn-submit-login"
+                >
+                  {isPending ? (
+                    <span>Verifying Credentials...</span>
+                  ) : (
                     <span>
-                      {isStaffPortal
-                        ? "Enter Staff Portal"
-                        : "Enter Family Portal"}
+                      {isStaffPortal ? "Enter Staff Portal" : "Enter Family Portal"}
                     </span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+                  )}
+                </Button3D>
+              </div>
             </form>
 
-            {/* Demo Testing Credentials Quick Fill (Text Link for Current Role Only) */}
-            <div className="mt-4 pt-3.5 border-t border-border flex items-center justify-between text-xs">
-              <span className="text-muted-foreground text-[11px]">
+            {/* Demo Testing Credentials Quick Fill */}
+            <div className="mt-5 pt-4 border-t border-[#e1e8f0] flex items-center justify-between text-xs">
+              <span className="text-muted-foreground text-[11px] font-medium">
                 Demo Account:
               </span>
               <button
@@ -438,66 +471,23 @@ export function LoginForm({
                   setEmail(DEMO_CREDENTIALS[currentRole].identifier);
                   setPassword("SimpleIn@2026");
                 }}
-                className="inline-flex items-center gap-1.5 text-primary hover:text-primary/80 hover:underline font-medium text-xs cursor-pointer transition-colors"
+                className="inline-flex items-center gap-1.5 text-[#0b6fdb] hover:text-[#095dbb] hover:underline font-semibold text-xs cursor-pointer transition-colors"
                 id={`btn-quickfill-${currentRole}`}
               >
-                <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span>
-                  Fill {DEMO_CREDENTIALS[currentRole].label}
-                </span>
+                <Sparkles className="w-3.5 h-3.5 text-[#0b6fdb] shrink-0" />
+                <span>Fill {DEMO_CREDENTIALS[currentRole].label}</span>
                 <span className="text-[10px] text-muted-foreground font-mono">
                   (SimpleIn@2026)
                 </span>
               </button>
             </div>
-
-            {/* Portal Switch Link at Bottom */}
-            <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
-              <span>
-                {isStaffPortal
-                  ? "Are you a student or parent?"
-                  : "Are you a teacher or administrator?"}
-              </span>
-              {initialPortal === "unified" || isLocalDevHost(currentHost) ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActivePortalTab(isStaffPortal ? "family" : "staff")
-                  }
-                  className="font-semibold text-foreground hover:underline cursor-pointer"
-                >
-                  {isStaffPortal
-                    ? "Switch to Family Portal →"
-                    : "Switch to Staff Portal →"}
-                </button>
-              ) : (
-                <a
-                  href={isStaffPortal ? familyBaseUrl : staffBaseUrl}
-                  className="font-semibold text-foreground hover:underline inline-flex items-center gap-1"
-                >
-                  <span>
-                    {isStaffPortal ? "Go to Family Portal" : "Go to Staff Portal"}
-                  </span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
-            </div>
-          </div>
+          </Card3D>
         </div>
       </main>
 
       {/* Footer */}
-      <footer
-        className={`border-t py-4 text-center text-xs font-mono transition-colors duration-200 ${
-          isStaffPortal
-            ? "border-border bg-surface-muted text-muted-foreground"
-            : "border-border bg-surface text-muted-foreground"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>SIMPLIN SCHOOL ERP • SECURE ACCESS GATEWAY</span>
-          <span>SYSTEM TIME: {new Date().getFullYear()} ACADEMIC SESSION</span>
-        </div>
+      <footer className="border-t border-[#e1e8f0] bg-white py-4 px-4 text-center text-xs text-muted-foreground">
+        <p>SIMPLEIN SCHOOL ERP • SIMPLEIN SOLUTIONS LLP • ALL RIGHTS RESERVED</p>
       </footer>
     </div>
   );

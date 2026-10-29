@@ -7,7 +7,11 @@ import {
 } from "@/lib/services/attendance";
 import { listClasses } from "@/lib/services/classes";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { EmptyState, ErrorAlert } from "@/app/admin/_components/ui";
+import { EmptyState, ErrorAlert, PageHeader } from "@/app/admin/_components/ui";
+import { Card3D } from "@/components/3d/Card3D";
+import { StatCard3D } from "@/components/3d/StatCard3D";
+import { Button3D } from "@/components/3d/Button3D";
+import { Calendar, Filter, Users, UserCheck, UserX, Clock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +29,7 @@ export default async function AdminAttendancePage({
   const { classes } = await listClasses(db, ctx);
   const selectedClass = classes.find((c) => c.id === sp["classId"]);
   const sectionId = sp["sectionId"] ?? "";
-  const date = sp["date"] ?? "";
+  const date = sp["date"] ?? today;
 
   let summary: Awaited<ReturnType<typeof getSectionSummary>> | null = null;
   let loadError: string | undefined;
@@ -40,80 +44,123 @@ export default async function AdminAttendancePage({
   }
 
   return (
-    <div>
-      <h1 className="page-title">Attendance</h1>
-      <p className="mt-1 text-sm text-gray-600">
-        {ctx.school.name} · Today: {today} (dates are school-local)
-      </p>
+    <div className="space-y-6">
+      <PageHeader
+        title="Institutional Attendance"
+        description={`${ctx.school.name} · Local System Date: ${today}`}
+        iconName="attendance"
+        iconTone="blue"
+      />
 
-      <form method="get" className="mt-4 flex flex-wrap items-end gap-3">
-        <label className="text-sm">
-          <span className="ui-label">Class</span>
-          <select name="classId" defaultValue={sp["classId"] ?? ""} className="ui-input">
-            <option value="">Select…</option>
-            {classes.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="text-sm">
-          <span className="ui-label">Section</span>
-          <select name="sectionId" defaultValue={sectionId} className="ui-input">
-            <option value="">Select…</option>
-            {(selectedClass?.sections ?? []).map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="text-sm">
-          <span className="ui-label">Date</span>
-          <input type="date" name="date" defaultValue={date} max={today} className="ui-input" />
-        </label>
-        <button type="submit" className="ui-btn ui-btn-secondary">
-          View
-        </button>
-      </form>
+      {/* 3D Filter Selector Bar */}
+      <Card3D depth="raised" className="p-5">
+        <form method="get" className="flex flex-wrap items-end gap-4">
+          <label className="flex-1 min-w-[180px]">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Class Grade
+            </span>
+            <select
+              name="classId"
+              defaultValue={sp["classId"] ?? ""}
+              className="w-full bg-white border border-[#c5d2e1] text-foreground text-xs rounded-xl py-2 px-3 shadow-[var(--shadow-3d-recessed)] transition-all focus:outline-none focus:border-[#0b6fdb] focus:ring-2 focus:ring-[#0b6fdb]/20"
+            >
+              <option value="">Select Academic Grade…</option>
+              {classes.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex-1 min-w-[180px]">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Section
+            </span>
+            <select
+              name="sectionId"
+              defaultValue={sectionId}
+              className="w-full bg-white border border-[#c5d2e1] text-foreground text-xs rounded-xl py-2 px-3 shadow-[var(--shadow-3d-recessed)] transition-all focus:outline-none focus:border-[#0b6fdb] focus:ring-2 focus:ring-[#0b6fdb]/20"
+            >
+              <option value="">Select Section…</option>
+              {(selectedClass?.sections ?? []).map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="w-48">
+            <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Session Date
+            </span>
+            <input
+              type="date"
+              name="date"
+              defaultValue={date}
+              max={today}
+              className="w-full bg-white border border-[#c5d2e1] text-foreground text-xs rounded-xl py-2 px-3 shadow-[var(--shadow-3d-recessed)] transition-all focus:outline-none focus:border-[#0b6fdb] focus:ring-2 focus:ring-[#0b6fdb]/20"
+            />
+          </label>
+
+          <Button3D type="submit" variant="primary" size="md" icon={<Filter className="size-4" />}>
+            <span>Load Attendance</span>
+          </Button3D>
+        </form>
+      </Card3D>
 
       <ErrorAlert error={loadError} />
 
+      {/* 3D KPI Summaries when data is present */}
       {summary !== null && (
-        <div className="mt-4 flex flex-wrap gap-4 text-sm">
-          <div className="ui-panel">
-            <p className="text-xs text-gray-600">Session</p>
-            <p className="font-semibold">{summary.sessionExists ? "Recorded" : "Not recorded"}</p>
-          </div>
-          <div className="ui-panel">
-            <p className="text-xs text-gray-600">Present</p>
-            <p className="font-semibold">{summary.present}</p>
-          </div>
-          <div className="ui-panel">
-            <p className="text-xs text-gray-600">Absent</p>
-            <p className="font-semibold">{summary.absent}</p>
-          </div>
-          <div className="ui-panel">
-            <p className="text-xs text-gray-600">Leave</p>
-            <p className="font-semibold">{summary.leave}</p>
-          </div>
-          <div className="ui-panel">
-            <p className="text-xs text-gray-600">Attendance %</p>
-            <p className="font-semibold">
-              {summary.percentage === null ? "—" : `${summary.percentage}%`}
-            </p>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <StatCard3D
+            title="Present Count"
+            value={summary.present}
+            iconName="attendance"
+            tone="emerald"
+            subtitle="Verified in room"
+          />
+          <StatCard3D
+            title="Absent Count"
+            value={summary.absent}
+            iconName="alert"
+            tone="rose"
+            subtitle="Unexcused absentees"
+          />
+          <StatCard3D
+            title="Approved Leave"
+            value={summary.leave}
+            iconName="timetable"
+            tone="amber"
+            subtitle="Sanctioned leaves"
+          />
+          <StatCard3D
+            title="Attendance Ratio"
+            value={summary.percentage === null ? "—" : `${summary.percentage}%`}
+            iconName="report-cards"
+            tone="blue"
+            subtitle="Section turnout"
+          />
+          <StatCard3D
+            title="Register Status"
+            value={summary.sessionExists ? "Locked" : "Open"}
+            iconName="lock"
+            tone={summary.sessionExists ? "emerald" : "indigo"}
+            subtitle="Session persistence"
+          />
         </div>
       )}
 
       {!valid ? (
-        <div className="mt-6">
-          <EmptyState message="Select a class, section, and date to view or edit attendance." />
-        </div>
+        <EmptyState message="Select a class, section, and date to inspect and record institutional attendance." />
       ) : (
-        <div className="mt-6">
-          <h3 className="mb-2 font-semibold">Edit attendance</h3>
+        <Card3D depth="raised" className="p-6">
+          <div className="mb-4 pb-3 border-b border-[#e1e8f0]">
+            <h3 className="text-base font-bold text-foreground">Mark or Update Section Attendance</h3>
+            <p className="text-xs text-muted-foreground">Changes save directly into audited Supabase institutional registers.</p>
+          </div>
           <AttendanceMarker
             sections={classes.flatMap((c) =>
               (c.sections ?? []).map((s) => ({
@@ -126,7 +173,7 @@ export default async function AdminAttendancePage({
             initialSectionId={sectionId}
             initialDate={date}
           />
-        </div>
+        </Card3D>
       )}
     </div>
   );

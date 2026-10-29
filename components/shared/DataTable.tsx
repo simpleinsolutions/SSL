@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { Search, ChevronDown, ChevronUp, ArrowUpDown } from "lucide-react";
 import { EmptyState } from "./EmptyState";
+import { Button3D } from "@/components/3d/Button3D";
 
 export interface Column<T> {
   key: string;
@@ -93,12 +94,18 @@ export function DataTable<T extends { id?: string | number }>({
   };
 
   return (
-    <div className="bg-[#F8F8F9] rounded-lg border border-[#DCDCE0] overflow-hidden shadow-xs">
+    <div className="relative overflow-hidden rounded-2xl border border-[#d8e2ed] bg-white shadow-[var(--shadow-3d-card)]">
+      {/* 3D Specular Upper Rim Highlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/90 via-transparent to-transparent opacity-60"
+      />
+
       {/* Table Toolbar */}
-      <div className="p-3.5 sm:p-4 border-b border-[#DCDCE0] bg-[#F8F8F9] flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <div className="relative z-10 p-4 border-b border-[#e1e8f0] bg-gradient-to-b from-[#fbfdff] to-[#f6f9fd] flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <div className="flex flex-1 items-center gap-3">
           <div className="relative flex-1 max-w-sm">
-            <Search className="w-4 h-4 text-[#6E6E73] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={search}
@@ -107,7 +114,7 @@ export function DataTable<T extends { id?: string | number }>({
                 setCurrentPage(1);
               }}
               placeholder={searchPlaceholder}
-              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-md border border-[#DCDCE0] bg-[#F1F1F2] text-[#191919] placeholder:text-[#6E6E73] focus:outline-none focus:ring-1 focus:ring-[#191919] focus:border-[#191919] focus:bg-[#F8F8F9] transition-all"
+              className="w-full pl-10 pr-3.5 py-2 text-xs rounded-xl border border-[#c5d2e1] bg-white text-foreground placeholder:text-muted-foreground/70 shadow-[var(--shadow-3d-recessed)] focus:outline-none focus:ring-3 focus:ring-[#0b6fdb]/20 focus:border-[#0b6fdb] transition-all"
             />
           </div>
           {filterComponent}
@@ -122,17 +129,17 @@ export function DataTable<T extends { id?: string | number }>({
           <EmptyState title={emptyTitle} description={emptyDescription} />
         </div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="relative z-10 overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-[#DCDCE0] bg-[#E7E7E9] text-[#191919]">
+              <tr className="border-b border-[#e1e8f0] bg-[#f8fafd] text-[#14263d]">
                 {columns.map((col) => (
                   <th
                     key={col.key}
                     scope="col"
                     onClick={() => col.sortable && handleSort(col.key)}
-                    className={`py-3 px-4 font-semibold select-none ${
-                      col.sortable ? "cursor-pointer hover:bg-zinc-100" : ""
+                    className={`py-3.5 px-4 font-bold uppercase tracking-wider text-[11px] select-none ${
+                      col.sortable ? "cursor-pointer hover:bg-[#eef4fb] transition-colors" : ""
                     } ${
                       col.align === "right"
                         ? "text-right"
@@ -148,12 +155,12 @@ export function DataTable<T extends { id?: string | number }>({
                     >
                       <span>{col.header}</span>
                       {col.sortable && (
-                        <span className="text-zinc-400">
+                        <span className="text-muted-foreground">
                           {sortKey === col.key ? (
                             sortDir === "asc" ? (
-                              <ChevronUp className="w-3.5 h-3.5 text-zinc-900" />
+                              <ChevronUp className="w-3.5 h-3.5 text-[#0b6fdb]" />
                             ) : (
-                              <ChevronDown className="w-3.5 h-3.5 text-zinc-900" />
+                              <ChevronDown className="w-3.5 h-3.5 text-[#0b6fdb]" />
                             )
                           ) : (
                             <ArrowUpDown className="w-3 h-3 opacity-40 hover:opacity-100" />
@@ -165,7 +172,7 @@ export function DataTable<T extends { id?: string | number }>({
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#DCDCE0]/70">
+            <tbody className="divide-y divide-[#eef3f8]">
               {paginatedData.map((item, idx) => (
                 <tr
                   key={item.id ?? idx}
@@ -179,14 +186,14 @@ export function DataTable<T extends { id?: string | number }>({
                   }}
                   className={`transition-colors ${
                     onRowClick
-                      ? "cursor-pointer hover:bg-[#E7E7E9]/60 focus:outline-none focus:bg-[#E7E7E9]/60"
-                      : "hover:bg-[#E7E7E9]/30"
+                      ? "cursor-pointer hover:bg-[#f0f6fd] focus:outline-none focus:bg-[#f0f6fd]"
+                      : "hover:bg-[#fafcff]"
                   }`}
                 >
                   {columns.map((col) => (
                     <td
                       key={col.key}
-                      className={`py-3 px-4 text-[#191919] align-middle ${
+                      className={`py-3.5 px-4 text-foreground align-middle ${
                         col.align === "right"
                           ? "text-right"
                           : col.align === "center"
@@ -207,39 +214,41 @@ export function DataTable<T extends { id?: string | number }>({
       )}
 
       {/* Pagination Footer */}
-      <div className="p-3 border-t border-[#DCDCE0] bg-[#E7E7E9]/40 flex items-center justify-between text-xs text-[#6E6E73]">
+      <div className="relative z-10 p-3.5 border-t border-[#e1e8f0] bg-gradient-to-b from-[#fbfdff] to-[#f8fafd] flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-xs text-muted-foreground">
         <div>
           Showing{" "}
-          <span className="font-semibold text-[#191919]">
+          <span className="font-bold text-foreground">
             {sortedData.length > 0 ? (currentPage - 1) * pageSize + 1 : 0}
           </span>{" "}
           to{" "}
-          <span className="font-semibold text-[#191919]">
+          <span className="font-bold text-foreground">
             {Math.min(currentPage * pageSize, sortedData.length)}
           </span>{" "}
-          of <span className="font-semibold text-[#191919]">{sortedData.length}</span>{" "}
+          of <span className="font-bold text-foreground">{sortedData.length}</span>{" "}
           entries
         </div>
 
         {totalPages > 1 && (
-          <div className="flex items-center gap-1.5">
-            <button
+          <div className="flex items-center gap-2">
+            <Button3D
+              variant="secondary"
+              size="sm"
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-2.5 py-1 rounded border border-[#DCDCE0] bg-[#F8F8F9] text-[#191919] hover:bg-[#E7E7E9] disabled:opacity-40 disabled:cursor-not-allowed font-medium text-[11px] cursor-pointer"
             >
               Previous
-            </button>
-            <span className="px-2 text-[11px] font-medium text-[#48484A]">
+            </Button3D>
+            <span className="px-2 text-xs font-semibold text-foreground">
               Page {currentPage} of {totalPages}
             </span>
-            <button
+            <Button3D
+              variant="secondary"
+              size="sm"
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-2.5 py-1 rounded border border-[#DCDCE0] bg-[#F8F8F9] text-[#191919] hover:bg-[#E7E7E9] disabled:opacity-40 disabled:cursor-not-allowed font-medium text-[11px] cursor-pointer"
             >
               Next
-            </button>
+            </Button3D>
           </div>
         )}
       </div>

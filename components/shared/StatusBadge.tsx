@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { Badge3D } from "@/components/3d/Badge3D";
 
 type BadgeType =
   | "PRESENT"
@@ -27,37 +30,42 @@ interface StatusBadgeProps {
   size?: "sm" | "md";
 }
 
-const TONES: Record<string, { tone: string; label: string }> = {
-  PRESENT: { tone: "ui-badge-success", label: "Present" },
-  ABSENT: { tone: "ui-badge-danger", label: "Absent" },
-  LATE: { tone: "ui-badge-warning", label: "Late" },
-  EXCUSED: { tone: "ui-badge-neutral", label: "Excused" },
-  LEAVE: { tone: "ui-badge-info", label: "On leave" },
-  PUBLISHED: { tone: "ui-badge-success", label: "Published" },
-  SUBMITTED: { tone: "ui-badge-info", label: "Submitted" },
-  DRAFT: { tone: "ui-badge-neutral", label: "Draft" },
-  ACTIVE: { tone: "ui-badge-success", label: "Active" },
-  INACTIVE: { tone: "ui-badge-neutral", label: "Inactive" },
-  URGENT: { tone: "ui-badge-danger", label: "Priority" },
-  SCHOOL: { tone: "ui-badge-info", label: "Whole school" },
-  ALL: { tone: "ui-badge-info", label: "Whole school" },
-  TEACHER: { tone: "ui-badge-info", label: "Teachers" },
-  TEACHERS: { tone: "ui-badge-info", label: "Teachers" },
-  PARENT: { tone: "ui-badge-info", label: "Parents" },
-  PARENTS: { tone: "ui-badge-info", label: "Parents" },
+const TONES: Record<string, { tone: "emerald" | "amber" | "rose" | "blue" | "slate" | "gold" | "purple"; label: string; pulse?: boolean }> = {
+  PRESENT: { tone: "emerald", label: "Present" },
+  ABSENT: { tone: "rose", label: "Absent" },
+  LATE: { tone: "amber", label: "Late" },
+  EXCUSED: { tone: "slate", label: "Excused" },
+  LEAVE: { tone: "blue", label: "On leave" },
+  PUBLISHED: { tone: "emerald", label: "Published" },
+  SUBMITTED: { tone: "blue", label: "Submitted" },
+  DRAFT: { tone: "slate", label: "Draft" },
+  ACTIVE: { tone: "emerald", label: "Active", pulse: true },
+  INACTIVE: { tone: "slate", label: "Inactive" },
+  URGENT: { tone: "rose", label: "Priority", pulse: true },
+  SCHOOL: { tone: "blue", label: "Whole school" },
+  ALL: { tone: "blue", label: "Whole school" },
+  TEACHER: { tone: "blue", label: "Teachers" },
+  TEACHERS: { tone: "blue", label: "Teachers" },
+  PARENT: { tone: "emerald", label: "Parents" },
+  PARENTS: { tone: "emerald", label: "Parents" },
+  STUDENT: { tone: "purple", label: "Students" },
 };
 
 export function StatusBadge({ status, className = "", size = "md" }: StatusBadgeProps) {
   const norm = String(status).toUpperCase();
   const match = TONES[norm];
-  const tone = match?.tone ?? "ui-badge-neutral";
+  const tone = match?.tone ?? "slate";
   const label = match?.label ?? status;
-  const sizeClass = size === "sm" ? "text-[10px]" : "";
 
   return (
-    <span className={`ui-badge ${tone} ${sizeClass} ${className}`}>
-      <span aria-hidden="true" className="ui-badge-dot" />
-      <span>{label}</span>
-    </span>
+    <Badge3D
+      tone={tone}
+      size={size === "sm" ? "sm" : "md"}
+      dot={true}
+      pulse={match?.pulse}
+      className={className}
+    >
+      {label}
+    </Badge3D>
   );
 }

@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition } from "react";
-import { Bell, ChevronDown, Loader2, LogOut } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import { logoutAction } from "@/app/auth-actions";
+import { Avatar3D } from "@/components/3d/Avatar3D";
+import { Icon3D } from "@/components/3d/Icon3D";
 
 interface UserMenuProps {
   name: string;
@@ -12,19 +14,7 @@ interface UserMenuProps {
   contextLine?: string | null;
 }
 
-function initials(name: string): string {
-  return (
-    name
-      .split(/\s+/)
-      .map((w) => w[0])
-      .filter(Boolean)
-      .slice(0, 2)
-      .join("")
-      .toUpperCase() || "U"
-  );
-}
-
-/** Account dropdown: identity summary, notifications and sign-out. */
+/** Account dropdown with 3D Avatar, identity summary, notifications and tactile sign-out. */
 export function UserMenu({ name, roleLabel, schoolName, contextLine }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const [signingOut, startSignOut] = useTransition();
@@ -80,19 +70,14 @@ export function UserMenu({ name, roleLabel, schoolName, contextLine }: UserMenuP
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 items-center gap-2 rounded-lg pl-1 pr-2 text-left transition-colors duration-150 hover:bg-muted"
+        className="flex h-10 items-center gap-2.5 rounded-xl pl-1 pr-2.5 text-left transition-all duration-150 hover:bg-[#eef4fb] active:scale-98 border border-transparent hover:border-[#c5d6e8] shadow-xs"
       >
-        <span
-          aria-hidden="true"
-          className="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-[11px] font-semibold text-primary-foreground"
-        >
-          {initials(name)}
-        </span>
+        <Avatar3D name={name} size="sm" tone="blue" status="online" />
         <span className="hidden min-w-0 leading-tight sm:block">
-          <span className="block max-w-[10rem] truncate text-sm font-medium text-foreground">
+          <span className="block max-w-[10rem] truncate text-xs font-bold text-foreground">
             {name}
           </span>
-          <span className="block text-xs text-muted-foreground">{roleLabel}</span>
+          <span className="block text-[11px] font-medium text-muted-foreground">{roleLabel}</span>
         </span>
         <ChevronDown
           aria-hidden="true"
@@ -108,45 +93,56 @@ export function UserMenu({ name, roleLabel, schoolName, contextLine }: UserMenuP
           role="menu"
           aria-label="Account"
           onKeyDown={onMenuKeyDown}
-          className="absolute right-0 top-full z-50 mt-2 w-64 origin-top-right animate-pop-in rounded-xl border border-border bg-surface p-1.5 shadow-[var(--shadow-overlay)]"
+          className="absolute right-0 top-full z-50 mt-2 w-64 origin-top-right animate-pop-in rounded-2xl border border-[#c5d6e8] bg-white/95 backdrop-blur-md p-2 shadow-[var(--shadow-3d-float)]"
         >
-          <div className="px-2.5 py-2">
-            <p className="truncate text-sm font-semibold text-foreground">{name}</p>
-            <p className="truncate text-xs text-muted-foreground">
+          {/* 3D Specular Upper Rim */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/80 via-transparent to-transparent opacity-60"
+          />
+
+          <div className="relative z-10 px-3 py-2">
+            <p className="truncate text-sm font-bold text-foreground">{name}</p>
+            <p className="truncate text-xs font-medium text-muted-foreground">
               {roleLabel} · {schoolName}
             </p>
             {contextLine ? (
-              <p className="mt-0.5 truncate text-xs text-muted-foreground">{contextLine}</p>
+              <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{contextLine}</p>
             ) : null}
           </div>
-          <div className="my-1 h-px bg-border" />
-          <Link
-            href="/notifications"
-            role="menuitem"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-foreground outline-none transition-colors duration-150 hover:bg-muted focus-visible:bg-muted"
-          >
-            <Bell aria-hidden="true" className="size-4 text-muted-foreground" />
-            Notifications
-          </Link>
-          <button
-            type="button"
-            role="menuitem"
-            disabled={signingOut}
-            onClick={() =>
-              startSignOut(async () => {
-                await logoutAction();
-              })
-            }
-            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-foreground outline-none transition-colors duration-150 hover:bg-muted focus-visible:bg-muted disabled:opacity-60"
-          >
-            {signingOut ? (
-              <Loader2 aria-hidden="true" className="size-4 animate-spin text-muted-foreground" />
-            ) : (
-              <LogOut aria-hidden="true" className="size-4 text-muted-foreground" />
-            )}
-            {signingOut ? "Signing out…" : "Sign out"}
-          </button>
+
+          <div className="my-1.5 h-px bg-[#e1e8f0]" />
+
+          <div className="relative z-10 space-y-0.5">
+            <Link
+              href="/notifications"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-foreground outline-none transition-colors duration-150 hover:bg-[#eef4fb] hover:text-[#0b6fdb] focus-visible:bg-[#eef4fb]"
+            >
+              <Icon3D name="notifications" tone="blue" size="xs" depth={true} />
+              <span>Notifications</span>
+            </Link>
+
+            <button
+              type="button"
+              role="menuitem"
+              disabled={signingOut}
+              onClick={() =>
+                startSignOut(async () => {
+                  await logoutAction();
+                })
+              }
+              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-semibold text-rose-600 outline-none transition-colors duration-150 hover:bg-rose-50 focus-visible:bg-rose-50 disabled:opacity-60"
+            >
+              {signingOut ? (
+                <Loader2 aria-hidden="true" className="size-4 animate-spin text-rose-500" />
+              ) : (
+                <Icon3D name="lock" tone="rose" size="xs" depth={true} />
+              )}
+              <span>{signingOut ? "Signing out…" : "Sign out"}</span>
+            </button>
+          </div>
         </div>
       )}
     </div>

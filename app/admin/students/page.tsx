@@ -6,6 +6,8 @@ import type { StudentDto } from "@/lib/services/dto";
 import { listStudents } from "@/lib/services/students";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { studentFiltersSchema } from "@/lib/validation/people";
+import { TableContainer3D } from "@/components/3d/TableContainer3D";
+import { Button3D } from "@/components/3d/Button3D";
 import {
   EmptyState,
   ErrorAlert,
@@ -65,22 +67,22 @@ export default async function StudentsPage({
   }));
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <PageHeader
           title="Student Roster"
+          description="Complete student directory with real-time enrollment and academic section records."
+          iconName="students"
+          iconTone="blue"
           actionHref="/admin/students/new"
           actionLabel="Enroll Student"
-        />
-        <div className="flex items-center gap-2 -mt-4 sm:mt-0">
-          <Link
-            href="/admin/students/import"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-zinc-200 bg-white hover:bg-zinc-50 text-xs font-semibold text-zinc-800 transition-colors shadow-2xs font-mono"
-          >
-            <FileUp className="w-3.5 h-3.5" />
-            <span>Excel/CSV Import</span>
+        >
+          <Link href="/admin/students/import">
+            <Button3D variant="secondary" size="md" icon={<FileUp className="w-4 h-4" />}>
+              <span>Excel/CSV Import</span>
+            </Button3D>
           </Link>
-        </div>
+        </PageHeader>
       </div>
 
       <SearchBar
@@ -109,11 +111,16 @@ export default async function StudentsPage({
       {students.length === 0 ? (
         <EmptyState message="No students found matching current criteria. Add the first student or import via Excel." />
       ) : (
-        <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden shadow-xs">
+        <TableContainer3D
+          title="Enrolled Students"
+          description={`${total} registered institutional profiles`}
+          iconName="students"
+          iconTone="blue"
+        >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-zinc-700 font-semibold font-mono">
+                <tr className="border-b border-[#e1e8f0] bg-gradient-to-b from-[#fbfdff] to-[#f4f7fb] text-zinc-700 font-semibold font-mono">
                   <th className="py-3 px-4">Student Name</th>
                   <th className="py-3 px-4">Admission No</th>
                   <th className="py-3 px-4">Class & Section</th>
@@ -122,11 +129,11 @@ export default async function StudentsPage({
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-[#edf2f7]">
                 {students.map((s) => (
-                  <tr key={s.id} className="hover:bg-zinc-50/60 transition-colors">
+                  <tr key={s.id} className="hover:bg-[#f8fafc] transition-colors">
                     <td className="py-3 px-4 font-semibold text-zinc-950">
-                      <Link href={`/admin/students/${s.id}`} className="hover:underline">
+                      <Link href={`/admin/students/${s.id}`} className="hover:underline text-[#0b6fdb]">
                         {s.displayName}
                       </Link>
                     </td>
@@ -142,9 +149,9 @@ export default async function StudentsPage({
                     <td className="py-3 px-4 text-right">
                       <Link
                         href={`/admin/students/${s.id}`}
-                        className="inline-flex items-center gap-1 text-zinc-700 hover:text-zinc-950 font-mono text-[11px] underline"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-[#c5d2e1] bg-white text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 font-medium text-xs shadow-2xs transition-all"
                       >
-                        <Eye className="w-3 h-3" />
+                        <Eye className="w-3.5 h-3.5 text-[#0b6fdb]" />
                         <span>Profile</span>
                       </Link>
                     </td>
@@ -153,7 +160,7 @@ export default async function StudentsPage({
               </tbody>
             </table>
           </div>
-        </div>
+        </TableContainer3D>
       )}
 
       <Pagination

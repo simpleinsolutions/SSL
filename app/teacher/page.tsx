@@ -5,20 +5,14 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getTeacherScope, listTeacherSections } from "@/lib/services/teachers";
 import { listHomework } from "@/lib/services/homework";
 import { listExams } from "@/lib/services/exams";
-import { StatCard } from "@/components/shared/StatCard";
+import { StatCard3D } from "@/components/3d/StatCard3D";
+import { Card3D } from "@/components/3d/Card3D";
+import { Button3D } from "@/components/3d/Button3D";
+import { Badge3D } from "@/components/3d/Badge3D";
+import { Icon3D, type Icon3DName, type Icon3DTone } from "@/components/3d/Icon3D";
 import { SectionCard } from "@/app/admin/_components/ui";
 import { formatFriendlyDate } from "@/lib/domain";
-import {
-  Award,
-  Bell,
-  BookOpen,
-  CalendarCheck,
-  CalendarDays,
-  ClipboardList,
-  FileSpreadsheet,
-  Layers,
-  Megaphone,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -40,98 +34,178 @@ export default async function TeacherDashboardPage() {
   const homeworkList = homeworkResult.homework;
   const exams = examsResult.exams;
 
-  const quickActions = [
-    { label: "Attendance", href: "/teacher/attendance", desc: "Mark today's attendance", icon: CalendarCheck },
-    { label: "Marks entry", href: "/teacher/marks", desc: "Enter exam scores", icon: ClipboardList },
-    { label: "Homework", href: "/teacher/homework", desc: "Assign and manage homework", icon: BookOpen },
-    { label: "Exams", href: "/teacher/exams", desc: "Class exam schedules", icon: FileSpreadsheet },
-    { label: "Report cards", href: "/teacher/report-cards", desc: "Review student reports", icon: Award },
-    { label: "My timetable", href: "/teacher/timetable", desc: "Your weekly schedule", icon: CalendarDays },
-    { label: "Notices", href: "/teacher/notices", desc: "School announcements", icon: Megaphone },
-    { label: "Notifications", href: "/notifications", desc: "Alerts and messages", icon: Bell },
+  const quickActions: {
+    label: string;
+    href: string;
+    desc: string;
+    icon: Icon3DName;
+    tone: Icon3DTone;
+  }[] = [
+    { label: "Daily Attendance", href: "/teacher/attendance", desc: "Mark today's section attendance", icon: "attendance", tone: "emerald" },
+    { label: "Marks Entry", href: "/teacher/marks", desc: "Enter student exam scores", icon: "marks", tone: "amber" },
+    { label: "Homework Manager", href: "/teacher/homework", desc: "Assign & review student work", icon: "homework", tone: "blue" },
+    { label: "Class Examinations", href: "/teacher/exams", desc: "Class exam schedules & syllabus", icon: "exams", tone: "rose" },
+    { label: "Report Cards", href: "/teacher/report-cards", desc: "Review student academic remarks", icon: "report-cards", tone: "gold" },
+    { label: "Weekly Timetable", href: "/teacher/timetable", desc: "Your weekly teaching schedule", icon: "timetable", tone: "blue" },
+    { label: "Faculty Notices", href: "/teacher/notices", desc: "Institutional circulars", icon: "notices", tone: "rose" },
+    { label: "Notification Inbox", href: "/notifications", desc: "Alerts and communication", icon: "notifications", tone: "blue" },
   ];
 
   const firstName = ctx.profile.fullName.split(" ")[0] ?? ctx.profile.fullName;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* 3D Teacher Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="page-title">Welcome back, {firstName}</h1>
-          <p className="page-description">
+          <div className="flex items-center gap-2 mb-1.5">
+            <Badge3D tone="indigo" size="sm">
+              ACADEMIC FACULTY TERMINAL
+            </Badge3D>
+            <span className="text-xs text-muted-foreground">•</span>
+            <span className="text-xs font-semibold text-muted-foreground">{ctx.school.name}</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+            Welcome back, {firstName}
+          </h1>
+          <p className="page-description text-xs sm:text-sm">
             {sections.length > 0
               ? `You teach ${sections.length} section${sections.length === 1 ? "" : "s"} at ${ctx.school.name}.`
               : `No teaching sections are assigned to you at ${ctx.school.name} yet.`}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link href="/teacher/marks" className="ui-btn ui-btn-secondary">
-            <ClipboardList aria-hidden="true" className="size-4" />
-            Marks entry
+
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <Link href="/teacher/marks">
+            <Button3D variant="secondary" size="md" icon={<Icon3D name="marks" tone="amber" size="xs" />}>
+              Marks Entry
+            </Button3D>
           </Link>
-          <Link href="/teacher/attendance" className="ui-btn ui-btn-primary">
-            <CalendarCheck aria-hidden="true" className="size-4" />
-            Take attendance
+          <Link href="/teacher/attendance">
+            <Button3D variant="primary" size="md" icon={<Icon3D name="attendance" tone="emerald" size="xs" />}>
+              Take Attendance
+            </Button3D>
           </Link>
         </div>
       </div>
 
+      {/* 3D KPI Metrics Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="My sections" value={sections.length} subtext="Classes you teach" icon={Layers} />
-        <StatCard label="Upcoming exams" value={exams.length} subtext="Latest exams for your classes" icon={FileSpreadsheet} />
-        <StatCard label="Recent homework" value={homeworkList.length} subtext="Latest assignments" icon={BookOpen} />
+        <StatCard3D
+          label="My Teaching Sections"
+          value={sections.length}
+          subtext="Assigned classroom divisions"
+          iconName="classes"
+          tone="indigo"
+          href="/teacher/attendance"
+        />
+        <StatCard3D
+          label="Upcoming Exams"
+          value={exams.length}
+          subtext="Active examination schedules"
+          iconName="exams"
+          tone="rose"
+          href="/teacher/exams"
+        />
+        <StatCard3D
+          label="Active Homework"
+          value={homeworkList.length}
+          subtext="Assigned tasks & submissions"
+          iconName="homework"
+          tone="blue"
+          href="/teacher/homework"
+        />
       </div>
 
+      {/* Two Column Section Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <SectionCard title="My classes" icon={Layers} href="/teacher/attendance" linkLabel="Attendance">
+        {/* Assigned Classes */}
+        <SectionCard
+          title="My Teaching Sections"
+          iconName="classes"
+          iconTone="indigo"
+          href="/teacher/attendance"
+          linkLabel="Take roll-call"
+        >
           {scope === null ? (
-            <div className="ui-alert ui-alert-warning">
+            <div className="p-4 rounded-xl border border-amber-200 bg-amber-50 text-xs font-semibold text-amber-900">
               No teacher profile is linked to your login yet. Contact your school administrator.
             </div>
           ) : sections.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">
-              No classes assigned yet. Your school administrator can link classes to you.
+            <p className="py-6 text-center text-xs text-muted-foreground">
+              No classes assigned yet. Your school administrator can link teaching sections to your account.
             </p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y divide-[#eef3f8]">
               {sections.map((sec) => (
-                <li key={sec.id} className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium text-foreground">
+                <li
+                  key={sec.id}
+                  className="flex flex-wrap items-center justify-between gap-3 py-3.5 first:pt-0 last:pb-0"
+                >
+                  <div className="min-w-0">
+                    <span className="block truncate text-xs font-bold text-foreground">
                       {sec.classes?.name ?? "Class"} · Section {sec.name}
                     </span>
-                    {sec.room ? (
-                      <span className="block text-xs text-muted-foreground">Room {sec.room}</span>
-                    ) : null}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Link href="/teacher/attendance" className="ui-btn ui-btn-ghost ui-btn-sm">Attendance</Link>
-                    <Link href="/teacher/marks" className="ui-btn ui-btn-ghost ui-btn-sm">Marks</Link>
-                    <Link href="/teacher/homework" className="ui-btn ui-btn-ghost ui-btn-sm">Homework</Link>
-                  </span>
+                    {sec.room && (
+                      <span className="block text-[11px] text-muted-foreground">
+                        Room {sec.room}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <Link href={`/teacher/attendance`}>
+                      <Button3D variant="secondary" size="sm">
+                        Attendance
+                      </Button3D>
+                    </Link>
+                    <Link href={`/teacher/marks`}>
+                      <Button3D variant="secondary" size="sm">
+                        Marks
+                      </Button3D>
+                    </Link>
+                    <Link href={`/teacher/homework`}>
+                      <Button3D variant="secondary" size="sm">
+                        Homework
+                      </Button3D>
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ul>
           )}
         </SectionCard>
 
-        <SectionCard title="Recent homework" icon={BookOpen} href="/teacher/homework" linkLabel="Manage">
+        {/* Recent Homework */}
+        <SectionCard
+          title="Recent Homework Assignments"
+          iconName="homework"
+          iconTone="blue"
+          href="/teacher/homework"
+          linkLabel="Manage homework"
+        >
           {homeworkList.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">
-              No homework assigned yet. Create one from the Homework page.
+            <p className="py-6 text-center text-xs text-muted-foreground">
+              No homework assigned yet. Create an assignment from the Homework module.
             </p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="divide-y divide-[#eef3f8]">
               {homeworkList.slice(0, 4).map((hw) => (
-                <li key={hw.id} className="py-3 first:pt-0 last:pb-0">
+                <li key={hw.id} className="py-3.5 first:pt-0 last:pb-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm font-medium text-foreground">{hw.title}</span>
-                    <span className="ui-badge ui-badge-neutral shrink-0">{hw.classes?.name ?? "Class"}</span>
+                    <span className="truncate text-xs font-bold text-foreground">
+                      {hw.title}
+                    </span>
+                    <Badge3D tone="blue" size="sm">
+                      {hw.classes?.name ?? "Class"}
+                    </Badge3D>
                   </div>
-                  {hw.description ? (
-                    <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{hw.description}</p>
-                  ) : null}
-                  <span className="mt-1 block text-xs text-muted-foreground">
+                  {hw.description && (
+                    <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
+                      {hw.description}
+                    </p>
+                  )}
+                  <span className="mt-1.5 block text-[11px] font-medium text-muted-foreground">
                     Due {formatFriendlyDate(hw.dueDate)}
                   </span>
                 </li>
@@ -141,29 +215,40 @@ export default async function TeacherDashboardPage() {
         </SectionCard>
       </div>
 
+      {/* Quick Actions Grid */}
       <section aria-labelledby="teacher-quick-actions">
-        <h2 id="teacher-quick-actions" className="section-title mb-3">
-          Quick actions
-        </h2>
+        <div className="flex items-center gap-2.5 mb-4">
+          <Icon3D name="dashboard" tone="indigo" size="sm" depth={true} />
+          <h2 id="teacher-quick-actions" className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+            Educator Actions & Timetable
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Link
-                key={action.href}
-                href={action.href}
-                className="ui-card ui-card-interactive group flex items-center gap-3 p-3.5"
+          {quickActions.map((action) => (
+            <Link key={action.href} href={action.href} className="block group outline-none">
+              <Card3D
+                interactive
+                depth="raised"
+                className="p-4 h-full flex items-start gap-3.5 group-hover:border-[#b9d1ea]"
               >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground transition-colors duration-150 group-hover:bg-primary group-hover:text-primary-foreground">
-                  <Icon aria-hidden="true" className="size-4" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium text-foreground">{action.label}</span>
-                  <span className="block truncate text-xs text-muted-foreground">{action.desc}</span>
-                </span>
-              </Link>
-            );
-          })}
+                <div className="shrink-0 transition-transform duration-200 group-hover:scale-110">
+                  <Icon3D name={action.icon} tone={action.tone} size="md" glow={true} depth={true} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="text-xs font-bold text-foreground group-hover:text-[#0b6fdb] transition-colors truncate">
+                      {action.label}
+                    </span>
+                    <ChevronRight className="size-3.5 text-muted-foreground group-hover:text-[#0b6fdb] group-hover:translate-x-0.5 transition-all" />
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground line-clamp-1">
+                    {action.desc}
+                  </p>
+                </div>
+              </Card3D>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

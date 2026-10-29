@@ -1,414 +1,353 @@
 import React from "react";
 import Link from "next/link";
-import {
-  School,
-  ArrowRight,
-  Shield,
-  GraduationCap,
-  Users,
-  User,
-  BookOpen,
-  Award,
-  Calendar,
-  CheckCircle2,
-  Sparkles,
-  Phone,
-  Mail,
-  MapPin,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronRight, Phone, Mail, MapPin } from "lucide-react";
+import { Icon3D } from "@/components/3d/Icon3D";
+import { Card3D } from "@/components/3d/Card3D";
+import { Button3D } from "@/components/3d/Button3D";
+import { Badge3D } from "@/components/3d/Badge3D";
 
 export default function SchoolLandingPage() {
   const school = {
     id: "sch-simplein-01",
     name: "SIMPLEIN INTERNATIONAL SCHOOL",
+    motto: "Virtus • Veritas • Sapientia",
     academicYear: "2026-2027",
     currentTerm: "Term 1",
-    principalName: "Dr. Robert Vance",
+    principalName: "Dr. Robert Vance, Ph.D.",
     address: "400 Campus Parkway, Academic City",
+    phone: "+91 98765 43210",
+    email: "admissions@simplein.edu",
+    accreditation: "CBSE & ICSE Dual Stream Accredited K–12",
   };
 
+  const stats = [
+    { label: "Enrolled Scholars", value: "2,450+", icon: "students", tone: "blue" as const, subtext: "Nursery through Grade 12" },
+    { label: "Academic Faculty", value: "148", icon: "teachers", tone: "indigo" as const, subtext: "1:16 Educator-Student Ratio" },
+    { label: "Board Pass Rate", value: "100%", icon: "report-cards", tone: "gold" as const, subtext: "94.2% Distinction Rate" },
+    { label: "Academic Heritage", value: "32 yrs", icon: "academic-years", tone: "emerald" as const, subtext: "Established in 1994" },
+  ];
+
+  const features = [
+    {
+      title: "Comprehensive 3D Academic Management",
+      desc: "End-to-end curriculum control from Nursery through Grade 12. Automated timetable scheduling, subject allocation, and teacher workload optimization.",
+      icon: "classes" as const,
+      tone: "indigo" as const,
+    },
+    {
+      title: "Real-Time Attendance & Roll-Call",
+      desc: "Daily session tracking with instant absentee alerts. Attendance % calculation with statutory 75% examination eligibility guards.",
+      icon: "attendance" as const,
+      tone: "emerald" as const,
+    },
+    {
+      title: "Examination Moderation & Report Cards",
+      desc: "Multi-subject examination scheduling, secure teacher score entry, grade calculation, and instant cryptographic PDF term report card generation.",
+      icon: "exams" as const,
+      tone: "rose" as const,
+    },
+    {
+      title: "Family Supervision & Fee Transparency",
+      desc: "Unified parent portal supporting multi-child accounts. Real-time access to child homework, timetable, published results, and fee statements.",
+      icon: "parents" as const,
+      tone: "amber" as const,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white flex flex-col font-sans">
-      {/* Top Banner */}
-      <div className="bg-zinc-950 text-white text-[11px] font-mono tracking-wider py-2 px-4 border-b border-zinc-800">
+    <div className="min-h-screen bg-[#f5f8fc] text-[#14263d] selection:bg-[#0b6fdb] selection:text-white flex flex-col font-sans">
+      {/* Top Institutional Notification Ribbon */}
+      <div className="bg-gradient-to-r from-[#0f2a47] via-[#14263d] to-[#0a1d33] text-white text-xs py-2.5 px-4 border-b border-[#1e3c60]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>ACADEMIC YEAR {school.academicYear} • {school.currentTerm.toUpperCase()}</span>
+            <Badge3D tone="emerald" size="sm" dot={true} pulse={true}>
+              Active Session
+            </Badge3D>
+            <span className="font-medium text-slate-200 hidden sm:inline">
+              ACADEMIC YEAR {school.academicYear} • {school.currentTerm.toUpperCase()}
+            </span>
+            <span className="text-slate-400 hidden md:inline">|</span>
+            <span className="text-slate-300 text-[11px] hidden md:inline">
+              {school.accreditation}
+            </span>
           </div>
-          <div className="flex items-center gap-4 text-zinc-400 hidden sm:flex">
-            <span>WEST CAMPUS</span>
-            <span>•</span>
-            <span>ACCREDITED K–12</span>
-            <span>•</span>
+
+          <div className="flex items-center gap-4 text-xs">
             <Link
               href="/login"
-              className="text-white hover:underline flex items-center gap-1 font-semibold"
+              className="text-white hover:text-[#38bdf8] flex items-center gap-1.5 font-semibold transition-colors"
             >
-              Sign In <ArrowRight className="w-3 h-3" />
+              <span>Institutional Sign In</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-zinc-200">
+      {/* Main Navigation Bar */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#e1e8f0] shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          {/* Logo & School Name */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 rounded-lg bg-zinc-950 text-white flex items-center justify-center font-bold shadow-xs group-hover:bg-zinc-800 transition-colors">
-              <School className="w-6 h-6" />
+          {/* 3D Institutional Crest */}
+          <Link href="/" className="flex items-center gap-3.5 group select-none">
+            <div className="transition-transform duration-200 group-hover:scale-108">
+              <Icon3D name="school" tone="blue" size="xl" glow={true} depth={true} />
             </div>
             <div>
-              <div className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950 leading-none">
+              <div className="text-lg sm:text-xl font-black tracking-tight text-[#14263d] leading-none">
                 {school.name}
               </div>
-              <p className="text-[10px] uppercase font-mono tracking-widest text-zinc-500 mt-1">
-                Virtus • Veritas • Sapientia
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#0b6fdb] mt-1">
+                {school.motto}
               </p>
             </div>
           </Link>
 
-          {/* Nav Links */}
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-zinc-600">
-            <a href="#about" className="hover:text-zinc-950 transition-colors">
-              About
-            </a>
-            <a href="#academics" className="hover:text-zinc-950 transition-colors">
-              Academics
-            </a>
-            <a href="#leadership" className="hover:text-zinc-950 transition-colors">
-              Leadership
-            </a>
-            <a href="#admissions" className="hover:text-zinc-950 transition-colors">
-              Admissions
-            </a>
+          {/* Quick Nav Links */}
+          <nav className="hidden lg:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-[#55667e]">
+            <a href="#portals" className="hover:text-[#0b6fdb] transition-colors">Portals</a>
+            <a href="#academics" className="hover:text-[#0b6fdb] transition-colors">Academics</a>
+            <a href="#governance" className="hover:text-[#0b6fdb] transition-colors">Leadership</a>
+            <a href="#contact" className="hover:text-[#0b6fdb] transition-colors">Contact</a>
           </nav>
 
-          {/* Action CTAs */}
-          <div className="flex items-center gap-2.5">
-            <Link
-              href="/login?portal=staff"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-zinc-950 text-white text-xs font-semibold hover:bg-zinc-800 transition-all shadow-xs group"
-              id="landing-staff-portal-btn"
-            >
-              <span>Staff Portal</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          {/* Portal CTAs */}
+          <div className="flex items-center gap-3">
+            <Link href="/login?portal=staff">
+              <Button3D variant="secondary" size="sm">
+                Staff Portal
+              </Button3D>
             </Link>
-            <Link
-              href="/login?portal=family"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-zinc-100 text-zinc-900 border border-zinc-200 text-xs font-semibold hover:bg-zinc-200 transition-all shadow-xs group"
-              id="landing-family-portal-btn"
-            >
-              <span>Family Portal</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            <Link href="/login?portal=family">
+              <Button3D variant="primary" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />} iconPosition="right">
+                Family Portal
+              </Button3D>
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-zinc-200 bg-linear-to-b from-zinc-50/70 via-white to-white py-16 sm:py-24">
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+        {/* Ambient 3D Depth Floor Glows */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-10 -translate-x-1/2 size-[650px] rounded-full bg-gradient-to-tr from-[#0b6fdb]/10 to-[#818cf8]/15 blur-3xl opacity-60"
+        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 mb-6">
+            <Badge3D tone="blue" size="md">
+              SIMPLEIN SCHOOL ERP 3.0 • SECURE ENTERPRISE EDITION
+            </Badge3D>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#14263d] max-w-4xl mx-auto leading-[1.12]">
+            Excellence in Academic Rigor, Character & Modern School Governance
+          </h1>
+
+          <p className="mt-6 text-sm sm:text-base lg:text-lg text-[#55667e] max-w-2xl mx-auto leading-relaxed">
+            The unified digital campus platform for <strong>SimpleIn International School</strong>. Empowering institutional administrators, faculty, scholars, and parents with real-time academic workflows and total data privacy.
+          </p>
+
+          {/* Dual 3D Portal Cards */}
+          <div id="portals" className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
+            {/* Staff Portal Card */}
+            <Card3D interactive depth="floating" tone="blue" className="p-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <Badge3D tone="blue" size="sm">Administration & Faculty</Badge3D>
+                  <h3 className="mt-3 text-2xl font-bold tracking-tight text-[#14263d]">
+                    Staff & Educator Portal
+                  </h3>
+                  <p className="mt-2 text-xs text-[#55667e] leading-relaxed">
+                    Institutional governance for School Principals, Administrators, and Academic Teachers. Class records, daily attendance, marks entry, and student oversight.
+                  </p>
+                </div>
+                <div className="shrink-0">
+                  <Icon3D name="teachers" tone="indigo" size="xl" glow={true} depth={true} />
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2 text-[11px] font-semibold text-[#55667e]">
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Role-Based Access</span>
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Attendance Marking</span>
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Report Card Engine</span>
+              </div>
+
+              <div className="mt-8 pt-5 border-t border-[#e1e8f0] flex items-center justify-between">
+                <span className="text-xs font-bold text-[#0b6fdb]">Authorized Faculty Only</span>
+                <Link href="/login?portal=staff">
+                  <Button3D variant="primary" size="md" icon={<ArrowRight className="w-4 h-4" />} iconPosition="right">
+                    Access Staff Portal
+                  </Button3D>
+                </Link>
+              </div>
+            </Card3D>
+
+            {/* Family Portal Card */}
+            <Card3D interactive depth="floating" tone="emerald" className="p-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <Badge3D tone="emerald" size="sm">Parents & Students</Badge3D>
+                  <h3 className="mt-3 text-2xl font-bold tracking-tight text-[#14263d]">
+                    Family & Scholar Terminal
+                  </h3>
+                  <p className="mt-2 text-xs text-[#55667e] leading-relaxed">
+                    Guardian supervision and scholar learning terminal. Daily class timetable, homework submissions, published term marks, and verified fee statements.
+                  </p>
+                </div>
+                <div className="shrink-0">
+                  <Icon3D name="parents" tone="emerald" size="xl" glow={true} depth={true} />
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2 text-[11px] font-semibold text-[#55667e]">
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Multi-Child Switcher</span>
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Exam Schedules</span>
+                <span className="bg-[#f0f4fa] px-2.5 py-1 rounded-lg border border-[#d8e2ed]">Fee Due Tracking</span>
+              </div>
+
+              <div className="mt-8 pt-5 border-t border-[#e1e8f0] flex items-center justify-between">
+                <span className="text-xs font-bold text-[#059669]">Family Accounts</span>
+                <Link href="/login?portal=family">
+                  <Button3D variant="secondary" size="md" icon={<ArrowRight className="w-4 h-4" />} iconPosition="right">
+                    Access Family Portal
+                  </Button3D>
+                </Link>
+              </div>
+            </Card3D>
+          </div>
+        </div>
+      </section>
+
+      {/* 3D Institutional Metrics Grid */}
+      <section className="py-12 bg-white border-y border-[#e1e8f0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-300 bg-white text-xs font-mono font-medium text-zinc-800 mb-6 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-zinc-900" />
-              <span>EST. 1998 • COMPREHENSIVE K–12 PORTAL</span>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((s) => (
+              <Card3D key={s.label} depth="raised" className="p-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#55667e]">
+                    {s.label}
+                  </span>
+                  <Icon3D name={s.icon as any} tone={s.tone} size="lg" depth={true} />
+                </div>
+                <div className="mt-3 text-3xl sm:text-4xl font-black text-[#14263d] tabular-nums">
+                  {s.value}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground font-medium">
+                  {s.subtext}
+                </p>
+              </Card3D>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-950 leading-[1.08] mb-6">
-              Educating Minds. Shaping Character. Inspiring the Future.
-            </h1>
-
-            <p className="text-lg sm:text-xl text-zinc-600 leading-relaxed font-light mb-8">
-              A benchmark institution providing scholarly rigor, ethical mentorship, and personalized academic development for young leaders across the primary and secondary continuum.
+      {/* Core Academic Features Grid */}
+      <section id="academics" className="py-20 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <Badge3D tone="purple" size="md">Academic Engineering</Badge3D>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#14263d]">
+              Designed for Complete Institutional Operational Precision
+            </h2>
+            <p className="mt-3 text-sm text-[#55667e]">
+              Engineered by SIMPLEIN SOLUTIONS LLP to uphold academic standards, regulatory compliance, and total institutional isolation.
             </p>
+          </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/login"
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-md bg-zinc-950 text-white text-sm font-semibold hover:bg-zinc-800 transition-all shadow-md group"
-              >
-                <span>Enter Institutional Portal</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <a
-                href="#academics"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md border border-zinc-300 bg-white text-zinc-800 text-sm font-semibold hover:border-zinc-900 hover:bg-zinc-50 transition-colors"
-              >
-                Explore Curricula
-              </a>
-            </div>
-
-            {/* Quick Portal Switcher Pills */}
-            <div className="mt-10 pt-8 border-t border-zinc-200">
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-500 mb-3 font-medium">
-                Direct Portal Sign In Portways:
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <Link
-                  href="/login"
-                  className="p-3 rounded-md border border-zinc-200 bg-white hover:border-zinc-900 hover:shadow-xs transition-all group flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <Shield className="w-4 h-4 text-zinc-900" />
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900">Admin Desk</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">Head of School</div>
-                  </div>
-                </Link>
-
-                <Link
-                  href="/login"
-                  className="p-3 rounded-md border border-zinc-200 bg-white hover:border-zinc-900 hover:shadow-xs transition-all group flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <GraduationCap className="w-4 h-4 text-zinc-900" />
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900">Faculty Suite</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">Grading & Rolls</div>
-                  </div>
-                </Link>
-
-                <Link
-                  href="/login"
-                  className="p-3 rounded-md border border-zinc-200 bg-white hover:border-zinc-900 hover:shadow-xs transition-all group flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <Users className="w-4 h-4 text-zinc-900" />
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900">Family Portal</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">Guardian View</div>
-                  </div>
-                </Link>
-
-                <Link
-                  href="/login"
-                  className="p-3 rounded-md border border-zinc-200 bg-white hover:border-zinc-900 hover:shadow-xs transition-all group flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <User className="w-4 h-4 text-zinc-900" />
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900">Student Lounge</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">Scholar Terminal</div>
-                  </div>
-                </Link>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {features.map((f) => (
+              <Card3D key={f.title} depth="raised" className="p-8 flex gap-5 items-start">
+                <div className="shrink-0 mt-1">
+                  <Icon3D name={f.icon} tone={f.tone} size="xl" glow={true} depth={true} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold tracking-tight text-[#14263d]">
+                    {f.title}
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-[#55667e] leading-relaxed">
+                    {f.desc}
+                  </p>
+                </div>
+              </Card3D>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Institutional Statistics Bar */}
-      <section className="border-b border-zinc-200 bg-zinc-950 text-white py-12">
+      {/* Institutional Leadership & Campus Banner */}
+      <section id="governance" className="py-16 bg-gradient-to-b from-[#14263d] via-[#0f2a47] to-[#0a1d33] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="border-l border-zinc-800 pl-6">
-              <div className="text-3xl sm:text-4xl font-bold tracking-tight">150+</div>
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 mt-1">
-                Enrolled Scholars
-              </div>
-            </div>
-            <div className="border-l border-zinc-800 pl-6">
-              <div className="text-3xl sm:text-4xl font-bold tracking-tight">15</div>
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 mt-1">
-                Distinguished Faculty
-              </div>
-            </div>
-            <div className="border-l border-zinc-800 pl-6">
-              <div className="text-3xl sm:text-4xl font-bold tracking-tight">10:1</div>
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 mt-1">
-                Student-Faculty Ratio
-              </div>
-            </div>
-            <div className="border-l border-zinc-800 pl-6">
-              <div className="text-3xl sm:text-4xl font-bold tracking-tight">100%</div>
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 mt-1">
-                Collegiate Matriculation
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About & Mission */}
-      <section id="about" className="py-20 border-b border-zinc-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            <div className="lg:col-span-5">
-              <span className="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold">
-                About The Institution
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950 mt-2 mb-6">
-                A Legacy of Scholarly Inquiry and Unwavering Integrity.
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            <div className="lg:col-span-2">
+              <Badge3D tone="gold" size="sm">Principal&apos;s Message</Badge3D>
+              <h2 className="mt-3 text-2xl sm:text-3xl font-extrabold tracking-tight">
+                &ldquo;Fostering inquisitive minds, compassionate leaders, and lifelong scholars.&rdquo;
               </h2>
-              <p className="text-zinc-600 leading-relaxed mb-4">
-                Founded in 1998, SIMPLEIN International School was established to offer a balanced, rigorous, and character-driven education. We champion intellectual curiosity, empathetic teamwork, and analytical clarity.
+              <p className="mt-4 text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+                At SimpleIn International School, we combine academic discipline with holistic student care. Our integrated digital portal ensures that every parent, educator, and scholar stays seamlessly connected in pursuit of educational excellence.
               </p>
-              <div className="space-y-3 font-medium text-sm text-zinc-800">
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-950 shrink-0" />
-                  <span>Dual accreditation with global academic advisory bodies</span>
+              <div className="mt-6 flex items-center gap-3">
+                <div className="size-10 rounded-full bg-[#0b6fdb] flex items-center justify-center font-bold text-white text-sm shadow-md">
+                  RV
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-950 shrink-0" />
-                  <span>Individualized academic mentorship plans for all grades</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-950 shrink-0" />
-                  <span>Transparent parent-teacher collaborative digital governance</span>
+                <div>
+                  <div className="font-bold text-sm text-white">{school.principalName}</div>
+                  <div className="text-xs text-slate-400">Principal & Head of Institution</div>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-7 bg-zinc-50 border border-zinc-200 rounded-xl p-8 lg:p-10">
-              <h3 className="text-xl font-bold text-zinc-950 mb-6">
-                Institutional Core Pillars
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="border border-zinc-200 bg-white p-5 rounded-lg shadow-2xs">
-                  <div className="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center mb-3">
-                    <BookOpen className="w-4 h-4 text-zinc-900" />
-                  </div>
-                  <h4 className="font-bold text-sm text-zinc-900 mb-1">Academic Rigor</h4>
-                  <p className="text-xs text-zinc-600 leading-relaxed">
-                    Challenging curricula designed to foster deep understanding, critical problem-solving, and original research.
-                  </p>
-                </div>
-
-                <div className="border border-zinc-200 bg-white p-5 rounded-lg shadow-2xs">
-                  <div className="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center mb-3">
-                    <Shield className="w-4 h-4 text-zinc-900" />
-                  </div>
-                  <h4 className="font-bold text-sm text-zinc-900 mb-1">Ethical Leadership</h4>
-                  <p className="text-xs text-zinc-600 leading-relaxed">
-                    Cultivating personal responsibility, moral courage, and compassionate civic engagement across all grade levels.
-                  </p>
-                </div>
-
-                <div className="border border-zinc-200 bg-white p-5 rounded-lg shadow-2xs">
-                  <div className="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center mb-3">
-                    <Award className="w-4 h-4 text-zinc-900" />
-                  </div>
-                  <h4 className="font-bold text-sm text-zinc-900 mb-1">Holistic Mentorship</h4>
-                  <p className="text-xs text-zinc-600 leading-relaxed">
-                    Nurturing artistic expression, athletic discipline, and emotional resilience through dedicated advisory pods.
-                  </p>
-                </div>
-
-                <div className="border border-zinc-200 bg-white p-5 rounded-lg shadow-2xs">
-                  <div className="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center mb-3">
-                    <Sparkles className="w-4 h-4 text-zinc-900" />
-                  </div>
-                  <h4 className="font-bold text-sm text-zinc-900 mb-1">Future Literacy</h4>
-                  <p className="text-xs text-zinc-600 leading-relaxed">
-                    Integrating computational reasoning, laboratory scientific method, and global languages from early primary.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Institutional Footer */}
-      <footer className="bg-zinc-950 text-white py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-zinc-800 text-xs text-zinc-400">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-white font-bold text-base">
-                <School className="w-5 h-5" />
-                <span>{school.name}</span>
-              </div>
-              <p className="text-zinc-400 leading-relaxed">
-                Empowering scholars with critical discernment, intellectual fortitude, and ethical conscience since 1998.
-              </p>
-            </div>
-
-            <div>
-              <div className="font-mono text-white text-xs uppercase tracking-wider mb-4 font-semibold">
-                Portals & Desks
-              </div>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/login?portal=staff" className="hover:text-white transition-colors">
-                    Administrative Command Center
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login?portal=staff" className="hover:text-white transition-colors">
-                    Faculty Assessment & Grading
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login?portal=family" className="hover:text-white transition-colors">
-                    Family & Guardian Portal
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/login?portal=family" className="hover:text-white transition-colors">
-                    Student Study Lounge
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div className="font-mono text-white text-xs uppercase tracking-wider mb-4 font-semibold">
-                Academics
-              </div>
-              <ul className="space-y-2">
-                <li>Primary Foundation (Grades 1–5)</li>
-                <li>Middle Years Academy (Grades 6–8)</li>
-                <li>Senior Honors & AP (Grades 9–12)</li>
-                <li>Laboratory Sciences & Robotics</li>
-              </ul>
-            </div>
-
-            <div>
-              <div className="font-mono text-white text-xs uppercase tracking-wider mb-4 font-semibold">
-                Contact & Campus
-              </div>
-              <div className="space-y-2 text-zinc-400">
-                <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
+            <Card3D depth="floating" className="p-6 bg-white/10 backdrop-blur-md border-[#1e3c60] text-white">
+              <h4 className="text-sm font-bold tracking-tight text-white mb-4">
+                Campus Directory & Inquiries
+              </h4>
+              <div className="space-y-3 text-xs text-slate-300">
+                <div className="flex items-start gap-3">
+                  <MapPin className="size-4 text-[#38bdf8] shrink-0 mt-0.5" />
                   <span>{school.address}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-zinc-400 shrink-0" />
-                  <span>+1 (555) 019-2831</span>
+                <div className="flex items-center gap-3">
+                  <Phone className="size-4 text-[#38bdf8] shrink-0" />
+                  <span>{school.phone}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-zinc-400 shrink-0" />
-                  <span>chancellery@simplein.edu</span>
+                <div className="flex items-center gap-3">
+                  <Mail className="size-4 text-[#38bdf8] shrink-0" />
+                  <span>{school.email}</span>
                 </div>
               </div>
-            </div>
+              <div className="mt-6 pt-4 border-t border-white/15">
+                <Link href="/login">
+                  <Button3D variant="primary" size="sm" className="w-full">
+                    Enter Institutional Portal
+                  </Button3D>
+                </Link>
+              </div>
+            </Card3D>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer id="contact" className="py-12 bg-[#091524] text-slate-400 text-xs border-t border-[#1e3c60]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <Icon3D name="school" tone="blue" size="sm" depth={true} />
+            <span className="font-bold text-white tracking-tight">
+              {school.name}
+            </span>
+            <span>•</span>
+            <span>SIMPLEIN SOLUTIONS LLP</span>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 font-mono">
-            <div>
-              © 2026 {school.name}. All institutional rights reserved.
-            </div>
-            <div className="flex items-center gap-6 mt-4 sm:mt-0">
-              <Link href="/login" className="hover:text-white transition-colors">
-                System Sign In
-              </Link>
-              <span>•</span>
-              <a href="#about" className="hover:text-white transition-colors">
-                Privacy & Governance
-              </a>
-            </div>
+          <div className="flex items-center gap-6 text-[11px]">
+            <span>Privacy Policy</span>
+            <span>•</span>
+            <span>Terms of Governance</span>
+            <span>•</span>
+            <span>Data Protection Compliance</span>
           </div>
         </div>
       </footer>
